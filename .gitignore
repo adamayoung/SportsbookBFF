@@ -1,0 +1,10 @@
+.DS_Store
+/.build
+/.swiftpm
+/*.xcodeproj
+xcuserdata/
+DerivedData/
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.env
+.env.development
+default.profraw
