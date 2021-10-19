@@ -23,7 +23,8 @@ public struct EventTypesController: RouteCollection {
     }
 
     func index(request: Request) throws -> EventLoopFuture<JSONAPIModel<[EventTypeModel]>> {
-        EventTypeModel.all(on: request)
+        request.eventTypeService.fetchEventTypes()
+            .mapEach(EventTypeModel.init)
             .map(JSONAPIModel.init)
     }
 

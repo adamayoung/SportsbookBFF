@@ -7,8 +7,8 @@ public func configure(_ app: Application) throws {
     }
 
     app.scanService.use { request in
-        SCANHTTPService(configuration: request.scanConfiguration, client: request.client, cache: request.scanCache,
-                        eventLoop: request.eventLoop, logger: request.logger)
+        SCANHTTPService(configuration: request.scanConfiguration, client: request.client, eventLoop: request.eventLoop,
+                        logger: request.logger)
     }
 
     app.sibService.use { request in

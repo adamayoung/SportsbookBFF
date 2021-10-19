@@ -20,7 +20,11 @@ struct SCANHTTPService: SCANService {
     func search(searchRequest: SearchRequest) -> EventLoopFuture<SearchResponse> {
         logger.debug("Searching SCAN service", metadata: ["facets": .stringConvertible(searchRequest.facets)])
 
-        return (cache?.get(responseForRequest: searchRequest) ?? eventLoop.makeSucceededFuture(nil))
+        guard let cache = cache else {
+            return performSearch(searchRequest)
+        }
+
+        return cache.get(responseForRequest: searchRequest)
             .flatMap { cachedResponse in
                 if let cachedResponse = cachedResponse {
                     return self.eventLoop.makeSucceededFuture(cachedResponse)
