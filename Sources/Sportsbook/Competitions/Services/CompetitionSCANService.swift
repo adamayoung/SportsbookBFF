@@ -32,6 +32,7 @@ final class CompetitionSCANService: CompetitionService {
             .map { $0.attachments.competitions?.values }
             .optionalMap { $0.compactMap(Competition.init) }
             .unwrap(orReplace: [])
+            .map { $0.sorted() }
     }
 
 }

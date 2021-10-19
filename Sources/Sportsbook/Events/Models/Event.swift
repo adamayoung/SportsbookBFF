@@ -1,9 +1,9 @@
 import Foundation
 
-public struct Event: Identifiable, Equatable, Hashable, Codable {
+public struct Event: Identifiable, Equatable, Hashable, Comparable, Codable {
 
     public let id: Int
-    public let name: String?
+    public let name: String
     public let eventTypeID: Int
     public let competitionID: Int?
     public let countryCode: String?
@@ -13,7 +13,7 @@ public struct Event: Identifiable, Equatable, Hashable, Codable {
     public let isInPlay: Bool
     public let canTurnInPlay: Bool
 
-    public init(id: Int, name: String? = nil, eventTypeID: Int, competitionID: Int? = nil, countryCode: String? = nil,
+    public init(id: Int, name: String, eventTypeID: Int, competitionID: Int? = nil, countryCode: String? = nil,
                 timeZone: String? = nil, openDate: Date?, isVideoAvailable: Bool? = nil, isInPlay: Bool,
                 canTurnInPlay: Bool) {
         self.id = id
@@ -26,6 +26,10 @@ public struct Event: Identifiable, Equatable, Hashable, Codable {
         self.isVideoAvailable = isVideoAvailable
         self.isInPlay = isInPlay
         self.canTurnInPlay = canTurnInPlay
+    }
+
+    public static func < (lhs: Event, rhs: Event) -> Bool {
+        lhs.name.localizedLowercase < rhs.name.localizedLowercase
     }
 
 }

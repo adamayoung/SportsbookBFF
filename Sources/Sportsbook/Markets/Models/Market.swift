@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Market: Identifiable, Equatable, Hashable, Codable {
+public struct Market: Identifiable, Equatable, Hashable, Comparable, Codable {
 
     public let id: String
     public let name: String
@@ -25,6 +25,10 @@ public struct Market: Identifiable, Equatable, Hashable, Codable {
         self.eventTypeID = eventTypeID
         self.eventID = eventID
         self.competitionID = competitionID
+    }
+
+    public static func < (lhs: Market, rhs: Market) -> Bool {
+        lhs.name.localizedLowercase < rhs.name.localizedLowercase
     }
 
 }

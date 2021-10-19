@@ -3,7 +3,7 @@ import Foundation
 public struct EventAttachment: Codable {
 
     public let eventId: Int
-    public let name: String?
+    public let name: String
     public let key: String?
     public let eventTypeId: Int
     public let competitionId: Int?
@@ -12,7 +12,7 @@ public struct EventAttachment: Codable {
     public let openDate: Date?
     public let videoAvailable: Bool?
 
-    public init(eventId: Int, name: String? = nil, key: String? = nil, eventTypeId: Int, competitionId: Int? = nil,
+    public init(eventId: Int, name: String, key: String? = nil, eventTypeId: Int, competitionId: Int? = nil,
                 countryCode: String? = nil, timezone: String? = nil, openDate: Date? = nil,
                 videoAvailable: Bool? = nil) {
         self.eventId = eventId

@@ -44,6 +44,7 @@ final class EventSCANService: EventService {
                     Event(attachment: $0, facets: searchResult.facets)
                 }
             }
+            .map { $0.sorted() }
     }
 
     func fetchEvents(forEventType eventTypeID: EventType.ID, isInPlay: Bool? = nil) -> EventLoopFuture<[Event]> {
@@ -66,6 +67,7 @@ final class EventSCANService: EventService {
                     Event(attachment: $0, facets: searchResult.facets)
                 }
             }
+            .map { $0.sorted() }
     }
 
 }
