@@ -15,7 +15,7 @@ let package = Package(
     ],
 
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.50.0"),
         .package(url: "https://github.com/alexsteinerde/graphql-kit.git", from: "2.0.0"),
         .package(url: "https://github.com/alexsteinerde/graphiql-vapor.git", from: "2.0.0")
     ],
@@ -25,58 +25,26 @@ let package = Package(
             name: "SportsbookBFF",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .target(name: "App")
+                .target(name: "SportsbookApp")
             ]
         ),
 
         .target(
-            name: "App",
+            name: "SportsbookApp",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                "SportsbookRestAPI",
-                "SportsbookGraphQL"
+                .product(name: "GraphQLKit", package: "graphql-kit"),
+                .product(name: "GraphiQLVapor", package: "graphiql-vapor"),
+                "Sportsbook"
             ],
             swiftSettings: [
                 .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
             ]
         ),
         .testTarget(
-            name: "AppTests",
+            name: "SportsbookAppTests",
             dependencies: [
-                .target(name: "App"),
-                .product(name: "XCTVapor", package: "vapor")
-            ]
-        ),
-
-        .target(
-            name: "SportsbookRestAPI",
-            dependencies: [
-                .product(name: "Vapor", package: "vapor"),
-                "Sportsbook"
-            ]
-        ),
-        .testTarget(
-            name: "SportsbookRestAPITests",
-            dependencies: [
-                .target(name: "SportsbookRestAPI"),
-                .product(name: "XCTVapor", package: "vapor")
-            ]
-        ),
-
-        .target(
-            name: "SportsbookGraphQL",
-            dependencies: [
-                .product(name: "Vapor", package: "vapor"),
-                .product(name: "GraphQLKit", package: "graphql-kit"),
-                .product(name: "GraphiQLVapor", package: "graphiql-vapor"),
-                "Sportsbook"
-            ]
-        ),
-        .testTarget(
-            name: "SportsbookGraphQLTests",
-            dependencies: [
-                "SportsbookGraphQL",
-                "Sportsbook",
+                .target(name: "SportsbookApp"),
                 .product(name: "XCTVapor", package: "vapor")
             ]
         ),

@@ -17,20 +17,21 @@ final class CompetitionSCANService: CompetitionService {
         self.logger = logger
     }
 
-    func fetchCompetition(withID id: Competition.ID) -> EventLoopFuture<Competition?> {
+    func fetchCompetition(withID id: CompetitionDomainModel.ID) -> EventLoopFuture<CompetitionDomainModel?> {
         logger.debug("Fetching Competition", metadata: ["id": .stringConvertible(id)])
 
         return scanService.search(searchRequest: .competition(withID: id, locale: locale))
             .map { $0.attachments.competitions?.first?.value }
-            .optionalMap(Competition.init)
+            .optionalMap(CompetitionDomainModel.init)
     }
 
-    func fetchCompetitions(forEventType eventTypeID: EventType.ID) -> EventLoopFuture<[Competition]> {
+    func fetchCompetitions(
+        forEventType eventTypeID: EventTypeDomainModel.ID) -> EventLoopFuture<[CompetitionDomainModel]> {
         logger.debug("Fetching Competitions", metadata: ["event-type-id": .stringConvertible(eventTypeID)])
 
         return scanService.search(searchRequest: .competitions(forEventType: eventTypeID, locale: locale))
             .map { $0.attachments.competitions?.values }
-            .optionalMap { $0.compactMap(Competition.init) }
+            .optionalMap { $0.compactMap(CompetitionDomainModel.init) }
             .unwrap(orReplace: [])
             .map { $0.sorted() }
     }

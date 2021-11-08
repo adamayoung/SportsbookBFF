@@ -23,6 +23,7 @@ identifier_name:
   excluded:
     - api
     - app
+    - avb
     - cms
     - env
     - id

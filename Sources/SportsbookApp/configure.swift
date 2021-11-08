@@ -1,0 +1,12 @@
+import Sportsbook
+import Vapor
+
+public func configure(_ app: Application) throws {
+    try modules(app)
+
+    try routes(app)
+}
+
+private func modules(_ app: Application) throws {
+    try Sportsbook.configure(app)
+}

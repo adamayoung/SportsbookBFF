@@ -15,9 +15,24 @@ struct CMSContentSportsCMSService: CMSContentService {
         self.logger = logger
     }
 
-    func fetchFeatured() -> EventLoopFuture<[CMSNode]> {
-        cmsNodeService.fetchNodes(withTag: .featured)
-            .mapEach(CMSNode.init)
+    func fetchFeatured() -> EventLoopFuture<[CMSNodeDomainModel]> {
+        fetchNodes(withTag: .featured)
+    }
+
+    func fetchPopular() -> EventLoopFuture<[CMSNodeDomainModel]> {
+        fetchNodes(withTag: .popular)
+    }
+
+}
+
+extension CMSContentSportsCMSService {
+
+    private func fetchNodes(withTag tag: Tag) -> EventLoopFuture<[CMSNodeDomainModel]> {
+        cmsNodeService.fetchNodes(withTag: tag)
+            .mapEachCompact(CMSNodeDomainModel.init)
+            .map { $0.filter(\.isSupported) }
+            .map { $0.sorted { $0.name > $1.name } }
+            .map { $0.sorted { $0.weight > $1.weight } }
     }
 
 }

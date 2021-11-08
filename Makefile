@@ -29,7 +29,7 @@ test:
 
 run:
 	@echo "Running..."
-	@swift run SportsbookBFF
+	@swift run SportsbookBFF serve --env production --hostname 0.0.0.0 --port 8080
 
 # Functions
 

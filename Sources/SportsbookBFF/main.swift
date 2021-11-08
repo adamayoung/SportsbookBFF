@@ -1,4 +1,4 @@
-import App
+import SportsbookApp
 import Vapor
 
 var env = try Environment.detect()

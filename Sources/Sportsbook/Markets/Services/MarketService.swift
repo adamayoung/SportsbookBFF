@@ -3,8 +3,8 @@ import NIO
 
 public protocol MarketService {
 
-    func fetchMarket(withID id: Market.ID) -> EventLoopFuture<Market?>
+    func fetchMarket(withID id: MarketDomainModel.ID) -> EventLoopFuture<MarketDomainModel?>
 
-    func fetchMarkets(forEvent eventID: Int) -> EventLoopFuture<[Market]>
+    func fetchMarkets(forEvent eventID: Int) -> EventLoopFuture<[MarketDomainModel]>
 
 }

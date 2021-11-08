@@ -3,6 +3,8 @@ import NIO
 
 public protocol CMSContentService {
 
-    func fetchFeatured() -> EventLoopFuture<[CMSNode]>
+    func fetchFeatured() -> EventLoopFuture<[CMSNodeDomainModel]>
+
+    func fetchPopular() -> EventLoopFuture<[CMSNodeDomainModel]>
 
 }

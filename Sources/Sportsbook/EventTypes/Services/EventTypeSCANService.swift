@@ -17,21 +17,22 @@ struct EventTypeSCANService: EventTypeService {
         self.logger = logger
     }
 
-    func fetchEventType(withID id: EventType.ID) -> EventLoopFuture<EventType?> {
+    func fetchEventType(withID id: EventTypeDomainModel.ID) -> EventLoopFuture<EventTypeDomainModel?> {
         logger.debug("Fetching Event Type", metadata: ["id": .stringConvertible(id)])
 
         return scanService.search(searchRequest: .eventType(withID: id, locale: locale))
             .map { $0.attachments.eventTypes?.first?.value }
-            .optionalMap(EventType.init)
+            .optionalMap(EventTypeDomainModel.init)
     }
 
-    func fetchEventTypes() -> EventLoopFuture<[EventType]> {
+    func fetchEventTypes(filter: EventTypesFilterConvertible?) -> EventLoopFuture<[EventTypeDomainModel]> {
         logger.debug("Fetching Event Types")
 
         return scanService.search(searchRequest: .allEventTypes(locale: locale))
             .map { $0.attachments.eventTypes?.values }
-            .optionalMap { $0.compactMap(EventType.init) }
+            .optionalMap { $0.compactMap(EventTypeDomainModel.init) }
             .unwrap(orReplace: [])
+            .filter(with: filter?.eventTypesFilter)
             .map { $0.sorted() }
     }
 
