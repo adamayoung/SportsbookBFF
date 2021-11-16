@@ -29,7 +29,7 @@ public extension Request {
 extension Request {
 
     var sibConfiguration: SIBConfiguration {
-        SIBConfiguration(environment: self.tlaEnvironment, key: self.tlaKey)
+        SIBConfiguration(gbpConfiguration: self.gbpConfiguration)
     }
 
 }

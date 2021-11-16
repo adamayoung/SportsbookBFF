@@ -29,7 +29,7 @@ public extension Request {
 extension Request {
 
     var scanConfiguration: SCANConfiguration {
-        SCANConfiguration(environment: self.tlaEnvironment, key: self.tlaKey)
+        SCANConfiguration(gbpConfiguration: self.gbpConfiguration)
     }
 
 }

@@ -29,7 +29,7 @@ public extension Request {
 extension Request {
 
     var fbrConfiguration: SCANConfiguration {
-        SCANConfiguration(environment: self.tlaEnvironment, key: self.tlaKey)
+        SCANConfiguration(gbpConfiguration: self.gbpConfiguration)
     }
 
 }

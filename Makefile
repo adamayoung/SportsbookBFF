@@ -25,7 +25,7 @@ build-release:
 
 test:
 	@echo "Testing..."
-	@swift test
+	@swift test --parallel
 
 run:
 	@echo "Running..."

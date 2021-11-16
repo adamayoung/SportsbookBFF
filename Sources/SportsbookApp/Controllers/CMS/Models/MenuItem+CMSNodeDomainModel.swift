@@ -20,6 +20,7 @@ extension MenuItem.MenuItemType {
         case .competition: self = .competition
         case .event: self = .event
         case .staticBanner: self = .staticBanner
+        case .dynamicBanner: self = .dynamicBanner
         case .marketType: self = .marketType
         }
     }

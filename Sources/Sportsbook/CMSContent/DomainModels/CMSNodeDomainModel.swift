@@ -42,6 +42,7 @@ public extension CMSNodeDomainModel {
         case competition
         case event
         case staticBanner
+        case dynamicBanner
         case marketType
 
     }

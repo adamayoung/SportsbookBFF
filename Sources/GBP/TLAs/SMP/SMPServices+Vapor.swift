@@ -29,7 +29,7 @@ public extension Request {
 extension Request {
 
     var smpConfiguration: SMPConfiguration {
-        SMPConfiguration(environment: self.tlaEnvironment, key: self.tlaKey)
+        SMPConfiguration(gbpConfiguration: self.gbpConfiguration)
     }
 
 }

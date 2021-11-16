@@ -23,7 +23,7 @@ struct SCANHTTPService: SCANService {
         headers.add(name: .userAgent, value: "SportsbookBFF/1.0")
 
         do {
-            try configuration.additionalHeaders().forEach {
+            try configuration.headers().forEach {
                 headers.add(name: $0.name, value: $0.value)
             }
         } catch let error {
