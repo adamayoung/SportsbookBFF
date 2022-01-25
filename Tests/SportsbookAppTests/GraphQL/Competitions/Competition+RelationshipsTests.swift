@@ -13,7 +13,7 @@ final class CompetitionRelationshopsTests: XCTestCase {
         app = Application(.testing)
         request = Request(application: app, on: app.eventLoopGroup.next())
 
-        app.eventTypeService.use { request in
+        app.eventTypeService.use { _ in
             MockEventTypeService()
         }
     }

@@ -32,4 +32,3 @@ public struct MarketDomainModel: Identifiable, Equatable, Hashable, Comparable {
     }
 
 }
-

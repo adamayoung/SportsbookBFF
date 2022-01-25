@@ -21,17 +21,25 @@ identifier_name:
     error: 4
   max_length: 60
   excluded:
+    - all
     - api
     - app
     - avb
     - cms
+    - dev
     - env
+    - fbr
     - id
     - key
     - lhs
+    - max
+    - min
+    - qr
     - req
     - res
     - rhs
+    - sib
+    - smp
     - tag
     - tla
     - uri

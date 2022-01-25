@@ -35,7 +35,6 @@ struct SCANHTTPService: SCANService {
 
         return try response.content.decode(SearchResponse.self, using: JSONDecoder.tla)
 
-
 //
 //        .always { result in
 //            switch result {

@@ -10,7 +10,7 @@ final class CompetitionsControllerTests: XCTestCase {
         try super.setUpWithError()
         app = Application(.testing)
         try app.register(collection: CompetitionsController())
-        app.competitionService.use { request in
+        app.competitionService.use { _ in
             MockCompetitionService(competitions: CompetitionDomainModel.mocks)
         }
     }

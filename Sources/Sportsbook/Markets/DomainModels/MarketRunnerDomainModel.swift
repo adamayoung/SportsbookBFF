@@ -1,6 +1,5 @@
 import Foundation
 
-
 public struct MarketRunnerDomainModel: Identifiable, Equatable, Hashable {
 
     public var id: Int { selectionID }

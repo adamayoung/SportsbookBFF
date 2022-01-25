@@ -13,7 +13,7 @@ final class OpportunitySIBService: OpportunityService {
     }
 
     func fetchOpportunities(with params: OpportunitiesParams) async throws -> [OpportunityDomainModel] {
-        logger.debug("Fetching Opportunities") //, metadata: ["id": .stringConvertible(id)])
+        logger.debug("Fetching Opportunities") // , metadata: ["id": .stringConvertible(id)])
 
         let response = try await sibService.implyBets(request: params)
         return OpportunityDomainModel.create(params: params, response: response)

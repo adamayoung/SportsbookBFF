@@ -41,8 +41,6 @@ extension OpportunityDomainModel {
 //
 //
 
-
-
         return []
     }
 
@@ -50,7 +48,8 @@ extension OpportunityDomainModel {
 
 extension OpportunityDomainModel {
 
-    private static func isBetLeg(_ betLeg: OpportunitiesParams.BetLeg, correspondingTo combination: BetCombination) -> Bool {
+    private static func isBetLeg(_ betLeg: OpportunitiesParams.BetLeg,
+                                 correspondingTo combination: BetCombination) -> Bool {
         let inputRunnerIDs = Set(betLeg.runners.map(\.id))
         let responseRunners = combination.legCombinations.first?.runners ?? []
         let responseRunnerIDs = Set(responseRunners.map(\.id))
