@@ -38,4 +38,4 @@ jobs:
         run: swift build --build-tests
 
       - name: Test
-        run: make test --skip-build --parallel
+        run: swift test --skip-build --parallel
