@@ -11,9 +11,25 @@ on:
   workflow_dispatch:
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    container:
+      image: bytesguy/swiftlint:latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Lint
+        run: swiftlint --strict
+
   test-build:
     name: Test and Build
     runs-on: ubuntu-latest
+    depends-on: lint
     container:
       image: swift:5.5.1-focal
       options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
@@ -31,9 +47,6 @@ jobs:
           key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-spm-
-
-      - name: Lint
-        run: swiftlint --strict
 
       - name: Build
         run: swift build --build-tests
