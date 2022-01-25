@@ -5,18 +5,38 @@ import Vapor
 extension Market {
 
     func event(request: Request, arguments: NoArguments) throws -> EventLoopFuture<Event?> {
-        request.eventService.fetchEvent(withID: self.eventID)
-            .optionalMap(Event.init)
+        let promise = request.eventLoop.makePromise(of: Optional<Event>.self)
+        promise.completeWithTask {
+            try await request.eventService.fetchEvent(withID: self.eventID)
+                .map(Event.init)
+        }
+
+        return promise.futureResult
     }
 
     func competition(request: Request, arguments: NoArguments) throws -> EventLoopFuture<Competition?> {
-        request.competitionService.fetchCompetition(withID: self.competitionID)
-            .optionalMap(Competition.init)
+        let promise = request.eventLoop.makePromise(of: Optional<Competition>.self)
+        promise.completeWithTask {
+            guard
+                let competition = try await request.competitionService.fetchCompetition(withID: self.competitionID)
+            else {
+                return nil
+            }
+
+            return Competition(competition: competition)
+        }
+
+        return promise.futureResult
     }
 
     func eventType(request: Request, arguments: NoArguments) throws -> EventLoopFuture<EventType?> {
-        request.eventTypeService.fetchEventType(withID: self.eventTypeID)
-            .optionalMap(EventType.init)
+        let promise = request.eventLoop.makePromise(of: Optional<EventType>.self)
+        promise.completeWithTask {
+            try await request.eventTypeService.fetchEventType(withID: self.eventTypeID)
+                .map(EventType.init)
+        }
+
+        return promise.futureResult
     }
 
 }

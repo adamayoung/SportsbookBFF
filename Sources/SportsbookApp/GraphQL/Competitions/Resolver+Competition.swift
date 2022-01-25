@@ -6,10 +6,16 @@ extension Resolver {
 
     func fetchCompetitions(request: Request,
                            arguments: CompetitionArguments) throws -> EventLoopFuture<[Competition]> {
-        request.competitionService.fetchCompetition(withID: arguments.id)
-            .optionalMap { [$0] }
-            .unwrap(orReplace: [])
-            .mapEach(Competition.init)
+        let promise = request.eventLoop.makePromise(of: [Competition].self)
+        promise.completeWithTask {
+            guard let competition = try await request.competitionService.fetchCompetition(withID: arguments.id) else {
+                return []
+            }
+
+            return [Competition(competition: competition)]
+        }
+
+        return promise.futureResult
     }
 
 }

@@ -14,7 +14,7 @@ extension CMSNodeDomainModel {
             return nil
         }
 
-        let eventTypeCategory = EventTypeCategory(eventTypeID: eventTypeID)
+        let eventTypeCategory = EventTypeDomainModel.Category(eventTypeID: eventTypeID)
         let weight = node.weight ?? 0
 
         self.init(id: id, name: node.name, type: type, eventTypeID: eventTypeID, eventTypeCategory: eventTypeCategory,

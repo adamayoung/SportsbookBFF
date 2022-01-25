@@ -21,33 +21,40 @@ public struct CompetitionsController: RouteCollection {
         }
     }
 
-    func indexForEventType(request: Request) throws -> EventLoopFuture<JSONAPIModel<[Competition]>> {
+    func indexForEventType(request: Request) async throws -> JSONAPIModel<[Competition]> {
         guard let eventTypeID = request.parameters.get("eventTypeID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
 
-        return Competition.all(forEventType: eventTypeID, on: request)
-            .map(JSONAPIModel.init)
+        let competitions = try await Competition.all(forEventType: eventTypeID, on: request)
+        let model = JSONAPIModel(data: competitions)
+        return model
     }
 
-    func show(request: Request) throws -> EventLoopFuture<JSONAPIModel<Competition>> {
+    func show(request: Request) async throws -> JSONAPIModel<Competition> {
         guard let id = request.parameters.get("competitionID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
 
-        return Competition.find(id, on: request)
-            .unwrap(or: Abort(.notFound))
-            .map(JSONAPIModel.init)
+        guard let competition = try await Competition.find(id, on: request) else {
+            throw Abort(.notFound)
+        }
+
+        let model = JSONAPIModel(data: competition)
+        return model
     }
 
-    func showForEvent(request: Request) throws -> EventLoopFuture<JSONAPIModel<Competition>> {
+    func showForEvent(request: Request) async throws -> JSONAPIModel<Competition> {
         guard let eventID = request.parameters.get("eventID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
 
-        return Competition.find(eventID: eventID, on: request)
-            .unwrap(or: Abort(.notFound))
-            .map(JSONAPIModel.init)
+        guard let competition = try await Competition.find(eventID: eventID, on: request) else {
+            throw Abort(.notFound)
+        }
+
+        let model = JSONAPIModel(data: competition)
+        return model
     }
 
 }

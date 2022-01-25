@@ -4,7 +4,7 @@ import Sportsbook
 extension EventTypesQuery: EventTypesFilterConvertible {
 
     var eventTypesFilter: EventTypesFilter {
-        let category: EventTypeCategory? = {
+        let category: EventTypeDomainModel.Category? = {
             switch self.category {
             case .avb: return .avb
             case .outright: return .outright

@@ -3,7 +3,7 @@ import Sportsbook
 
 extension Market {
 
-    init(market: MarketDomainModel) {
+    init(market: Sportsbook.MarketDomainModel) {
         let runners = market.runners.map(Runner.init)
 
         self.init(id: market.id, name: market.name, marketDate: market.marketDate, inPlay: market.inPlay,

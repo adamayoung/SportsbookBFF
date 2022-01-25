@@ -11,7 +11,7 @@ final class CompetitionsControllerTests: XCTestCase {
         app = Application(.testing)
         try app.register(collection: CompetitionsController())
         app.competitionService.use { request in
-            MockCompetitionService(competitions: CompetitionDomainModel.mocks, eventLoop: request.eventLoop)
+            MockCompetitionService(competitions: CompetitionDomainModel.mocks)
         }
     }
 

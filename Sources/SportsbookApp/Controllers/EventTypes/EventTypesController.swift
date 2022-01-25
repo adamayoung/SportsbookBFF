@@ -22,41 +22,50 @@ public struct EventTypesController: RouteCollection {
         }
     }
 
-    func index(request: Request) throws -> EventLoopFuture<JSONAPIModel<[EventType]>> {
+    func index(request: Request) async throws -> JSONAPIModel<[EventType]> {
         let query = try request.query.decode(EventTypesQuery.self)
-
-        return EventType.all(query: query, on: request)
-            .map(JSONAPIModel.init)
+        let eventTypes = try await EventType.all(query: query, on: request)
+        let model = JSONAPIModel(data: eventTypes)
+        return model
     }
 
-    func show(request: Request) throws -> EventLoopFuture<JSONAPIModel<EventType>> {
+    func show(request: Request) async throws -> JSONAPIModel<EventType> {
         guard let id = request.parameters.get("eventTypeID", as: Int.self) else {
-            throw Abort(.internalServerError)
+            throw Abort(.badRequest)
         }
 
-        return EventType.find(id, on: request)
-            .unwrap(or: Abort(.notFound))
-            .map(JSONAPIModel.init)
+        guard let eventType = try await EventType.find(id, on: request) else {
+            throw Abort(.notFound)
+        }
+
+        let model = JSONAPIModel(data: eventType)
+        return model
     }
 
-    func showForCompetition(request: Request) throws -> EventLoopFuture<JSONAPIModel<EventType>> {
+    func showForCompetition(request: Request) async throws -> JSONAPIModel<EventType> {
         guard let competitionID = request.parameters.get("competitionID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
 
-        return EventType.find(forCompetition: competitionID, on: request)
-            .unwrap(or: Abort(.notFound))
-            .map(JSONAPIModel.init)
+        guard let eventType = try await EventType.find(forCompetition: competitionID, on: request) else {
+            throw Abort(.notFound)
+        }
+
+        let model = JSONAPIModel(data: eventType)
+        return model
     }
 
-    func showForEvent(request: Request) throws -> EventLoopFuture<JSONAPIModel<EventType>> {
+    func showForEvent(request: Request) async throws -> JSONAPIModel<EventType> {
         guard let eventID = request.parameters.get("eventID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
 
-        return EventType.find(forEvent: eventID, on: request)
-            .unwrap(or: Abort(.notFound))
-            .map(JSONAPIModel.init)
+        guard let eventType = try await EventType.find(forEvent: eventID, on: request) else {
+            throw Abort(.notFound)
+        }
+
+        let model = JSONAPIModel(data: eventType)
+        return model
     }
 
 }
