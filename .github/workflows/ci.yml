@@ -32,7 +32,7 @@ jobs:
     container:
       image: swift:5.5.1-focal
       options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
-      defaults:
+    defaults:
       run:
         working-directory: ./GBP
 
@@ -52,9 +52,11 @@ jobs:
 
       - name: Build
         run: swift build --build-tests
+        working-directory: ./GBP
 
       - name: Test
         run: swift test --skip-build --parallel
+        working-directory: ./GBP
       
   test-build-sportscms:
     name: SportsCMS
@@ -63,7 +65,7 @@ jobs:
     container:
       image: swift:5.5.1-focal
       options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
-      defaults:
+    defaults:
       run:
         working-directory: ./SportsCMS
 
