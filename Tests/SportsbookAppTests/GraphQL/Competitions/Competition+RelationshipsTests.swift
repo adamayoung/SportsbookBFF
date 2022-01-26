@@ -1,6 +1,6 @@
 import Graphiti
-import Sportsbook
 @testable import SportsbookApp
+import SportsbookCore
 import XCTVapor
 
 final class CompetitionRelationshopsTests: XCTestCase {

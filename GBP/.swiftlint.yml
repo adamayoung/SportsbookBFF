@@ -1,0 +1,47 @@
+excluded:
+  - .build
+
+opt_in_rules:
+  - attributes
+  - closure_spacing
+  - conditional_returns_on_newline
+  - empty_count
+  - first_where
+  - operator_usage_whitespace
+  - sorted_imports
+
+type_name:
+  max_length: 60
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+identifier_name:
+  min_length:
+    error: 4
+  max_length: 60
+  excluded:
+    - all
+    - app
+    - fbr
+    - id
+    - key
+    - lhs
+    - max
+    - min
+    - rhs
+    - sib
+    - smp
+    - tla
+    - uri
+
+file_length:
+  warning: 600
+  error: 800
+
+line_length:
+  ignores_urls: true
+  ignores_comments: true
+
+nesting:
+  type_level: 2

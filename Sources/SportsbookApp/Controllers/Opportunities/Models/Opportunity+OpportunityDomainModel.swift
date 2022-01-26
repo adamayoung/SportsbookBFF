@@ -1,9 +1,9 @@
 import Foundation
-import Sportsbook
+import SportsbookCore
 
 extension Opportunity {
 
-    init(opportunity: Sportsbook.OpportunityDomainModel) {
+    init(opportunity: SportsbookCore.OpportunityDomainModel) {
         self.init(betReference: opportunity.betReference, promotionType: opportunity.promotionType)
     }
 
