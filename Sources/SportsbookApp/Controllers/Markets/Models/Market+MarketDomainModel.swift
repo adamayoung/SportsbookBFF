@@ -1,9 +1,9 @@
 import Foundation
-import Sportsbook
+import SportsbookCore
 
 extension Market {
 
-    init(market: Sportsbook.MarketDomainModel) {
+    init(market: SportsbookCore.MarketDomainModel) {
         let runners = market.runners.map(Runner.init)
 
         self.init(id: market.id, name: market.name, marketDate: market.marketDate, inPlay: market.inPlay,

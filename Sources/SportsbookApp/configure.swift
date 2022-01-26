@@ -1,4 +1,4 @@
-import Sportsbook
+import SportsbookCore
 import Vapor
 
 public func configure(_ app: Application) throws {
@@ -8,5 +8,5 @@ public func configure(_ app: Application) throws {
 }
 
 private func modules(_ app: Application) throws {
-    try Sportsbook.configure(app)
+    try SportsbookCore.configure(app)
 }

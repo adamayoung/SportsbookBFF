@@ -25,10 +25,75 @@ jobs:
       - name: Lint
         run: swiftlint --strict
 
-  test-build:
-    name: Test and Build
+  test-build-gbp:
+    name: GBP
     runs-on: ubuntu-latest
     needs: lint
+    container:
+      image: swift:5.5.1-focal
+      options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
+      defaults:
+      run:
+        working-directory: ./GBP
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Cache SPM
+        uses: actions/cache@v2
+        with:
+          path: .build
+          key: ${{ runner.os }}-gbp-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-gbp-spm-
+
+      - name: Build
+        run: swift build --build-tests
+
+      - name: Test
+        run: swift test --skip-build --parallel
+      
+  test-build-sportscms:
+    name: SportsCMS
+    runs-on: ubuntu-latest
+    needs: lint
+    container:
+      image: swift:5.5.1-focal
+      options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
+      defaults:
+      run:
+        working-directory: ./SportsCMS
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Cache SPM
+        uses: actions/cache@v2
+        with:
+          path: .build
+          key: ${{ runner.os }}-sportscms-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-sportscms-spm-
+
+      - name: Build
+        run: swift build --build-tests
+
+      - name: Test
+        run: swift test --skip-build --parallel
+
+
+  test-build-sportsbookbff:
+    name: SportsbookBFF
+    runs-on: ubuntu-latest
+    needs:
+      - test-build-gbp
+      - test-build-sportscms
     container:
       image: swift:5.5.1-focal
       options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined

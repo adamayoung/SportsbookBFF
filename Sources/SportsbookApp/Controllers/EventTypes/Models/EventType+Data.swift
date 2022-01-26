@@ -1,4 +1,4 @@
-import Sportsbook
+import SportsbookCore
 import Vapor
 
 extension EventType {

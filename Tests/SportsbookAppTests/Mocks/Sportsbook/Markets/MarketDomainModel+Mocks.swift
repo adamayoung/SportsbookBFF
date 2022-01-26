@@ -1,5 +1,5 @@
 import Foundation
-import Sportsbook
+import SportsbookCore
 
 extension MarketDomainModel {
 

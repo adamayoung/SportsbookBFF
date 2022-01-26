@@ -1,5 +1,5 @@
-import Sportsbook
 @testable import SportsbookApp
+import SportsbookCore
 import XCTVapor
 
 final class EventTypesControllerTests: XCTestCase {
