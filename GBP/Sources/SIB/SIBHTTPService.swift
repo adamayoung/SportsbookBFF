@@ -1,4 +1,4 @@
-import GBPShared
+import GBPCore
 import Vapor
 
 struct SIBHTTPService: SIBService {

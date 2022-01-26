@@ -28,7 +28,8 @@ let package = Package(
         .testTarget(
             name: "SportsCMSTests",
             dependencies: [
-                "SportsCMS"
+                "SportsCMS",
+                .product(name: "XCTVapor", package: "vapor")
             ]
         )
     ]

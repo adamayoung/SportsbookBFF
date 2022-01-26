@@ -25,69 +25,74 @@ let package = Package(
         .target(
             name: "FBR",
             dependencies: [
-                .product(name: "Vapor", package: "vapor"),
-                "GBPShared"
+                "GBPCore",
+                .product(name: "Vapor", package: "vapor")
             ]
         ),
         .testTarget(
             name: "FBRTests",
             dependencies: [
-                "FBR"
+                "FBR",
+                .product(name: "XCTVapor", package: "vapor")
             ]
         ),
 
         .target(
             name: "SCAN",
             dependencies: [
-                .product(name: "Vapor", package: "vapor"),
-                "GBPShared"
+                "GBPCore",
+                .product(name: "Vapor", package: "vapor")
             ]
         ),
         .testTarget(
             name: "SCANTests",
             dependencies: [
-                "SCAN"
+                "SCAN",
+                .product(name: "XCTVapor", package: "vapor")
             ]
         ),
 
         .target(
             name: "SIB",
             dependencies: [
-                .product(name: "Vapor", package: "vapor"),
-                "GBPShared"
+                "GBPCore",
+                .product(name: "Vapor", package: "vapor")
             ]
         ),
         .testTarget(
             name: "SIBTests",
             dependencies: [
-                "SIB"
+                "SIB",
+                .product(name: "XCTVapor", package: "vapor")
             ]
         ),
 
         .target(
             name: "SMP",
             dependencies: [
-                .product(name: "Vapor", package: "vapor"),
-                "GBPShared"
+                "GBPCore",
+                .product(name: "Vapor", package: "vapor")
             ]
         ),
         .testTarget(
             name: "SMPTests",
             dependencies: [
-                "SMP"
+                "SMP",
+                .product(name: "XCTVapor", package: "vapor")
             ]
         ),
 
         .target(
-            name: "GBPShared",
+            name: "GBPCore",
             dependencies: [
                 .product(name: "Vapor", package: "vapor")
             ]
         ),
         .testTarget(
-            name: "GBPSharedTests",
+            name: "GBPCoreTests",
             dependencies: [
-                "GBPShared"
+                "GBPCore",
+                .product(name: "XCTVapor", package: "vapor")
             ]
         )
     ]

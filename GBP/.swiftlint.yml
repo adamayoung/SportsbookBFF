@@ -1,7 +1,5 @@
 excluded:
   - .build
-  - GBP/
-  - SportsCMS/
 
 opt_in_rules:
   - attributes
@@ -23,15 +21,19 @@ identifier_name:
     error: 4
   max_length: 60
   excluded:
-    - api
+    - all
     - app
-    - avb
-    - cms
-    - env
+    - fbr
     - id
+    - key
     - lhs
+    - max
+    - min
     - rhs
-    - tag
+    - sib
+    - smp
+    - tla
+    - uri
 
 file_length:
   warning: 600

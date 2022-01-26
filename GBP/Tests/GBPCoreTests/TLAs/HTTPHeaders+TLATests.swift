@@ -1,4 +1,4 @@
-@testable import GBPShared
+@testable import GBPCore
 import XCTVapor
 
 final class HTTPHeadersTLATests: XCTestCase {

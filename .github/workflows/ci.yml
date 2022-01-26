@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
+  lint-sportsbookbff:
     name: Lint
     runs-on: ubuntu-latest
     container:
@@ -24,76 +24,44 @@ jobs:
 
       - name: Lint
         run: swiftlint --strict
-
-  test-build-gbp:
-    name: GBP
+  
+  lint-gbp:
+    name: Lint
     runs-on: ubuntu-latest
-    needs: lint
     container:
-      image: swift:5.5.1-focal
-      options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
-    defaults:
-      run:
-        working-directory: ./GBP
-
+      image: ghcr.io/realm/swiftlint:latest
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: Cache SPM
-        uses: actions/cache@v2
-        with:
-          path: .build
-          key: ${{ runner.os }}-gbp-spm-${{ hashFiles('**/Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-gbp-spm-
-
-      - name: Build
-        run: swift build --build-tests
+      - name: Lint
+        run: swiftlint --strict
         working-directory: ./GBP
-
-      - name: Test
-        run: swift test --skip-build --parallel
-        working-directory: ./GBP
-      
-  test-build-sportscms:
-    name: SportsCMS
+  
+  lint-sportscms:
+    name: Lint
     runs-on: ubuntu-latest
-    needs: lint
     container:
-      image: swift:5.5.1-focal
-      options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
-    defaults:
-      run:
+      image: ghcr.io/realm/swiftlint:latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Lint
+        run: swiftlint --strict
         working-directory: ./SportsCMS
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Cache SPM
-        uses: actions/cache@v2
-        with:
-          path: .build
-          key: ${{ runner.os }}-sportscms-spm-${{ hashFiles('**/Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-sportscms-spm-
-
-      - name: Build
-        run: swift build --build-tests
-
-      - name: Test
-        run: swift test --skip-build --parallel
-
-
+  
   test-build-sportsbookbff:
     name: SportsbookBFF
     runs-on: ubuntu-latest
     needs:
+      - lint-sportsbookbff
       - test-build-gbp
       - test-build-sportscms
     container:
@@ -119,3 +87,66 @@ jobs:
 
       - name: Test
         run: swift test --skip-build --parallel
+
+  test-build-gbp:
+    name: GBP
+    runs-on: ubuntu-latest
+    needs: lint-gbp
+    container:
+      image: swift:5.5.1-focal
+      options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Cache SPM
+        uses: actions/cache@v2
+        with:
+          path: GBP/.build
+          key: ${{ runner.os }}-gbp-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-gbp-spm-
+
+      - name: Build
+        run: swift build --build-tests
+        working-directory: ./GBP
+
+      - name: Test
+        run: swift test --skip-build --parallel
+        working-directory: ./GBP
+      
+  test-build-sportscms:
+    name: SportsCMS
+    runs-on: ubuntu-latest
+    needs: lint-sportscms
+    container:
+      image: swift:5.5.1-focal
+      options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
+    defaults:
+      run:
+        working-directory: ./SportsCMS
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Cache SPM
+        uses: actions/cache@v2
+        with:
+          path: SportsCMS/.build
+          key: ${{ runner.os }}-sportscms-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-sportscms-spm-
+
+      - name: Build
+        run: swift build --build-tests
+        working-directory: ./SportsCMS
+
+      - name: Test
+        run: swift test --skip-build --parallel
+        working-directory: ./SportsCMS

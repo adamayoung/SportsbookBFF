@@ -1,5 +1,5 @@
 import Foundation
-import GBPShared
+import GBPCore
 
 struct SIBConfiguration: TLAConfiguration {
 
