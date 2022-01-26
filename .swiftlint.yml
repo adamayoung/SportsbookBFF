@@ -1,5 +1,7 @@
 excluded:
   - .build
+  - GBP/.build
+  - SportsCMS/.build
 
 opt_in_rules:
   - attributes
