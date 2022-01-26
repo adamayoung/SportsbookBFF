@@ -17,7 +17,7 @@ extension EventDomainModel {
         let canTurnInPlayFacetedValue = canTurnInPlayFacet?.values.first
         let canTurnInPlay = canTurnInPlayFacetedValue?.value == "true"
 
-        self.init(id: attachment.eventId, name: attachment.name, eventTypeID: attachment.eventTypeId,
+        self.init(id: attachment.eventId, name: attachment.name ?? "", eventTypeID: attachment.eventTypeId,
                   competitionID: attachment.competitionId, countryCode: attachment.countryCode,
                   timeZone: attachment.timezone, openDate: attachment.openDate,
                   isVideoAvailable: attachment.videoAvailable, isInPlay: isInPlay, canTurnInPlay: canTurnInPlay)

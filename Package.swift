@@ -7,7 +7,7 @@ let package = Package(
     name: "SportsbookBFF",
 
     platforms: [
-       .macOS(.v10_15)
+        .macOS(.v12)
     ],
 
     products: [

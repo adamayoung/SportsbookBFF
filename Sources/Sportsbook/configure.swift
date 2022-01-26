@@ -6,33 +6,31 @@ public func configure(_ app: Application) throws {
     try modules(app)
 
     app.competitionService.use { request in
-        CompetitionSCANService(scanService: request.scanService, eventLoop: request.eventLoop, locale: request.locale,
-                               logger: request.logger)
+        CompetitionSCANService(scanService: request.scanService, locale: request.locale, logger: request.logger)
     }
 
     app.eventService.use { request in
-        EventSCANService(scanService: request.scanService, eventLoop: request.eventLoop, locale: request.locale,
-                         logger: request.logger)
+        EventSCANService(scanService: request.scanService, locale: request.locale, logger: request.logger)
     }
 
     app.eventTypeService.use { request in
-        EventTypeSCANService(scanService: request.scanService, eventLoop: request.eventLoop, locale: request.locale,
-                             logger: request.logger)
+        EventTypeSCANService(scanService: request.scanService, locale: request.locale, logger: request.logger)
     }
 
     app.marketService.use { request in
-        MarketSCANService(scanService: request.scanService, eventLoop: request.eventLoop, locale: request.locale,
-                          logger: request.logger)
+        MarketSCANService(scanService: request.scanService, locale: request.locale, logger: request.logger)
     }
 
     app.marketService.use { request in
-        MarketSCANService(scanService: request.scanService, eventLoop: request.eventLoop, locale: request.locale,
-                          logger: request.logger)
+        MarketSCANService(scanService: request.scanService, locale: request.locale, logger: request.logger)
     }
 
     app.cmsContentService.use { request in
-        CMSContentSportsCMSService(cmsNodeService: request.cmsNodeService, eventLoop: request.eventLoop,
-                                   logger: request.logger)
+        CMSContentSportsCMSService(cmsNodeService: request.cmsNodeService, logger: request.logger)
+    }
+
+    app.opportunityService.use { request in
+        OpportunitySIBService(sibService: request.sibService, logger: request.logger)
     }
 }
 

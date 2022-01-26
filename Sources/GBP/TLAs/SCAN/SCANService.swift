@@ -1,5 +1,4 @@
 import Foundation
-import NIO
 
 /// SCAN - Sports Catalogue Navigator Service.
 /// Reads up and exposes the Sports Catalogue to channels (including the website), APIs, and internal apps.
@@ -13,6 +12,6 @@ public protocol SCANService {
     ///   - searchRequest: The SCAN search request.
     ///
     /// - Returns: A future that will receive the eventual search response.
-    func search(searchRequest: SearchRequest) -> EventLoopFuture<SearchResponse>
+    func search(request: SearchRequest) async throws -> SearchResponse
 
 }

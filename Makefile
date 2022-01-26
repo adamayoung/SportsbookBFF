@@ -1,3 +1,8 @@
+# Variables
+
+OS_NAME := $(shell uname -s | tr A-Z a-z)
+DOCKER_SWIFT_VERSION := 5.5
+
 # Lint
 lint:
 	$(call brew_install,swiftlint) && swiftlint --strict
@@ -16,6 +21,14 @@ build:
 	@echo "Building..."
 	@swift build
 
+build-linux:
+	@echo "Building for Linux..."
+	@if [ "$(OS_NAME)" == "darwin" ]; then \
+		docker run --rm --privileged --interactive --tty -v "$$(pwd):/src" -w "/src" swift:$(DOCKER_SWIFT_VERSION)-focal /bin/bash -c "swift build --build-path ./.build/linux"; \
+	else \
+		make build; \
+	fi
+
 build-release:
 	@echo "Building for release..."
 	@swift build -c release
@@ -26,6 +39,14 @@ build-release:
 test:
 	@echo "Testing..."
 	@swift test --parallel
+
+test-linux:
+	@echo "Testing for Linux..."
+	@if [ "$(OS_NAME)" == "darwin" ]; then \
+		docker run --rm --privileged --interactive --tty -v "$$(pwd):/src" -w "/src" swift:$(DOCKER_SWIFT_VERSION)-focal /bin/bash -c "swift test  --parallel --build-path ./.build/linux"; \
+	else \
+		make test; \
+	fi
 
 run:
 	@echo "Running..."

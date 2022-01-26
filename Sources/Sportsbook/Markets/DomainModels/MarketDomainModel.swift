@@ -1,6 +1,6 @@
 import Foundation
 
-public struct MarketDomainModel: Identifiable, Equatable, Hashable, Comparable, Codable {
+public struct MarketDomainModel: Identifiable, Equatable, Hashable, Comparable {
 
     public let id: String
     public let name: String
@@ -8,13 +8,13 @@ public struct MarketDomainModel: Identifiable, Equatable, Hashable, Comparable, 
     public let inPlay: Bool
     public let canTurnInPlay: Bool
     public let marketType: String
-    public let runners: [RunnerDomainModel]
+    public let runners: [MarketRunnerDomainModel]
     public let eventTypeID: Int
     public let eventID: Int
     public let competitionID: Int
 
     public init(id: String, name: String, marketDate: Date, inPlay: Bool, canTurnInPlay: Bool, marketType: String,
-                runners: [RunnerDomainModel], eventTypeID: Int, eventID: Int, competitionID: Int) {
+                runners: [MarketRunnerDomainModel], eventTypeID: Int, eventID: Int, competitionID: Int) {
         self.id = id
         self.name = name
         self.marketDate = marketDate

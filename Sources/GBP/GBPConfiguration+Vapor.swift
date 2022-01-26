@@ -11,7 +11,7 @@ extension Request {
 private extension Request {
 
     var environment: GBPEnvironment {
-        .qaCore
+        GBPEnvironment(rawValue: Environment.get("GBP_ENVIRONEMNT") ?? "") ?? .qaCore
     }
 
     var tlaKey: String? {

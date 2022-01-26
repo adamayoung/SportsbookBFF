@@ -5,10 +5,16 @@ import Vapor
 extension Resolver {
 
     func fetchEvents(request: Request, arguments: EventArguments) throws -> EventLoopFuture<[Event]> {
-        request.eventService.fetchEvent(withID: arguments.id)
-            .optionalMap { [$0] }
-            .unwrap(orReplace: [])
-            .mapEach(Event.init)
+        let promise = request.eventLoop.makePromise(of: [Event].self)
+        promise.completeWithTask {
+            guard let event = try await request.eventService.fetchEvent(withID: arguments.id) else {
+                return []
+            }
+
+            return [Event(event: event)]
+        }
+
+        return promise.futureResult
     }
 
 }

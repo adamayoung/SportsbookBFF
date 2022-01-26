@@ -1,6 +1,6 @@
-import Foundation
+import Vapor
 
-struct Runner: Equatable, Codable {
+struct Runner: Equatable, Content {
 
     let selectionID: Int
     let name: String

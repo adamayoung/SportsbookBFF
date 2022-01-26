@@ -10,14 +10,16 @@ public struct CMSController: RouteCollection {
         cms.get("popular", use: indexForPopular)
     }
 
-    func indexForFeatured(request: Request) throws -> EventLoopFuture<JSONAPIModel<[MenuItem]>> {
-        MenuItem.featured(on: request)
-            .map(JSONAPIModel.init)
+    func indexForFeatured(request: Request) async throws -> JSONAPIModel<[MenuItem]> {
+        let menuItems = try await MenuItem.featured(on: request)
+        let model = JSONAPIModel(data: menuItems)
+        return model
     }
 
-    func indexForPopular(request: Request) throws -> EventLoopFuture<JSONAPIModel<[MenuItem]>> {
-        MenuItem.popular(on: request)
-            .map(JSONAPIModel.init)
+    func indexForPopular(request: Request) async throws -> JSONAPIModel<[MenuItem]> {
+        let menuItems = try await MenuItem.popular(on: request)
+        let model = JSONAPIModel(data: menuItems)
+        return model
     }
 
 }

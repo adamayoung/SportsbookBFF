@@ -11,6 +11,7 @@ func routes(_ app: Application) throws {
         try api.register(collection: CompetitionsController())
         try api.register(collection: MarketsController())
         try api.register(collection: EventsController())
+        try api.register(collection: OpportunitiesController())
         try api.register(collection: CMSController())
     }
 

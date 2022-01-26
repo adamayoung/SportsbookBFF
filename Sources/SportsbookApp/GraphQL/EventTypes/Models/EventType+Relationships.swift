@@ -6,42 +6,47 @@ extension EventType {
 
     func competitions(request: Request,
                       arguments: CompetitionsArguments) throws -> EventLoopFuture<[Competition]> {
-        guard let competitionID = arguments.id else {
-            return request.competitionService.fetchCompetitions(forEventType: self.id)
-                .mapEach(Competition.init)
+        let promise = request.eventLoop.makePromise(of: [Competition].self)
+        promise.completeWithTask {
+            guard let competitionID = arguments.id else {
+                return try await request.competitionService.fetchCompetitions(forEventType: self.id)
+                    .map(Competition.init)
+            }
+
+            guard let competition = try await request.competitionService.fetchCompetition(withID: competitionID) else {
+                return []
+            }
+
+            return [Competition(competition: competition)]
         }
 
-        return request.competitionService.fetchCompetition(withID: competitionID)
-            .optionalMap { [$0] }
-            .unwrap(orReplace: [])
-            .mapEach(Competition.init)
+        return promise.futureResult
     }
 
     func events(request: Request, arguments: EventsArguments) throws -> EventLoopFuture<[Event]> {
-        guard let eventID = arguments.id else {
-            return request.eventService.fetchEvents(forEventType: self.id, isInPlay: arguments.isInPlay)
-                .mapEach(Event.init)
+        let promise = request.eventLoop.makePromise(of: [Event].self)
+        promise.completeWithTask {
+            guard let eventID = arguments.id else {
+                return try await request.eventService.fetchEvents(forEventType: self.id, isInPlay: arguments.isInPlay)
+                    .map(Event.init)
+            }
+
+            guard let event = try await request.eventService.fetchEvent(withID: eventID) else {
+                return []
+            }
+
+            guard event.eventTypeID == self.id else {
+                return []
+            }
+
+            guard let isInPlayArgument = arguments.isInPlay, event.isInPlay == isInPlayArgument else {
+                return []
+            }
+
+            return [Event(event: event)]
         }
 
-        return request.eventService.fetchEvent(withID: eventID)
-            .map { event -> EventDomainModel? in
-                guard event?.eventTypeID == self.id else {
-                    return nil
-                }
-
-                guard let isInPlayArgument = arguments.isInPlay else {
-                    return event
-                }
-
-                guard event?.isInPlay == isInPlayArgument else {
-                    return nil
-                }
-
-                return event
-            }
-            .optionalMap { [$0] }
-            .unwrap(orReplace: [])
-            .mapEach(Event.init)
+        return promise.futureResult
     }
 
 }

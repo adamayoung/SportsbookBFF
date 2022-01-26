@@ -11,7 +11,14 @@ protocol TLAConfiguration {
 extension TLAConfiguration {
 
     var uri: URI {
-        "https://\(tla.rawValue).gbp-\(gbpConfiguration.environmentName).isp-pub.starsops.com\(path)"
+        switch gbpConfiguration.environment {
+        case .qaCore:
+            return "https://\(tla.rawValue).gbp-\(gbpConfiguration.environmentName).isp-pub.starsops.com\(path)"
+
+        case .prod:
+            return "https://\(tla.rawValue).\(gbpConfiguration.environmentName).gbp.isp.starsops.com\(path)"
+        }
+
     }
 
     func headers() throws -> HTTPHeaders {

@@ -13,21 +13,21 @@ extension MarketDomainModel {
                 canTurnInPlay: false,
                 marketType: "1ST_HALF_OVER/UNDER_5.5_GOALS",
                 runners: [
-                    RunnerDomainModel(
+                    .init(
                         selectionID: 4702493,
                         name: "1st Half Over 5.5 Goals",
                         handicap: 0,
                         sortPriority: 1,
                         status: .active,
-                        result: RunnerDomainModel.RunnerResult(type: nil)
+                        result: .init(type: nil)
                     ),
-                    RunnerDomainModel(
+                    .init(
                         selectionID: 4702492,
                         name: "1st Half Under 5.5 Goals",
                         handicap: 0,
                         sortPriority: 2,
                         status: .active,
-                        result: RunnerDomainModel.RunnerResult(type: nil)
+                        result: .init(type: nil)
                     )
                 ],
                 eventTypeID: 1,
@@ -42,29 +42,29 @@ extension MarketDomainModel {
                 canTurnInPlay: false,
                 marketType: "DOUBLE_CHANCE",
                 runners: [
-                    RunnerDomainModel(
+                    .init(
                         selectionID: 5352164,
                         name: "AD Isidro Metapan And Draw",
                         handicap: 0,
                         sortPriority: 1,
                         status: .active,
-                        result: RunnerDomainModel.RunnerResult(type: nil)
+                        result: .init(type: nil)
                     ),
-                    RunnerDomainModel(
+                    .init(
                         selectionID: 5904037,
                         name: "CD Municipal Limeno And Draw",
                         handicap: 0,
                         sortPriority: 2,
                         status: .active,
-                        result: RunnerDomainModel.RunnerResult(type: nil)
+                        result: .init(type: nil)
                     ),
-                    RunnerDomainModel(
+                    .init(
                         selectionID: 8313963,
                         name: "AD Isidro Metapan And CD Municipal Limeno",
                         handicap: 0,
                         sortPriority: 3,
                         status: .active,
-                        result: RunnerDomainModel.RunnerResult(type: nil)
+                        result: .init(type: nil)
                     )
                 ],
                 eventTypeID: 1,
@@ -79,21 +79,21 @@ extension MarketDomainModel {
                 canTurnInPlay: false,
                 marketType: "WIN_&_OVER_2.5_GOALS",
                 runners: [
-                    RunnerDomainModel(
+                    .init(
                         selectionID: 4073256,
                         name: "AD Isidro Metapan",
                         handicap: 0,
                         sortPriority: 1,
                         status: .active,
-                        result: RunnerDomainModel.RunnerResult(type: nil)
+                        result: .init(type: nil)
                     ),
-                    RunnerDomainModel(
+                    .init(
                         selectionID: 5902671,
                         name: "CD Municipal Limeno",
                         handicap: 0,
                         sortPriority: 2,
                         status: .active,
-                        result: RunnerDomainModel.RunnerResult(type: nil)
+                        result: .init(type: nil)
                     )
                 ],
                 eventTypeID: 1,

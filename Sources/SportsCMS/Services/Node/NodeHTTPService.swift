@@ -14,7 +14,7 @@ struct NodeHTTPService: NodeService {
         self.logger = logger
     }
 
-    func fetchNodes(withTag tag: Tag, liveAtDate: Date = Date()) -> EventLoopFuture<[CMSNode]> {
+    func fetchNodes(withTag tag: Tag, liveAtDate: Date = Date()) async throws -> [CMSNode] {
         logger.debug("Fetching nodes from CMS service",
                      metadata: [
                         "tag": .stringConvertible(tag),
@@ -28,7 +28,7 @@ struct NodeHTTPService: NodeService {
         headers.add(name: .accept, value: "application/json")
         headers.add(name: .userAgent, value: "SportsbookBFF/1.0")
 
-        return client.get(uri, headers: headers)
+        return try await client.get(uri, headers: headers)
             .flatMapThrowing { response in
                 guard response.status == .ok else {
                     throw Abort(response.status)
@@ -52,6 +52,7 @@ struct NodeHTTPService: NodeService {
                     break
                 }
             }
+            .get()
     }
 
 }

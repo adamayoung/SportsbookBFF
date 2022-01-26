@@ -13,7 +13,7 @@ extension EventType {
 
 extension EventType.Category {
 
-    init?(category: EventTypeCategory?) {
+    init?(category: EventTypeDomainModel.Category?) {
         guard let category = category else {
             return nil
         }

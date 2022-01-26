@@ -1,6 +1,6 @@
 import Foundation
 
-public struct CompetitionDomainModel: Identifiable, Equatable, Hashable, Comparable, Codable {
+public struct CompetitionDomainModel: Identifiable, Equatable, Hashable, Comparable {
 
     public let id: Int
     public let name: String

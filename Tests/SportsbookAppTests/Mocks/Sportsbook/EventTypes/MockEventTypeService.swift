@@ -1,24 +1,20 @@
 import Foundation
-import NIO
 import Sportsbook
 
 struct MockEventTypeService: EventTypeService {
 
     let eventTypes: [EventTypeDomainModel]
-    private let eventLoop: EventLoop
 
-    init(eventTypes: [EventTypeDomainModel] = EventTypeDomainModel.mocks, eventLoop: EventLoop) {
+    init(eventTypes: [EventTypeDomainModel] = EventTypeDomainModel.mocks) {
         self.eventTypes = eventTypes
-        self.eventLoop = eventLoop
     }
 
-    func fetchEventType(withID id: EventTypeDomainModel.ID) -> EventLoopFuture<EventTypeDomainModel?> {
-        let result = eventTypes.first { $0.id == id }
-        return eventLoop.makeSucceededFuture(result)
+    func fetchEventType(withID id: EventTypeDomainModel.ID) async throws -> EventTypeDomainModel? {
+        eventTypes.first { $0.id == id }
     }
 
-    func fetchEventTypes(filter: EventTypesFilterConvertible?) -> EventLoopFuture<[EventTypeDomainModel]> {
-        eventLoop.makeSucceededFuture(eventTypes)
+    func fetchEventTypes(filter: EventTypesFilterConvertible?) async throws -> [EventTypeDomainModel] {
+        eventTypes
     }
 
 }

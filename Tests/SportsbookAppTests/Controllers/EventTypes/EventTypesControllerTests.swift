@@ -10,11 +10,11 @@ final class EventTypesControllerTests: XCTestCase {
         try super.setUpWithError()
         app = Application(.testing)
         try app.register(collection: EventTypesController())
-        app.eventTypeService.use { request in
-            MockEventTypeService(eventTypes: EventTypeDomainModel.mocks, eventLoop: request.eventLoop)
+        app.eventTypeService.use { _ in
+            MockEventTypeService(eventTypes: EventTypeDomainModel.mocks)
         }
-        app.competitionService.use { request in
-            MockCompetitionService(competitions: CompetitionDomainModel.mocks, eventLoop: request.eventLoop)
+        app.competitionService.use { _ in
+            MockCompetitionService(competitions: CompetitionDomainModel.mocks)
         }
     }
 
