@@ -58,7 +58,7 @@ jobs:
         working-directory: ./SportsCMS
   
   test-build-sportsbookbff:
-    name: SportsbookBFF
+    name: Build and Test SportsbookBFF
     runs-on: ubuntu-latest
     needs:
       - lint-sportsbookbff
@@ -89,7 +89,7 @@ jobs:
         run: swift test --skip-build --parallel
 
   test-build-gbp:
-    name: GBP
+    name: Build and Test GBP
     runs-on: ubuntu-latest
     needs: lint-gbp
     container:
@@ -119,7 +119,7 @@ jobs:
         working-directory: ./GBP
       
   test-build-sportscms:
-    name: SportsCMS
+    name: Build and Test SportsCMS
     runs-on: ubuntu-latest
     needs: lint-sportscms
     container:
