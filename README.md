@@ -1,6 +1,6 @@
 # Sportsbook BFF - Backend-for-Frontend
 
-![Mainline](https://github.com/adamayoung/SportsbookBFF/workflows/Mainline/badge.svg)
+![Mainline](https://github.com/adamayoung/SportsbookBFF/workflows/CI/badge.svg)
 
 ## Requirements
 
