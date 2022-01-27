@@ -23,13 +23,13 @@ public struct MarketsController: RouteCollection {
         }
     }
 
-    func indexForEvents(request: Request) async throws -> JSONAPIModel<[Market]> {
+    func indexForEvents(request: Request) async throws -> RootAPIModel<[Market]> {
         guard let eventID = request.parameters.get("eventID", as: Int.self) else {
             throw Abort(.badRequest)
         }
 
         let markets = try await Market.all(forEvent: eventID, on: request)
-        let model = JSONAPIModel(data: markets)
+        let model = RootAPIModel(data: markets)
         return model
     }
 
@@ -48,7 +48,7 @@ public struct MarketsController: RouteCollection {
         }
     }
 
-    func show(request: Request) async throws -> JSONAPIModel<Market> {
+    func show(request: Request) async throws -> RootAPIModel<Market> {
         guard let id = request.parameters.get("marketID") else {
             throw Abort(.badRequest)
         }
@@ -57,11 +57,11 @@ public struct MarketsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = JSONAPIModel(data: market)
+        let model = RootAPIModel(data: market)
         return model
     }
 
-    func indexForRunners(request: Request) async throws -> JSONAPIModel<[Runner]> {
+    func indexForRunners(request: Request) async throws -> RootAPIModel<[Runner]> {
         guard let marketID = request.parameters.get("marketID") else {
             throw Abort(.badRequest)
         }
@@ -70,11 +70,11 @@ public struct MarketsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = JSONAPIModel(data: runners)
+        let model = RootAPIModel(data: runners)
         return model
     }
 
-    func showRunner(request: Request) async throws -> JSONAPIModel<Runner> {
+    func showRunner(request: Request) async throws -> RootAPIModel<Runner> {
         guard
             let marketID = request.parameters.get("marketID"),
             let selectionID = request.parameters.get("selectionID", as: Int.self)
@@ -86,7 +86,7 @@ public struct MarketsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = JSONAPIModel(data: runner)
+        let model = RootAPIModel(data: runner)
         return model
     }
 

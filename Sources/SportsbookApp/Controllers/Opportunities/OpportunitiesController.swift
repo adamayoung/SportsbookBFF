@@ -9,9 +9,9 @@ public struct OpportunitiesController: RouteCollection {
         opportunities.get(use: index)
     }
 
-    func index(request: Request) async throws -> JSONAPIModel<[Opportunity]> {
+    func index(request: Request) async throws -> RootAPIModel<[Opportunity]> {
         let opportunity = try await Opportunity.all(on: request)
-        let model = JSONAPIModel(data: opportunity)
+        let model = RootAPIModel(data: opportunity)
         return model
     }
 

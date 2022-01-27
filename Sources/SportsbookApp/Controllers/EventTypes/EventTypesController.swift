@@ -22,14 +22,14 @@ public struct EventTypesController: RouteCollection {
         }
     }
 
-    func index(request: Request) async throws -> JSONAPIModel<[EventType]> {
+    func index(request: Request) async throws -> RootAPIModel<[EventType]> {
         let query = try request.query.decode(EventTypesQuery.self)
         let eventTypes = try await EventType.all(query: query, on: request)
-        let model = JSONAPIModel(data: eventTypes)
+        let model = RootAPIModel(data: eventTypes)
         return model
     }
 
-    func show(request: Request) async throws -> JSONAPIModel<EventType> {
+    func show(request: Request) async throws -> RootAPIModel<EventType> {
         guard let id = request.parameters.get("eventTypeID", as: Int.self) else {
             throw Abort(.badRequest)
         }
@@ -38,11 +38,11 @@ public struct EventTypesController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = JSONAPIModel(data: eventType)
+        let model = RootAPIModel(data: eventType)
         return model
     }
 
-    func showForCompetition(request: Request) async throws -> JSONAPIModel<EventType> {
+    func showForCompetition(request: Request) async throws -> RootAPIModel<EventType> {
         guard let competitionID = request.parameters.get("competitionID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
@@ -51,11 +51,11 @@ public struct EventTypesController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = JSONAPIModel(data: eventType)
+        let model = RootAPIModel(data: eventType)
         return model
     }
 
-    func showForEvent(request: Request) async throws -> JSONAPIModel<EventType> {
+    func showForEvent(request: Request) async throws -> RootAPIModel<EventType> {
         guard let eventID = request.parameters.get("eventID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
@@ -64,7 +64,7 @@ public struct EventTypesController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = JSONAPIModel(data: eventType)
+        let model = RootAPIModel(data: eventType)
         return model
     }
 

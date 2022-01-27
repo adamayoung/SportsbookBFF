@@ -1,6 +1,6 @@
 import Vapor
 
-struct RelationshipModel<ModelData: Codable & Equatable>: Equatable, Codable {
+struct RootAPIModel<ModelData: Content & Equatable>: Equatable, Content {
 
     let data: ModelData
 

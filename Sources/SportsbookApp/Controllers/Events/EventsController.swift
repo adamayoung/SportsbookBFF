@@ -27,24 +27,24 @@ public struct EventsController: RouteCollection {
         }
     }
 
-    func indexFromEventType(request: Request) async throws ->JSONAPIModel<[Event]> {
+    func indexFromEventType(request: Request) async throws ->RootAPIModel<[Event]> {
         guard let eventTypeID = request.parameters.get("eventTypeID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
 
         let query = try request.query.decode(EventsFromEventTypeQuery.self)
         let events = try await Event.all(forEventType: eventTypeID, isInPlay: query.isInPlay, on: request)
-        let model = JSONAPIModel(data: events)
+        let model = RootAPIModel(data: events)
         return model
     }
 
-    func indexFromCompetition(request: Request) async throws -> JSONAPIModel<[Event]> {
+    func indexFromCompetition(request: Request) async throws -> RootAPIModel<[Event]> {
         guard let competitionID = request.parameters.get("competitionID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
 
         let events = try await Event.all(forCompetition: competitionID, on: request)
-        let model = JSONAPIModel(data: events)
+        let model = RootAPIModel(data: events)
         return model
     }
 
@@ -64,7 +64,7 @@ public struct EventsController: RouteCollection {
         }
     }
 
-    func show(request: Request) async throws -> JSONAPIModel<Event> {
+    func show(request: Request) async throws -> RootAPIModel<Event> {
         guard let id = request.parameters.get("eventID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
@@ -73,11 +73,11 @@ public struct EventsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = JSONAPIModel(data: event)
+        let model = RootAPIModel(data: event)
         return model
     }
 
-    func showForMarket(request: Request) async throws -> JSONAPIModel<Event> {
+    func showForMarket(request: Request) async throws -> RootAPIModel<Event> {
         guard let marketID = request.parameters.get("marketID") else {
             throw Abort(.internalServerError)
         }
@@ -86,7 +86,7 @@ public struct EventsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = JSONAPIModel(data: event)
+        let model = RootAPIModel(data: event)
         return model
     }
 

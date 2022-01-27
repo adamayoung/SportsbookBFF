@@ -25,7 +25,7 @@ final class EventTypesControllerTests: XCTestCase {
     }
 
     func testEventTypesReturnsEventTypes() throws {
-        let expectedResult = JSONAPIModel(
+        let expectedResult = RootAPIModel(
             data: [
                 EventType(id: 1, name: "Soccer"),
                 EventType(id: 2, name: "Tennis"),
@@ -44,7 +44,7 @@ final class EventTypesControllerTests: XCTestCase {
 
     func testEventTypeWithIDReturnsEventType() throws {
         let sport = EventType(id: 1, name: "Soccer")
-        let expectedResult = JSONAPIModel(data: sport)
+        let expectedResult = RootAPIModel(data: sport)
 
         try app.test(.GET, "event-types/\(sport.id)") { response in
             XCTAssertEqual(response.status, .ok)
@@ -61,7 +61,7 @@ final class EventTypesControllerTests: XCTestCase {
     func testEventTypeForCompetitionReturnsEventType() throws {
         let eventType = EventType(id: 1, name: "Soccer")
         let competition = Competition(id: 2005, name: "UEFA Europa League", eventTypeID: eventType.id)
-        let expectedResult = JSONAPIModel(data: eventType)
+        let expectedResult = RootAPIModel(data: eventType)
 
         try app.test(.GET, "competitions/\(competition.id)/event-type") { response in
             XCTAssertEqual(response.status, .ok)

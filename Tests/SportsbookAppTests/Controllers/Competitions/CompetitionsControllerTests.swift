@@ -23,7 +23,7 @@ final class CompetitionsControllerTests: XCTestCase {
 
     func testCompetitionsForEventTypeReturnsCompetitions() throws {
         let eventTypeID = 1
-        let expectedResult = JSONAPIModel(
+        let expectedResult = RootAPIModel(
             data: [
                 Competition(id: 516320, name: "Salvadoran Primera Division", eventTypeID: eventTypeID),
                 Competition(id: 2005, name: "UEFA Europa League", eventTypeID: eventTypeID)

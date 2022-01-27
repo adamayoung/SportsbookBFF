@@ -21,17 +21,17 @@ public struct CompetitionsController: RouteCollection {
         }
     }
 
-    func indexForEventType(request: Request) async throws -> JSONAPIModel<[Competition]> {
+    func indexForEventType(request: Request) async throws -> RootAPIModel<[Competition]> {
         guard let eventTypeID = request.parameters.get("eventTypeID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
 
         let competitions = try await Competition.all(forEventType: eventTypeID, on: request)
-        let model = JSONAPIModel(data: competitions)
+        let model = RootAPIModel(data: competitions)
         return model
     }
 
-    func show(request: Request) async throws -> JSONAPIModel<Competition> {
+    func show(request: Request) async throws -> RootAPIModel<Competition> {
         guard let id = request.parameters.get("competitionID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
@@ -40,11 +40,11 @@ public struct CompetitionsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = JSONAPIModel(data: competition)
+        let model = RootAPIModel(data: competition)
         return model
     }
 
-    func showForEvent(request: Request) async throws -> JSONAPIModel<Competition> {
+    func showForEvent(request: Request) async throws -> RootAPIModel<Competition> {
         guard let eventID = request.parameters.get("eventID", as: Int.self) else {
             throw Abort(.internalServerError)
         }
@@ -53,7 +53,7 @@ public struct CompetitionsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = JSONAPIModel(data: competition)
+        let model = RootAPIModel(data: competition)
         return model
     }
 

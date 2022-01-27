@@ -29,13 +29,3 @@ struct Event: Identifiable, Equatable, Codable {
     }
 
 }
-
-extension Event {
-
-    struct Relationships: Codable {
-
-        let competition: RelationshipModel<Competition>?
-
-    }
-
-}
