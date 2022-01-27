@@ -60,8 +60,8 @@ COPY --from=build --chown=vapor:vapor /staging /app
 USER vapor:vapor
 
 # Let Docker bind to port 8080
-EXPOSE 8080
+EXPOSE $PORT
 
 # Start the Vapor service when the image is run, default to listening on 8080 in production environment
 ENTRYPOINT ["./SportsbookBFF"]
-CMD ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]
+CMD ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", $PORT]
