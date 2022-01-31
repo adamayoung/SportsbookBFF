@@ -25,11 +25,3 @@ public extension Request {
     }
 
 }
-
-extension Request {
-
-    var scanConfiguration: SCANConfiguration {
-        SCANConfiguration(gbpConfiguration: self.gbpConfiguration)
-    }
-
-}

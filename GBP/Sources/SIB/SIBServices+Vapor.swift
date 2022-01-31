@@ -26,11 +26,3 @@ public extension Request {
     }
 
 }
-
-extension Request {
-
-    var sibConfiguration: SIBConfiguration {
-        SIBConfiguration(gbpConfiguration: self.gbpConfiguration)
-    }
-
-}

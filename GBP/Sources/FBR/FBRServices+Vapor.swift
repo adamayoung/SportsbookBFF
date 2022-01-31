@@ -25,11 +25,3 @@ public extension Request {
     }
 
 }
-
-extension Request {
-
-    var fbrConfiguration: FBRConfiguration {
-        FBRConfiguration(gbpConfiguration: self.gbpConfiguration)
-    }
-
-}
