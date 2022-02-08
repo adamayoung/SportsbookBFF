@@ -8,3 +8,8 @@ DerivedData/
 .env
 .env.development
 default.profraw
+
+/GBP/.swiftpm
+/GBP/.build
+/SportsCMS/.swiftpm
+/SportsCMS/.build

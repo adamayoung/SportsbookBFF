@@ -61,7 +61,7 @@ jobs:
       - test-build-gbp
       - test-build-sportscms
     container:
-      image: swift:5.5.1-focal
+      image: swift:5.5.2-focal
       options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
 
     steps:
@@ -89,7 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: lint-gbp
     container:
-      image: swift:5.5.1-focal
+      image: swift:5.5.2-focal
       options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
 
     steps:
@@ -119,7 +119,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: lint-sportscms
     container:
-      image: swift:5.5.1-focal
+      image: swift:5.5.2-focal
       options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
 
     steps:

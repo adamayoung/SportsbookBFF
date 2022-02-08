@@ -18,7 +18,7 @@ final class CompetitionSCANService: CompetitionService {
         logger.debug("Fetching Competition", metadata: ["id": .stringConvertible(id)])
 
         let request = SearchRequest.competition(withID: id, locale: locale)
-        let response = try await scanService.search(request: request)
+        let response = try await scanService.search(request)
         guard let attachment = response.attachments.competitions?.first?.value else {
             return nil
         }
@@ -30,7 +30,7 @@ final class CompetitionSCANService: CompetitionService {
         logger.debug("Fetching Competitions", metadata: ["event-type-id": .stringConvertible(eventTypeID)])
 
         let request = SearchRequest.competitions(forEventType: eventTypeID, locale: locale)
-        let response = try await scanService.search(request: request)
+        let response = try await scanService.search(request)
         guard let attachments = response.attachments.competitions?.values else {
             return []
         }

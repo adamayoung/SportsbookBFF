@@ -18,7 +18,7 @@ struct EventTypeSCANService: EventTypeService {
         logger.debug("Fetching Event Type", metadata: ["id": .stringConvertible(id)])
 
         let request = SearchRequest.eventType(withID: id, locale: locale)
-        let response = try await scanService.search(request: request)
+        let response = try await scanService.search(request)
         guard let attachment = response.attachments.eventTypes?.first?.value else {
             return nil
         }
@@ -30,7 +30,7 @@ struct EventTypeSCANService: EventTypeService {
         logger.debug("Fetching Event Types")
 
         let request = SearchRequest.allEventTypes(locale: locale)
-        let response = try await scanService.search(request: request)
+        let response = try await scanService.search(request)
         guard let attachments = response.attachments.eventTypes?.values else {
             return []
         }

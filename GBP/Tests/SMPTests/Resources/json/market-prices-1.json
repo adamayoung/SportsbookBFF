@@ -1,0 +1,66 @@
+[
+    {
+        "marketId": "501.16147765",
+        "turnInPlayEnabled": true,
+        "inplay": true,
+        "bspMarket": false,
+        "livePriceAvailable": true,
+        "guaranteedPriceAvailable": false,
+        "runnerDetails": [
+            {
+                "selectionId": 6910328,
+                "runnerOrder": 5100,
+                "winRunnerOdds": {
+                    "trueOdds": {
+                        "decimalOdds": {
+                            "decimalOdds": 501.0
+                        },
+                        "fractionalOdds": {
+                            "numerator": 500,
+                            "denominator": 1
+                        }
+                    },
+                    "decimalDisplayOdds": {
+                        "decimalOdds": 501.0
+                    },
+                    "fractionalDisplayOdds": {
+                        "numerator": 500,
+                        "denominator": 1
+                    }
+                },
+                "previousWinRunnerOdds": [
+                    {
+                        "trueOdds": {
+                            "decimalOdds": {
+                                "decimalOdds": 426.0
+                            },
+                            "fractionalOdds": {
+                                "numerator": 425,
+                                "denominator": 1
+                            }
+                        },
+                        "decimalDisplayOdds": {
+                            "decimalOdds": 426.0
+                        },
+                        "fractionalDisplayOdds": {
+                            "numerator": 425,
+                            "denominator": 1
+                        }
+                    }
+                ],
+                "handicap": 0.0,
+                "runnerStatus": "ACTIVE"
+            }
+        ],
+        "eachwayAvailable": false,
+        "legTypes": [
+            "SIMPLE_SELECTION"
+        ],
+        "hasBPE": false,
+        "hasSGM": false,
+        "betDelay": 3,
+        "rule4Deductions": [],
+        "marketStatus": "OPEN",
+        "bettingType": "FIXED_ODDS"
+    }
+]

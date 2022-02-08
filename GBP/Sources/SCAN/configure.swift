@@ -1,19 +1,22 @@
+import GBPCore
 import Vapor
 
 public func configure(_ app: Application) throws {
-    guard let scanBaseURL = Environment.get("SCAN_BASE_URL") else {
+    guard let scanBaseURL = Environment.get(.scanBaseURL) else {
         var abort = Abort(.internalServerError)
-        abort.reason = "Missing SCAN_BASE_URL environment variable"
+        abort.reason = "Missing \(Environment.Key.scanBaseURL) environment variable"
         throw abort
     }
 
-    guard let tlaAPIKey = Environment.get("TLA_API_KEY") else {
+    guard let tlaAPIKey = Environment.get(.tlaAPIKey) else {
         var abort = Abort(.internalServerError)
-        abort.reason = "Missing TLA_API_KEY environment variable"
+        abort.reason = "Missing \(Environment.Key.tlaAPIKey) environment variable"
         throw abort
     }
+
+    let scanConfiguration = SCANConfiguration(baseURL: scanBaseURL, apiKey: tlaAPIKey)
 
     app.scanService.use { request in
-        SCANHTTPService(baseURL: scanBaseURL, tlaAPIKey: tlaAPIKey, client: request.client, logger: request.logger)
+        SCANGBPService(configuration: scanConfiguration, client: request.gbpClient, logger: request.logger)
     }
 }
