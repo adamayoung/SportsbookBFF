@@ -3,7 +3,7 @@ import Foundation
 public struct RunnerDetails: Equatable, Hashable, Codable {
 
     /// Unique selection identifier.
-    public let selectionId: String
+    public let selectionId: Int
     /// Allow for ordering runners on a market view.
     public let runnerOrder: Int
     /// Currently available odds to bet, e.g. 2/1 (fractional), 3.0 (decimal).
@@ -21,7 +21,7 @@ public struct RunnerDetails: Equatable, Hashable, Codable {
     /// The scope defines in which scope a runner is available for betting based on the market's in-play status. If present betting will be restricted to the indicated scope.
     public let runnerScope: RunnerScope?
 
-    public init(selectionId: String, runnerOrder: Int, winRunnerOdds: Odds? = nil, eachwayRunnerOdds: Odds? = nil,
+    public init(selectionId: Int, runnerOrder: Int, winRunnerOdds: Odds? = nil, eachwayRunnerOdds: Odds? = nil,
                 previousWinRunnerOdds: [Odds]? = nil, handicap: Decimal? = nil, runnerStatus: RunnerStatus,
                 priceOverlay: PriceOverlay? = nil, runnerScope: RunnerScope? = nil) {
         self.selectionId = selectionId
