@@ -7,7 +7,7 @@ final class MarketDetailsTests: XCTestCase {
 
     func testDecode() throws {
         _ = try JSONDecoder.tla
-            .decode([MarketDetails].self, fromResource: "market-prices-1", withExtension: "json")
+            .decode([MarketPriceDetails].self, fromResource: "market-prices-1", withExtension: "json")
     }
 
 }
