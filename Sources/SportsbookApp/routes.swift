@@ -9,8 +9,9 @@ func routes(_ app: Application) throws {
     try protected.group("v1") { api in
         try api.register(collection: EventTypesController())
         try api.register(collection: CompetitionsController())
-        try api.register(collection: MarketsController())
         try api.register(collection: EventsController())
+        try api.register(collection: MarketsController())
+        try api.register(collection: MarketPricesController())
         try api.register(collection: CMSController())
     }
 

@@ -9,11 +9,11 @@ struct MockMarketService: MarketService {
         self.markets = markets
     }
 
-    func fetchMarket(withID id: MarketDomainModel.ID) async throws -> MarketDomainModel? {
+    func market(withID id: MarketDomainModel.ID) async throws -> MarketDomainModel? {
         markets.first { $0.id == id }
     }
 
-    func fetchMarkets(forEvent eventID: Int) async throws -> [MarketDomainModel] {
+    func markets(forEvent eventID: Int) async throws -> [MarketDomainModel] {
         markets.filter { $0.eventID == eventID }
     }
 

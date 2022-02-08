@@ -22,8 +22,8 @@ public func configure(_ app: Application) throws {
         MarketSCANService(scanService: request.scanService, locale: request.locale, logger: request.logger)
     }
 
-    app.marketService.use { request in
-        MarketSCANService(scanService: request.scanService, locale: request.locale, logger: request.logger)
+    app.marketPriceService.use { request in
+        MarketPriceSMPService(smpService: request.smpService, logger: request.logger)
     }
 
     app.cmsContentService.use { request in

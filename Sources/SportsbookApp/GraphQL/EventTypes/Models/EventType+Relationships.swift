@@ -9,11 +9,11 @@ extension EventType {
         let promise = request.eventLoop.makePromise(of: [Competition].self)
         promise.completeWithTask {
             guard let competitionID = arguments.id else {
-                return try await request.competitionService.fetchCompetitions(forEventType: self.id)
+                return try await request.competitionService.competitions(forEventType: self.id)
                     .map(Competition.init)
             }
 
-            guard let competition = try await request.competitionService.fetchCompetition(withID: competitionID) else {
+            guard let competition = try await request.competitionService.competition(withID: competitionID) else {
                 return []
             }
 
@@ -27,11 +27,11 @@ extension EventType {
         let promise = request.eventLoop.makePromise(of: [Event].self)
         promise.completeWithTask {
             guard let eventID = arguments.id else {
-                return try await request.eventService.fetchEvents(forEventType: self.id, isInPlay: arguments.isInPlay)
+                return try await request.eventService.events(forEventType: self.id, isInPlay: arguments.isInPlay)
                     .map(Event.init)
             }
 
-            guard let event = try await request.eventService.fetchEvent(withID: eventID) else {
+            guard let event = try await request.eventService.event(withID: eventID) else {
                 return []
             }
 

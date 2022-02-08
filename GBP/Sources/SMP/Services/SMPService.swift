@@ -5,17 +5,17 @@ import Foundation
 public protocol SMPService {
 
     /// Retrieves market details for a given set of market identifiers.
-    func marketPrices(forMarkets marketIds: [String], maxResults: Int?) async throws -> [MarketPriceDetails]
+    func marketPrices(forMarkets marketIds: [String], maxResults: Int?) async throws -> [MarketPrice]
 
 }
 
 public extension SMPService {
 
-    func marketPrices(forMarkets marketIds: [String], maxResults: Int? = nil) async throws -> [MarketPriceDetails] {
+    func marketPrices(forMarkets marketIds: [String], maxResults: Int? = nil) async throws -> [MarketPrice] {
         try await marketPrices(forMarkets: marketIds, maxResults: maxResults)
     }
 
-    func marketPrices(forMarket marketId: String, maxResults: Int? = nil) async throws -> MarketPriceDetails? {
+    func marketPrices(forMarket marketId: String, maxResults: Int? = nil) async throws -> MarketPrice? {
         try await marketPrices(forMarkets: [marketId]).first
     }
 

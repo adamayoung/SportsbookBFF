@@ -1,6 +1,6 @@
 import Foundation
 
-public struct MarketPriceDetails: Equatable, Hashable, Codable {
+public struct MarketPrice: Equatable, Hashable, Codable {
 
     /// Unique market identifier in the format 'product.market'.
     public let marketId: String

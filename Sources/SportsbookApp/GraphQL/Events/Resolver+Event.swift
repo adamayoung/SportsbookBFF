@@ -7,7 +7,7 @@ extension Resolver {
     func fetchEvents(request: Request, arguments: EventArguments) throws -> EventLoopFuture<[Event]> {
         let promise = request.eventLoop.makePromise(of: [Event].self)
         promise.completeWithTask {
-            guard let event = try await request.eventService.fetchEvent(withID: arguments.id) else {
+            guard let event = try await request.eventService.event(withID: arguments.id) else {
                 return []
             }
 

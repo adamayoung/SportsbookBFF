@@ -2,8 +2,8 @@ import Foundation
 
 public protocol CompetitionService {
 
-    func fetchCompetition(withID id: CompetitionDomainModel.ID) async throws -> CompetitionDomainModel?
+    func competition(withID id: CompetitionDomainModel.ID) async throws -> CompetitionDomainModel?
 
-    func fetchCompetitions(forEventType eventTypeID: EventTypeDomainModel.ID) async throws -> [CompetitionDomainModel]
+    func competitions(forEventType eventTypeID: EventTypeDomainModel.ID) async throws -> [CompetitionDomainModel]
 
 }

@@ -9,15 +9,15 @@ struct MockEventService: EventService {
         self.events = events
     }
 
-    func fetchEvent(withID id: EventDomainModel.ID) async throws -> EventDomainModel? {
+    func event(withID id: EventDomainModel.ID) async throws -> EventDomainModel? {
         events.first { $0.id == id }
     }
 
-    func fetchEvents(forCompetition competitionID: Int) async throws -> [EventDomainModel] {
+    func events(forCompetition competitionID: Int) async throws -> [EventDomainModel] {
         events.filter { $0.competitionID == competitionID }
     }
 
-    func fetchEvents(forEventType eventTypeID: Int, isInPlay: Bool?) async throws -> [EventDomainModel] {
+    func events(forEventType eventTypeID: Int, isInPlay: Bool?) async throws -> [EventDomainModel] {
         events
             .filter { $0.eventTypeID == eventTypeID }
             .filter {

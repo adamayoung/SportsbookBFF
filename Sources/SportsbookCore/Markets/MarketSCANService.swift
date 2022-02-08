@@ -14,7 +14,7 @@ final class MarketSCANService: MarketService {
         self.logger = logger
     }
 
-    func fetchMarket(withID id: MarketDomainModel.ID) async throws -> MarketDomainModel? {
+    func market(withID id: MarketDomainModel.ID) async throws -> MarketDomainModel? {
         logger.debug("Fetching Market", metadata: ["id": .stringConvertible(id)])
 
         let request = SearchRequest.market(withID: id, locale: locale)
@@ -26,7 +26,7 @@ final class MarketSCANService: MarketService {
         return MarketDomainModel(id: attachment.key, attachment: attachment.value)
     }
 
-    func fetchMarkets(forEvent eventID: Int) async throws -> [MarketDomainModel] {
+    func markets(forEvent eventID: Int) async throws -> [MarketDomainModel] {
         logger.debug("Fetching Markets", metadata: ["event-id": .stringConvertible(eventID)])
 
         let request = SearchRequest.markets(forEvent: eventID, locale: locale)

@@ -14,7 +14,7 @@ final class EventSCANService: EventService {
         self.logger = logger
     }
 
-    func fetchEvent(withID id: EventDomainModel.ID) async throws -> EventDomainModel? {
+    func event(withID id: EventDomainModel.ID) async throws -> EventDomainModel? {
         logger.debug("Fetching Event", metadata: ["id": .stringConvertible(id)])
 
         let request = SearchRequest.event(withID: id, locale: locale)
@@ -26,7 +26,7 @@ final class EventSCANService: EventService {
         return EventDomainModel(attachment: attachment, facets: response.facets)
     }
 
-    func fetchEvents(forCompetition competitionID: CompetitionDomainModel.ID) async throws -> [EventDomainModel] {
+    func events(forCompetition competitionID: CompetitionDomainModel.ID) async throws -> [EventDomainModel] {
         logger.debug("Fetching Events", metadata: ["competition-id": .stringConvertible(competitionID)])
 
         let request = SearchRequest.events(forCompetition: competitionID, locale: locale)
@@ -40,7 +40,7 @@ final class EventSCANService: EventService {
             .sorted()
     }
 
-    func fetchEvents(forEventType eventTypeID: EventTypeDomainModel.ID,
+    func events(forEventType eventTypeID: EventTypeDomainModel.ID,
                      isInPlay: Bool? = nil) async throws -> [EventDomainModel] {
         var metadata: Logger.Metadata = [
             "event-type-id": .stringConvertible(eventTypeID)

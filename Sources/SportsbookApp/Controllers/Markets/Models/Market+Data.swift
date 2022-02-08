@@ -4,7 +4,7 @@ import Vapor
 extension Market {
 
     static func all(forEvent eventID: Int, on request: Request) async throws -> [Market] {
-        try await request.marketService.fetchMarkets(forEvent: eventID)
+        try await request.marketService.markets(forEvent: eventID)
             .map(Market.init)
     }
 
@@ -18,7 +18,7 @@ extension Market {
     }
 
     static func find(_ id: String, on request: Request) async throws -> Market? {
-        guard let market = try await request.marketService.fetchMarket(withID: id) else {
+        guard let market = try await request.marketService.market(withID: id) else {
             return nil
         }
 

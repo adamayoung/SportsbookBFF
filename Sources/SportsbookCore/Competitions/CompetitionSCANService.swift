@@ -14,7 +14,7 @@ final class CompetitionSCANService: CompetitionService {
         self.logger = logger
     }
 
-    func fetchCompetition(withID id: CompetitionDomainModel.ID) async throws -> CompetitionDomainModel? {
+    func competition(withID id: CompetitionDomainModel.ID) async throws -> CompetitionDomainModel? {
         logger.debug("Fetching Competition", metadata: ["id": .stringConvertible(id)])
 
         let request = SearchRequest.competition(withID: id, locale: locale)
@@ -26,7 +26,7 @@ final class CompetitionSCANService: CompetitionService {
         return CompetitionDomainModel(attachment: attachment)
     }
 
-    func fetchCompetitions(forEventType eventTypeID: EventTypeDomainModel.ID) async throws -> [CompetitionDomainModel] {
+    func competitions(forEventType eventTypeID: EventTypeDomainModel.ID) async throws -> [CompetitionDomainModel] {
         logger.debug("Fetching Competitions", metadata: ["event-type-id": .stringConvertible(eventTypeID)])
 
         let request = SearchRequest.competitions(forEventType: eventTypeID, locale: locale)

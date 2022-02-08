@@ -4,7 +4,7 @@ import Vapor
 extension Runner {
 
     static func all(forMarket marketID: String, on request: Request) async throws -> [Runner]? {
-        guard let market = try await request.marketService.fetchMarket(withID: marketID) else {
+        guard let market = try await request.marketService.market(withID: marketID) else {
             return nil
         }
 

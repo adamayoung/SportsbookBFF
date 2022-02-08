@@ -16,7 +16,7 @@ struct SMPGBPService: SMPService {
         self.logger = logger
     }
 
-    func marketPrices(forMarkets marketIds: [String], maxResults: Int?) async throws -> [MarketPriceDetails] {
+    func marketPrices(forMarkets marketIds: [String], maxResults: Int?) async throws -> [MarketPrice] {
         logger.debug("Fetching market prices from SMP service",
                      metadata: ["marketIDs": .stringConvertible(marketIds.joined(separator: ", "))])
 

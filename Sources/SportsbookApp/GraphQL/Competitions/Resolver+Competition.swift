@@ -8,7 +8,7 @@ extension Resolver {
                            arguments: CompetitionArguments) throws -> EventLoopFuture<[Competition]> {
         let promise = request.eventLoop.makePromise(of: [Competition].self)
         promise.completeWithTask {
-            guard let competition = try await request.competitionService.fetchCompetition(withID: arguments.id) else {
+            guard let competition = try await request.competitionService.competition(withID: arguments.id) else {
                 return []
             }
 

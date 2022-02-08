@@ -2,8 +2,8 @@ import Foundation
 
 public protocol CMSContentService {
 
-    func fetchFeatured() async throws -> [CMSNodeDomainModel]
+    func featured() async throws -> [CMSNodeDomainModel]
 
-    func fetchPopular() async throws -> [CMSNodeDomainModel]
+    func popular() async throws -> [CMSNodeDomainModel]
 
 }

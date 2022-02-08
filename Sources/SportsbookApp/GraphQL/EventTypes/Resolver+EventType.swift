@@ -11,11 +11,11 @@ extension Resolver {
             let filter = arguments.eventTypesFilter
 
             guard let id = arguments.id else {
-                return try await request.eventTypeService.fetchEventTypes(filter: filter)
+                return try await request.eventTypeService.eventTypes(filter: filter)
                     .map(EventType.init)
             }
 
-            guard let eventType = try await request.eventTypeService.fetchEventType(withID: id) else {
+            guard let eventType = try await request.eventTypeService.eventType(withID: id) else {
                 return []
             }
 

@@ -14,7 +14,7 @@ struct EventTypeSCANService: EventTypeService {
         self.logger = logger
     }
 
-    func fetchEventType(withID id: EventTypeDomainModel.ID) async throws -> EventTypeDomainModel? {
+    func eventType(withID id: EventTypeDomainModel.ID) async throws -> EventTypeDomainModel? {
         logger.debug("Fetching Event Type", metadata: ["id": .stringConvertible(id)])
 
         let request = SearchRequest.eventType(withID: id, locale: locale)
@@ -26,7 +26,7 @@ struct EventTypeSCANService: EventTypeService {
         return EventTypeDomainModel(attachment: attachment)
     }
 
-    func fetchEventTypes(filter: EventTypesFilterConvertible?) async throws -> [EventTypeDomainModel] {
+    func eventTypes(filter: EventTypesFilterConvertible?) async throws -> [EventTypeDomainModel] {
         logger.debug("Fetching Event Types")
 
         let request = SearchRequest.allEventTypes(locale: locale)

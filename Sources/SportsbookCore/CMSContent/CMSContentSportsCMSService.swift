@@ -12,19 +12,19 @@ struct CMSContentSportsCMSService: CMSContentService {
         self.logger = logger
     }
 
-    func fetchFeatured() async throws -> [CMSNodeDomainModel] {
-        try await fetchNodes(withTag: .featured)
+    func featured() async throws -> [CMSNodeDomainModel] {
+        try await nodes(withTag: .featured)
     }
 
-    func fetchPopular() async throws -> [CMSNodeDomainModel] {
-        try await fetchNodes(withTag: .popular)
+    func popular() async throws -> [CMSNodeDomainModel] {
+        try await nodes(withTag: .popular)
     }
 
 }
 
 extension CMSContentSportsCMSService {
 
-    private func fetchNodes(withTag tag: Tag) async throws -> [CMSNodeDomainModel] {
+    private func nodes(withTag tag: Tag) async throws -> [CMSNodeDomainModel] {
         try await cmsNodeService.fetchNodes(withTag: tag)
             .compactMap(CMSNodeDomainModel.init(node:))
             .filter(\.isSupported)

@@ -9,11 +9,11 @@ struct MockEventTypeService: EventTypeService {
         self.eventTypes = eventTypes
     }
 
-    func fetchEventType(withID id: EventTypeDomainModel.ID) async throws -> EventTypeDomainModel? {
+    func eventType(withID id: EventTypeDomainModel.ID) async throws -> EventTypeDomainModel? {
         eventTypes.first { $0.id == id }
     }
 
-    func fetchEventTypes(filter: EventTypesFilterConvertible?) async throws -> [EventTypeDomainModel] {
+    func eventTypes(filter: EventTypesFilterConvertible?) async throws -> [EventTypeDomainModel] {
         eventTypes
     }
 

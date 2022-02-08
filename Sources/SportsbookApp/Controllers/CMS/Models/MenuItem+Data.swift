@@ -4,12 +4,12 @@ import Vapor
 extension MenuItem {
 
     static func featured(on request: Request) async throws -> [MenuItem] {
-        try await request.cmsContentService.fetchFeatured()
+        try await request.cmsContentService.featured()
             .map(MenuItem.init)
     }
 
     static func popular(on request: Request) async throws -> [MenuItem] {
-        try await request.cmsContentService.fetchPopular()
+        try await request.cmsContentService.popular()
             .map(MenuItem.init)
     }
 
