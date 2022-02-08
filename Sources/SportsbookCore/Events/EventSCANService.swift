@@ -18,7 +18,7 @@ final class EventSCANService: EventService {
         logger.debug("Fetching Event", metadata: ["id": .stringConvertible(id)])
 
         let request = SearchRequest.event(withID: id, locale: locale)
-        let response = try await scanService.search(request: request)
+        let response = try await scanService.search(request)
         guard let attachment = response.attachments.events?.first?.value else {
             return nil
         }
@@ -30,7 +30,7 @@ final class EventSCANService: EventService {
         logger.debug("Fetching Events", metadata: ["competition-id": .stringConvertible(competitionID)])
 
         let request = SearchRequest.events(forCompetition: competitionID, locale: locale)
-        let response = try await scanService.search(request: request)
+        let response = try await scanService.search(request)
         guard let attachments = response.attachments.events?.values else {
             return []
         }
@@ -52,7 +52,7 @@ final class EventSCANService: EventService {
         logger.debug("Fetching Events", metadata: metadata)
 
         let request = SearchRequest.events(forEventType: eventTypeID, isInPlay: isInPlay, locale: locale)
-        let response = try await scanService.search(request: request)
+        let response = try await scanService.search(request)
         guard let attachments = response.attachments.events?.values else {
             return []
         }

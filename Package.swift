@@ -55,9 +55,7 @@ let package = Package(
             name: "SportsbookCore",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "FBR", package: "GBP"),
                 .product(name: "SCAN", package: "GBP"),
-                .product(name: "SIB", package: "GBP"),
                 .product(name: "SMP", package: "GBP"),
                 "SportsCMS"
             ]

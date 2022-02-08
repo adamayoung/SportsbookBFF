@@ -22,11 +22,26 @@ let package = Package(
         .target(
             name: "SportsCMS",
             dependencies: [
+                "SportsCMSCore",
                 .product(name: "Vapor", package: "vapor")
             ]
         ),
         .testTarget(
             name: "SportsCMSTests",
+            dependencies: [
+                "SportsCMS",
+                .product(name: "XCTVapor", package: "vapor")
+            ]
+        ),
+
+        .target(
+            name: "SportsCMSCore",
+            dependencies: [
+                .product(name: "Vapor", package: "vapor")
+            ]
+        ),
+        .testTarget(
+            name: "SportsCMSCoreTests",
             dependencies: [
                 "SportsCMS",
                 .product(name: "XCTVapor", package: "vapor")

@@ -1,6 +1,6 @@
 import Foundation
 
-public extension JSONDecoder {
+extension JSONDecoder {
 
     static var tla: JSONDecoder {
         let decoder = JSONDecoder()

@@ -11,9 +11,7 @@ let package = Package(
     ],
 
     products: [
-        .library(name: "FBR", targets: ["FBR"]),
         .library(name: "SCAN", targets: ["SCAN"]),
-        .library(name: "SIB", targets: ["SIB"]),
         .library(name: "SMP", targets: ["SMP"])
     ],
 
@@ -22,21 +20,6 @@ let package = Package(
     ],
 
     targets: [
-        .target(
-            name: "FBR",
-            dependencies: [
-                "GBPCore",
-                .product(name: "Vapor", package: "vapor")
-            ]
-        ),
-        .testTarget(
-            name: "FBRTests",
-            dependencies: [
-                "FBR",
-                .product(name: "XCTVapor", package: "vapor")
-            ]
-        ),
-
         .target(
             name: "SCAN",
             dependencies: [
@@ -53,21 +36,6 @@ let package = Package(
         ),
 
         .target(
-            name: "SIB",
-            dependencies: [
-                "GBPCore",
-                .product(name: "Vapor", package: "vapor")
-            ]
-        ),
-        .testTarget(
-            name: "SIBTests",
-            dependencies: [
-                "SIB",
-                .product(name: "XCTVapor", package: "vapor")
-            ]
-        ),
-
-        .target(
             name: "SMP",
             dependencies: [
                 "GBPCore",
@@ -77,8 +45,10 @@ let package = Package(
         .testTarget(
             name: "SMPTests",
             dependencies: [
-                "SMP",
-                .product(name: "XCTVapor", package: "vapor")
+                "SMP"
+            ],
+            resources: [
+                .process("Resources")
             ]
         ),
 

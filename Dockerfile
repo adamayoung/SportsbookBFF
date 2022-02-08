@@ -1,7 +1,7 @@
 # ================================
 # Build image
 # ================================
-FROM swift:5.5.1-focal as build
+FROM swift:5.5.2-focal as build
 
 # Install OS updates and, if needed, sqlite3
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
@@ -41,7 +41,7 @@ RUN [ -d /build/Resources ] && { mv /build/Resources ./Resources && chmod -R a-w
 # ================================
 # Run image
 # ================================
-FROM swift:5.5.1-focal-slim
+FROM swift:5.5.2-focal-slim
 
 # Make sure all system packages are up to date.
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \
@@ -60,7 +60,8 @@ COPY --from=build --chown=vapor:vapor /staging /app
 USER vapor:vapor
 
 # Let Docker bind to port 8080
-EXPOSE $PORT
+EXPOSE 8080
 
 # Start the Vapor service when the image is run, default to listening on 8080 in production environment
-ENTRYPOINT ["./SportsbookBFF", "serve", "--env", "production", "--hostname", "0.0.0.0", "--port", $PORT]
+ENTRYPOINT ["./SportsbookBFF"]
+CMD ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]

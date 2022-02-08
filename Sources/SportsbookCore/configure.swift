@@ -1,6 +1,4 @@
-import FBR
 import SCAN
-import SIB
 import SMP
 import SportsCMS
 import Vapor
@@ -31,16 +29,10 @@ public func configure(_ app: Application) throws {
     app.cmsContentService.use { request in
         CMSContentSportsCMSService(cmsNodeService: request.cmsNodeService, logger: request.logger)
     }
-
-    app.opportunityService.use { request in
-        OpportunitySIBService(sibService: request.sibService, logger: request.logger)
-    }
 }
 
 private func modules(_ app: Application) throws {
-    try FBR.configure(app)
     try SCAN.configure(app)
-    try SIB.configure(app)
     try SMP.configure(app)
     try SportsCMS.configure(app)
 }

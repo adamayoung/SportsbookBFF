@@ -1,6 +1,6 @@
 import Foundation
 
-public extension DateFormatter {
+extension DateFormatter {
 
     static var tla: DateFormatter {
         let dateFormatter = DateFormatter()

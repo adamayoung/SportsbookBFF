@@ -20,8 +20,8 @@ Table of Contents:
     - [Capabilities](#capabilities)
       - [Product Catalogue Navigation](#product-catalogue-navigation)
         - [SCAN - Sports Catalogue Navigator](#scan---sports-catalogue-navigator)
-      - [Bets Building and Placement](#bets-building-and-placement)
-        - [SIB - Sportsbook Imply Bets](#sib---sportsbook-imply-bets)
+      - [Product Catalogue](#product-catalogue)
+        - [SMP - Sportsbook Market Prices](#smp---product-catalogue)
 
 ## Capabilities
 
@@ -55,14 +55,6 @@ A faceted search has the following parts:
     * Range - The values assigned to the facet are those that fall within the date range.
     * Constrained - Only the values that match the supplied constaints are faceted.
     * Tree - Provide a sub facet.
-
-### Bets Building and Placement
-
-#### SIB - Sportsbook Imply Bets
-
-<https://github.com/Flutter-Global/cap-bet-building-and-placement/blob/master/api/sib/SIB-IDD.md>
-
-Construction of dynamic betting opportunities (including bet types like Same Game multiples).
 
 ### Product Catalogue
 
