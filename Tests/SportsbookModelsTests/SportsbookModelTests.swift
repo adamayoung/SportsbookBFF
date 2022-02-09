@@ -1,4 +1,4 @@
-@testable import SportsbookModelTests
+@testable import SportsbookModels
 import XCTest
 
 final class Test: XCTestCase {
