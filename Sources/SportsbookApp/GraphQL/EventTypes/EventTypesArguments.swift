@@ -1,5 +1,5 @@
 import Foundation
-import SportsbookCore
+import SportsbookModels
 
 struct EventTypesArguments: Codable {
 

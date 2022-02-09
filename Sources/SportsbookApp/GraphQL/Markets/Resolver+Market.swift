@@ -1,5 +1,5 @@
 import Graphiti
-import SportsbookCore
+import SportsbookModels
 import Vapor
 
 extension Resolver {
@@ -7,11 +7,11 @@ extension Resolver {
     func fetchMarkets(request: Request, arguments: MarketArguments) throws -> EventLoopFuture<[Market]> {
         let promise = request.eventLoop.makePromise(of: [Market].self)
         promise.completeWithTask {
-            guard let market = try await request.marketService.market(withID: arguments.id) else {
+            guard let market = try await Market.find(arguments.id, on: request) else {
                 return []
             }
 
-            return [Market(market: market)]
+            return [market]
         }
 
         return promise.futureResult

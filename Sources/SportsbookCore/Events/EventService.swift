@@ -7,7 +7,7 @@ public protocol EventService {
     func events(forCompetition competitionID: CompetitionDomainModel.ID) async throws -> [EventDomainModel]
 
     func events(forEventType eventTypeID: EventTypeDomainModel.ID,
-                     isInPlay: Bool?) async throws -> [EventDomainModel]
+                isInPlay: Bool?) async throws -> [EventDomainModel]
 
 }
 

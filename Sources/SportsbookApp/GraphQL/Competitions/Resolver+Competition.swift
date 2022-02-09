@@ -1,5 +1,5 @@
 import Graphiti
-import SportsbookCore
+import SportsbookModels
 import Vapor
 
 extension Resolver {
@@ -8,11 +8,11 @@ extension Resolver {
                            arguments: CompetitionArguments) throws -> EventLoopFuture<[Competition]> {
         let promise = request.eventLoop.makePromise(of: [Competition].self)
         promise.completeWithTask {
-            guard let competition = try await request.competitionService.competition(withID: arguments.id) else {
+            guard let competition = try await Competition.find(arguments.id, on: request) else {
                 return []
             }
 
-            return [Competition(competition: competition)]
+            return [competition]
         }
 
         return promise.futureResult

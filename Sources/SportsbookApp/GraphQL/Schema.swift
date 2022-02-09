@@ -1,4 +1,5 @@
 import Graphiti
+import SportsbookModels
 import Vapor
 
 // swiftlint:disable function_body_length

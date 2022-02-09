@@ -23,6 +23,7 @@ identifier_name:
     error: 4
   max_length: 60
   excluded:
+    - all
     - api
     - app
     - avb

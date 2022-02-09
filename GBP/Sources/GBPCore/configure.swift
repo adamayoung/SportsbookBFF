@@ -9,7 +9,6 @@ public func configure(_ app: Application) throws {
 
     isConfigured = true
 
-
     guard let tlaAPIKey = Environment.get(.tlaAPIKey) else {
         var abort = Abort(.internalServerError)
         abort.reason = "Missing \(Environment.Key.tlaAPIKey) environment variable"

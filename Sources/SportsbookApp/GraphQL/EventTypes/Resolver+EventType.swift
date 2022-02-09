@@ -1,5 +1,5 @@
 import Graphiti
-import SportsbookCore
+import SportsbookModels
 import Vapor
 
 extension Resolver {
@@ -11,17 +11,15 @@ extension Resolver {
             let filter = arguments.eventTypesFilter
 
             guard let id = arguments.id else {
-                return try await request.eventTypeService.eventTypes(filter: filter)
-                    .map(EventType.init)
+                return try await EventType.all(filter: filter, on: request)
             }
 
-            guard let eventType = try await request.eventTypeService.eventType(withID: id) else {
+            guard let eventType = try await EventType.find(id, on: request) else {
                 return []
             }
 
             return [eventType]
-                .filter(filter)
-                .map(EventType.init)
+//                .filter(filter)
         }
 
         return promise.futureResult

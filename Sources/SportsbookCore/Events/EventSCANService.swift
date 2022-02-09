@@ -41,7 +41,7 @@ final class EventSCANService: EventService {
     }
 
     func events(forEventType eventTypeID: EventTypeDomainModel.ID,
-                     isInPlay: Bool? = nil) async throws -> [EventDomainModel] {
+                isInPlay: Bool? = nil) async throws -> [EventDomainModel] {
         var metadata: Logger.Metadata = [
             "event-type-id": .stringConvertible(eventTypeID)
         ]

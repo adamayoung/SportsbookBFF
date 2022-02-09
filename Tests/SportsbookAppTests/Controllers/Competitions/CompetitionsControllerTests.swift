@@ -1,5 +1,6 @@
 @testable import SportsbookApp
 import SportsbookCore
+import SportsbookModels
 import XCTVapor
 
 final class CompetitionsControllerTests: XCTestCase {

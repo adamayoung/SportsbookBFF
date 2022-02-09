@@ -37,7 +37,7 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "GraphQLKit", package: "graphql-kit"),
                 .product(name: "GraphiQLVapor", package: "graphiql-vapor"),
-                "SportsbookCore"
+                "SportsbookModels"
             ],
             swiftSettings: [
                 .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
@@ -47,6 +47,21 @@ let package = Package(
             name: "SportsbookAppTests",
             dependencies: [
                 .target(name: "SportsbookApp"),
+                .product(name: "XCTVapor", package: "vapor")
+            ]
+        ),
+
+        .target(
+            name: "SportsbookModels",
+            dependencies: [
+                .product(name: "Vapor", package: "vapor"),
+                "SportsbookCore"
+            ]
+        ),
+        .testTarget(
+            name: "SportsbookModelsTests",
+            dependencies: [
+                "SportsbookModels",
                 .product(name: "XCTVapor", package: "vapor")
             ]
         ),
