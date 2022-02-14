@@ -6,28 +6,28 @@ import Vapor
 public func configure(_ app: Application) throws {
     try modules(app)
 
-    app.competitionService.use { request in
-        CompetitionSCANService(scanService: request.scanService, locale: request.locale, logger: request.logger)
+    app.competitionService.use {
+        CompetitionSCANService(scanService: $0.scanService, locale: $0.locale, logger: $0.logger)
     }
 
-    app.eventService.use { request in
-        EventSCANService(scanService: request.scanService, locale: request.locale, logger: request.logger)
+    app.eventService.use {
+        EventSCANService(scanService: $0.scanService, locale: $0.locale, logger: $0.logger)
     }
 
-    app.eventTypeService.use { request in
-        EventTypeSCANService(scanService: request.scanService, locale: request.locale, logger: request.logger)
+    app.eventTypeService.use {
+        EventTypeSCANService(scanService: $0.scanService, locale: $0.locale, logger: $0.logger)
     }
 
-    app.marketService.use { request in
-        MarketSCANService(scanService: request.scanService, locale: request.locale, logger: request.logger)
+    app.marketService.use {
+        MarketSCANService(scanService: $0.scanService, locale: $0.locale, logger: $0.logger)
     }
 
-    app.marketPriceService.use { request in
-        MarketPriceSMPService(smpService: request.smpService, logger: request.logger)
+    app.marketPriceService.use {
+        MarketPriceSMPService(smpService: $0.smpService, logger: $0.logger)
     }
 
-    app.cmsContentService.use { request in
-        CMSContentSportsCMSService(cmsNodeService: request.cmsNodeService, logger: request.logger)
+    app.cmsContentService.use {
+        CMSContentSportsCMSService(cmsNodeService: $0.cmsNodeService, logger: $0.logger)
     }
 }
 

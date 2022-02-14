@@ -7,7 +7,7 @@ public struct SearchFilter: Equatable, Hashable, Codable {
     public let eventIds: [Int]?
     public let marketIds: [String]?
     public let competitionIds: [Int]?
-    public let productTypes: [ProductType]?
+    public let productTypes: [SearchFilter.ProductType]?
     public let bspOnly: Bool?
     public let turnInPlayEnabled: Bool?
     public let inPlayOnly: Bool?
@@ -19,10 +19,10 @@ public struct SearchFilter: Equatable, Hashable, Codable {
     public let marketStartingAfter: Date?
     public let marketStartingBefore: Date?
     public let contentGroup: ContentGroup
-    public let selectBy: FacetSelectBy?
+    public let selectBy: SearchFilter.FacetSelectBy?
     public let startRecord: Int?
     public let maxResults: Int?
-    public let attachments: [AttachmentType]?
+    public let attachments: [SearchFilter.AttachmentType]?
     public let meetingIds: [String]?
     public let raceIds: [String]?
     public let marketLevels: [MarketLevel]?
@@ -36,16 +36,18 @@ public struct SearchFilter: Equatable, Hashable, Codable {
     public let marketType: [String]?
 
     public init(exchangeIds: [Int]? = nil, eventTypeIds: [Int]? = nil, eventIds: [Int]? = nil,
-                marketIds: [String]? = nil, competitionIds: [Int]? = nil, productTypes: [ProductType] = .default,
-                bspOnly: Bool? = nil, turnInPlayEnabled: Bool? = nil, inPlayOnly: Bool? = nil, sgmOnly: Bool? = nil,
+                marketIds: [String]? = nil, competitionIds: [Int]? = nil,
+                productTypes: [SearchFilter.ProductType] = .default, bspOnly: Bool? = nil,
+                turnInPlayEnabled: Bool? = nil, inPlayOnly: Bool? = nil, sgmOnly: Bool? = nil,
                 marketBettingTypes: [MarketBettingType]? = nil, marketCountries: [String]? = nil,
                 marketTypeCodes: [String]? = nil, venues: [String]? = nil, marketStartingAfter: Date? = nil,
                 marketStartingBefore: Date? = nil, contentGroup: ContentGroup = .default,
-                selectBy: FacetSelectBy? = nil, startRecord: Int? = nil, maxResults: Int? = nil,
-                attachments: [AttachmentType]? = nil, meetingIds: [String]? = nil, raceIds: [String]? = nil,
-                marketLevels: [MarketLevel]? = nil, upperLevelEventIds: [Int]? = nil, videoAvailable: Bool? = nil,
-                onTv: Bool? = nil, tradedVolumeFrom: Int? = nil, raceClasses: [String]? = nil,
-                numberOfWinners: [Int]? = nil, raceTypes: [String]? = nil, marketType: [String]? = nil) {
+                selectBy: SearchFilter.FacetSelectBy? = nil, startRecord: Int? = nil, maxResults: Int? = nil,
+                attachments: [SearchFilter.AttachmentType]? = nil, meetingIds: [String]? = nil,
+                raceIds: [String]? = nil, marketLevels: [MarketLevel]? = nil, upperLevelEventIds: [Int]? = nil,
+                videoAvailable: Bool? = nil, onTv: Bool? = nil, tradedVolumeFrom: Int? = nil,
+                raceClasses: [String]? = nil, numberOfWinners: [Int]? = nil, raceTypes: [String]? = nil,
+                marketType: [String]? = nil) {
         self.exchangeIds = exchangeIds
         self.eventTypeIds = eventTypeIds
         self.eventIds = eventIds
@@ -78,6 +80,60 @@ public struct SearchFilter: Equatable, Hashable, Codable {
         self.numberOfWinners = numberOfWinners
         self.raceTypes = raceTypes
         self.marketType = marketType
+    }
+
+}
+
+extension SearchFilter {
+
+    public enum AttachmentType: String, CaseIterable, Equatable, Hashable, Codable {
+        case eventType = "EVENT_TYPE"
+        case competition = "COMPETITION"
+        case event = "EVENT"
+        case market = "MARKET"
+        case sportsbookMarket = "SPORTSBOOK_MARKET"
+        case meeting = "MEETING"
+        case race = "RACE"
+        case marketLite = "MARKET_LITE"
+        case unknown = "UNKNOWN"
+
+        public init(from decoder: Decoder) throws {
+            self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
+        }
+    }
+
+    public enum FacetSelectBy: String, CaseIterable, Equatable, Hashable, Codable {
+        case minimumTraded = "MINIMUM_TRADED"
+        case maximumTraded = "MAXIMUM_TRADED"
+        case minimumAvailable = "MINIMUM_AVAILABLE"
+        case maximumAvailable = "MAXIMUM_AVAILABLE"
+        case firstToStart = "FIRST_TO_START"
+        case lastToStart = "LAST_TO_START"
+        case rank = "RANK"
+        case rankFastLink = "RANK_FAST_LINK"
+        case rankSlowLink = "RANK_SLOW_LINK"
+        case firstToStartAZ = "FIRST_TO_START_AZ"
+        case unknown = "UNKNOWN"
+
+        public init(from decoder: Decoder) throws {
+            self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
+        }
+    }
+
+    public enum ProductType: String, Equatable, Hashable, Codable {
+        case sportsbook = "SPORTSBOOK"
+        case exchange = "EXCHANGE"
+        case tote = "TOTE"
+
+        public static let `default`: ProductType = .sportsbook
+    }
+
+}
+
+extension Collection where Element == SearchFilter.ProductType {
+
+    public static var `default`: [SearchFilter.ProductType] {
+        [.default]
     }
 
 }

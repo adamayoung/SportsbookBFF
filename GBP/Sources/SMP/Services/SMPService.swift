@@ -9,13 +9,13 @@ public protocol SMPService {
 
 }
 
-public extension SMPService {
+extension SMPService {
 
-    func marketPrices(forMarkets marketIds: [String], maxResults: Int? = nil) async throws -> [MarketPrice] {
+    public func marketPrices(forMarkets marketIds: [String], maxResults: Int? = nil) async throws -> [MarketPrice] {
         try await marketPrices(forMarkets: marketIds, maxResults: maxResults)
     }
 
-    func marketPrices(forMarket marketId: String, maxResults: Int? = nil) async throws -> MarketPrice? {
+    public func marketPrices(forMarket marketId: String, maxResults: Int? = nil) async throws -> MarketPrice? {
         try await marketPrices(forMarkets: [marketId]).first
     }
 

@@ -8,9 +8,9 @@ public protocol EventTypeService {
 
 }
 
-public extension EventTypeService {
+extension EventTypeService {
 
-    func fetchEventTypes() async throws -> [EventTypeDomainModel] {
+    public func fetchEventTypes() async throws -> [EventTypeDomainModel] {
         try await eventTypes(filter: nil)
     }
 

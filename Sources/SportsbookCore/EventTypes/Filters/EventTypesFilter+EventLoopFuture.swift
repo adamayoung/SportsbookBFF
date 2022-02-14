@@ -1,8 +1,8 @@
 import Foundation
 
-public extension Array where Element == EventTypeDomainModel {
+extension Array where Element == EventTypeDomainModel {
 
-    func filter(_ eventTypesFilter: EventTypesFilter?) -> [EventTypeDomainModel] {
+    public func filter(_ eventTypesFilter: EventTypesFilter?) -> [EventTypeDomainModel] {
         guard let eventTypesFilter = eventTypesFilter else {
             return self
         }

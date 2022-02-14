@@ -54,6 +54,7 @@ extension Runner.RunnerResult.RunnerResultType {
         case .line: self = .line
         case .score: self = .score
         case .noGoal: self = .noGoal
+        case .unknown: self = .unknown
         }
     }
 

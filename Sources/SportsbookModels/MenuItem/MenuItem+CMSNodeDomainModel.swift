@@ -22,6 +22,7 @@ extension MenuItem.MenuItemType {
         case .staticBanner: self = .staticBanner
         case .dynamicBanner: self = .dynamicBanner
         case .marketType: self = .marketType
+        case .unknown: self = .unknown
         }
     }
 

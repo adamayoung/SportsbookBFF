@@ -1,19 +1,20 @@
 import SportsbookCore
 import Vapor
 
-public extension Event {
+extension Event {
 
-    static func all(forEventType eventTypeID: Int, isInPlay: Bool?, on request: Request) async throws -> [Event] {
+    public static func all(forEventType eventTypeID: Int, isInPlay: Bool?,
+                           on request: Request) async throws -> [Event] {
         try await request.eventService.events(forEventType: eventTypeID, isInPlay: isInPlay)
             .map(Event.init)
     }
 
-    static func all(forCompetition competitionID: Int, on request: Request) async throws -> [Event] {
+    public static func all(forCompetition competitionID: Int, on request: Request) async throws -> [Event] {
         try await request.eventService.events(forCompetition: competitionID)
             .map(Event.init)
     }
 
-    static func all(forCompetition competitionID: Int, on request: Request) -> EventLoopFuture<[Event]> {
+    public static func all(forCompetition competitionID: Int, on request: Request) -> EventLoopFuture<[Event]> {
         let promise = request.eventLoop.makePromise(of: [Event].self)
         promise.completeWithTask {
             try await all(forCompetition: competitionID, on: request)
@@ -22,12 +23,12 @@ public extension Event {
         return promise.futureResult
     }
 
-    static func find(_ id: Int, on request: Request) async throws -> Event? {
+    public static func find(_ id: Int, on request: Request) async throws -> Event? {
         try await request.eventService.event(withID: id)
             .map(Event.init)
     }
 
-    static func find(forMarket marketID: String, on request: Request) async throws -> Event? {
+    public static func find(forMarket marketID: String, on request: Request) async throws -> Event? {
         guard
             let market = try await request.marketService.market(withID: marketID),
             let event = try await request.eventService.event(withID: market.eventID)
@@ -40,13 +41,13 @@ public extension Event {
 
 }
 
-public extension Event {
+extension Event {
 
-    func markets(on request: Request) async throws -> [Market] {
-        try await Market.all(forEvent: id, on: request)
+    public func markets(marketType: String? = nil, on request: Request) async throws -> [Market] {
+        try await Market.all(forEvent: id, marketType: marketType, on: request)
     }
 
-    func competition(on request: Request) async throws -> Competition? {
+    public func competition(on request: Request) async throws -> Competition? {
         guard let competitionID = self.competitionID else {
             return nil
         }
@@ -54,7 +55,7 @@ public extension Event {
         return try await Competition.find(competitionID, on: request)
     }
 
-    func eventType(on request: Request) async throws -> EventType? {
+    public func eventType(on request: Request) async throws -> EventType? {
         try await EventType.find(eventTypeID, on: request)
     }
 

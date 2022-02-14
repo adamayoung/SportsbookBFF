@@ -1,12 +1,12 @@
 import Vapor
 
-public extension Application {
+extension Application {
 
     private struct SCANServiceKey: StorageKey {
         typealias Value = SCANServiceFactory
     }
 
-    var scanService: SCANServiceFactory {
+    public var scanService: SCANServiceFactory {
         get {
             self.storage[SCANServiceKey.self] ?? .init()
         }
@@ -17,10 +17,10 @@ public extension Application {
 
 }
 
-public extension Request {
+extension Request {
 
     /// Sports Catalogue Navigator service.
-    var scanService: SCANService {
+    public var scanService: SCANService {
         self.application.scanService.make!(self)
     }
 

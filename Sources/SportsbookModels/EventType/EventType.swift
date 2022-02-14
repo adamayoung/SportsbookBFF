@@ -14,13 +14,13 @@ public struct EventType: Identifiable, Equatable, Codable {
 
 }
 
-public extension EventType {
+extension EventType {
 
-    enum Category: String, CaseIterable, Codable {
-        case avb = "AVB"
-        case outright = "OUTRIGHT"
-        case racingNew = "RACING_NEW"
-        case racingOld = "RACING_OLD"
+    public enum Category: String, CaseIterable, Codable {
+        case avb
+        case outright
+        case racingNew
+        case racingOld
     }
 
 }

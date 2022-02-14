@@ -25,7 +25,7 @@ extension CMSNodeDomainModel {
 
 extension CMSNodeDomainModel.NodeType {
 
-    init(type: CMSNodeType) {
+    init(type: CMSNode.CMSNodeType) {
         switch type {
         case .eventType: self = .eventType
         case .competition: self = .competition
@@ -33,6 +33,7 @@ extension CMSNodeDomainModel.NodeType {
         case .staticBanner: self = .staticBanner
         case .dynamicBanner: self = .dynamicBanner
         case .marketType: self = .marketType
+        case .unknown: self = .unknown
         }
     }
 

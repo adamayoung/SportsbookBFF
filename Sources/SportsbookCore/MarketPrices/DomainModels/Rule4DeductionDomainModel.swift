@@ -25,9 +25,9 @@ public struct Rule4DeductionDomainModel: Equatable, Hashable {
 
 }
 
-public extension Rule4DeductionDomainModel {
+extension Rule4DeductionDomainModel {
 
-    enum PriceType: CaseIterable {
+    public enum PriceType: CaseIterable {
         case livePrice
         case startingPrice
         case unknown

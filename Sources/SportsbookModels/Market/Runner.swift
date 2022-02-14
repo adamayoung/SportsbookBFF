@@ -24,12 +24,10 @@ public struct Runner: Equatable, Content {
 public extension Runner {
 
     enum RunnerStatus: String, CaseIterable, Equatable, Codable {
-
-        case active = "ACTIVE"
-        case suspended = "SUSPENDED"
-        case removed = "REMOVED"
-        case unknown = "UNKNOWN"
-
+        case active
+        case suspended
+        case removed
+        case unknown
     }
 
     struct RunnerResult: Equatable, Codable {
@@ -47,16 +45,15 @@ public extension Runner {
 public extension Runner.RunnerResult {
 
     enum RunnerResultType: String, CaseIterable, Equatable, Codable {
-
-        case home = "HOME"
-        case away = "AWAY"
-        case draw = "DRAW"
-        case over = "OVER"
-        case under = "UNDER"
-        case line = "LINE"
-        case score = "SCORE"
-        case noGoal = "NO_GOAL"
-
+        case home
+        case away
+        case draw
+        case over
+        case under
+        case line
+        case score
+        case noGoal
+        case unknown
     }
 
 }

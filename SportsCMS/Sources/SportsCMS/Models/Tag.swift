@@ -1,15 +1,19 @@
 import Foundation
 
-public struct Tag: CustomStringConvertible, RawRepresentable, Equatable {
+public struct Tag: CustomStringConvertible, Equatable {
 
-    public let rawValue: String
+    private let name: String
 
-    public var description: String {
-        rawValue
+    public init(_ name: String) {
+        self.name = name
     }
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
+    public init(stringLiteral: String) {
+        self.init(stringLiteral)
+    }
+
+    public var description: String {
+        return name
     }
 
 }

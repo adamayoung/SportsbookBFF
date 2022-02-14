@@ -15,7 +15,7 @@ public func configure(_ app: Application) throws {
         throw abort
     }
 
-    app.gbpService.use { request in
-        GBPHTTPClient(client: request.client, apiKey: tlaAPIKey, decoder: .tla, logger: request.logger)
+    app.gbpService.use {
+        GBPHTTPClient(client: $0.client, apiKey: tlaAPIKey, decoder: .tla, logger: $0.logger)
     }
 }

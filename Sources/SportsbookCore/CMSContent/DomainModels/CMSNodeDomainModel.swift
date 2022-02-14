@@ -43,6 +43,7 @@ extension CMSNodeDomainModel {
         case staticBanner
         case dynamicBanner
         case marketType
+        case unknown
     }
 
 }

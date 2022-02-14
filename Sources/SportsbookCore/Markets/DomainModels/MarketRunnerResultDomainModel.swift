@@ -21,6 +21,7 @@ extension MarketRunnerResultDomainModel {
         case line
         case score
         case noGoal
+        case unknown
     }
 
 }

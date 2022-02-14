@@ -3,7 +3,6 @@ import Foundation
 public struct SearchResponse: Codable {
 
     public let facets: [FacetResultNode]
-//    public let results: [AttachmentKey]
     public let attachments: Attachments
     public let actualSearchTerm: String?
 

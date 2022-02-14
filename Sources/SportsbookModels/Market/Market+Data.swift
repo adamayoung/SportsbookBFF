@@ -3,18 +3,15 @@ import Vapor
 
 public extension Market {
 
-    static func all(forEvent eventID: Int, on request: Request) async throws -> [Market] {
+    static func all(forEvent eventID: Int, marketType: String? = nil, on request: Request) async throws -> [Market] {
         try await request.marketService.markets(forEvent: eventID)
-            .map(Market.init)
-    }
+            .compactMap {
+                guard let marketType = marketType else {
+                    return Market(market: $0)
+                }
 
-    static func all(forEvent eventID: Int, on request: Request) -> EventLoopFuture<[Market]> {
-        let promise = request.eventLoop.makePromise(of: [Market].self)
-        promise.completeWithTask {
-            try await all(forEvent: eventID, on: request)
-        }
-
-        return promise.futureResult
+                return $0.marketType == marketType ? Market(market: $0) : nil
+            }
     }
 
     static func find(_ id: String, on request: Request) async throws -> Market? {

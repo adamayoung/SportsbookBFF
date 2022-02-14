@@ -5,7 +5,7 @@ import XCTest
 final class TagValuesTests: XCTestCase {
 
     func testFeaturedReturnsTag() {
-        let expectedResult = Tag(rawValue: "featured-1734717884")
+        let expectedResult = Tag("featured")
 
         let result = Tag.featured
 

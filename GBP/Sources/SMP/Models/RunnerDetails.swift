@@ -15,15 +15,16 @@ public struct RunnerDetails: Equatable, Hashable, Codable {
     /// The handicap applied to the selection, if on an asian-style market.
     public let handicap: Decimal?
     /// The current state of a runner, e.g. ACTIVE or SUSPENDED
-    public let runnerStatus: RunnerStatus
+    public let runnerStatus: RunnerDetails.RunnerStatus
     /// If present, indicates the type of price override applied to the runner
-    public let priceOverlay: PriceOverlay?
+    public let priceOverlay: RunnerDetails.PriceOverlay?
     /// The scope defines in which scope a runner is available for betting based on the market's in-play status. If present betting will be restricted to the indicated scope.
-    public let runnerScope: RunnerScope?
+    public let runnerScope: RunnerDetails.RunnerScope?
 
     public init(selectionId: Int, runnerOrder: Int, winRunnerOdds: Odds? = nil, eachwayRunnerOdds: Odds? = nil,
-                previousWinRunnerOdds: [Odds]? = nil, handicap: Decimal? = nil, runnerStatus: RunnerStatus,
-                priceOverlay: PriceOverlay? = nil, runnerScope: RunnerScope? = nil) {
+                previousWinRunnerOdds: [Odds]? = nil, handicap: Decimal? = nil,
+                runnerStatus: RunnerDetails.RunnerStatus, priceOverlay: RunnerDetails.PriceOverlay? = nil,
+                runnerScope: RunnerDetails.RunnerScope? = nil) {
         self.selectionId = selectionId
         self.runnerOrder = runnerOrder
         self.winRunnerOdds = winRunnerOdds
@@ -33,6 +34,51 @@ public struct RunnerDetails: Equatable, Hashable, Codable {
         self.runnerStatus = runnerStatus
         self.priceOverlay = priceOverlay
         self.runnerScope = runnerScope
+    }
+
+}
+
+extension RunnerDetails {
+
+    public enum RunnerStatus: String, CaseIterable, Codable {
+        /// Active.
+        case active = "ACTIVE"
+        /// Suspended.
+        case suspended = "SUSPENDED"
+        /// Removed.
+        case removed = "REMOVED"
+        /// Unknown.
+        case unknown = "UNKNOWN"
+
+        public init(from decoder: Decoder) throws {
+            self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
+        }
+    }
+
+    public enum PriceOverlay: String, CaseIterable, Codable {
+        /// Enhanced Price Promotion.
+        case enhancedPricePromotion = "ENHANCED_PRICE_PROMOTION"
+        /// Unknown.
+        case unknown = "UNKNOWN"
+
+        public init(from decoder: Decoder) throws {
+            self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
+        }
+    }
+
+    public enum RunnerScope: String, CaseIterable, Codable {
+        /// Runner is available for betting when preplay only.
+        case preplay = "PREPLAY"
+        /// Runner is available for betting when inplay only.
+        case inplay = "INPLAY"
+        /// Runner is available for betting when both preplay and inplay
+        case all = "ALL"
+        /// Unknown.
+        case unknown = "UNKNOWN"
+
+        public init(from decoder: Decoder) throws {
+            self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
+        }
     }
 
 }

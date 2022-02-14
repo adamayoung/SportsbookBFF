@@ -5,12 +5,12 @@ public struct MenuItem: Identifiable, Equatable, Codable {
 
     public let id: Int
     public let name: String
-    public let type: MenuItemType
+    public let type: MenuItem.MenuItemType
     public let eventTypeID: Int
     public let eventTypeCategory: EventType.Category?
     public let weight: Int
 
-    public init(id: Int, name: String, type: MenuItemType, eventTypeID: Int,
+    public init(id: Int, name: String, type: MenuItem.MenuItemType, eventTypeID: Int,
                 eventTypeCategory: EventType.Category? = nil, weight: Int) {
         self.id = id
         self.name = name
@@ -24,13 +24,14 @@ public struct MenuItem: Identifiable, Equatable, Codable {
 
 public extension MenuItem {
 
-    enum MenuItemType: String, Codable {
-        case eventType = "EVENT_TYPE"
-        case competition = "COMPETITION"
-        case event = "EVENT"
-        case staticBanner = "STATIC_BANNER"
-        case dynamicBanner = "DYNAMIC_BANNER"
-        case marketType = "MARKET_TYPE"
+    enum MenuItemType: String, CaseIterable, Codable {
+        case eventType
+        case competition
+        case event
+        case staticBanner
+        case dynamicBanner
+        case marketType
+        case unknown
     }
 
 }

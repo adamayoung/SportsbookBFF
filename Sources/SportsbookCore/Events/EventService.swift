@@ -11,9 +11,9 @@ public protocol EventService {
 
 }
 
-public extension EventService {
+extension EventService {
 
-    func events(forEventType eventTypeID: EventTypeDomainModel.ID) async throws -> [EventDomainModel] {
+    public func events(forEventType eventTypeID: EventTypeDomainModel.ID) async throws -> [EventDomainModel] {
         try await events(forEventType: eventTypeID, isInPlay: nil)
     }
 

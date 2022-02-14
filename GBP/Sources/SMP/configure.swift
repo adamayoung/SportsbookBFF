@@ -12,8 +12,8 @@ public func configure(_ app: Application) throws {
 
     let smpConfiguration = SMPConfiguration(baseURL: smpBaseURL)
 
-    app.smpService.use { request in
-        SMPGBPService(configuration: smpConfiguration, client: request.gbpClient, logger: request.logger)
+    app.smpService.use {
+        SMPGBPService(configuration: smpConfiguration, client: $0.gbpClient, logger: $0.logger)
     }
 }
 

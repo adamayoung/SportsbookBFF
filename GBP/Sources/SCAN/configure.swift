@@ -12,8 +12,8 @@ public func configure(_ app: Application) throws {
 
     let scanConfiguration = SCANConfiguration(baseURL: scanBaseURL)
 
-    app.scanService.use { request in
-        SCANGBPService(configuration: scanConfiguration, client: request.gbpClient, logger: request.logger)
+    app.scanService.use {
+        SCANGBPService(configuration: scanConfiguration, client: $0.gbpClient, logger: $0.logger)
     }
 }
 

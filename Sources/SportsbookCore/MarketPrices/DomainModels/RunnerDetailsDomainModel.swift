@@ -17,15 +17,15 @@ public struct RunnerDetailsDomainModel: Identifiable, Equatable, Hashable {
     /// The handicap applied to the selection, if on an asian-style market.
     public let handicap: Decimal?
     /// The current state of a runner, e.g. ACTIVE or SUSPENDED
-    public let status: Status
+    public let status: RunnerDetailsDomainModel.Status
     /// If present, indicates the type of price override applied to the runner
-    public let priceOverlay: PriceOverlay?
+    public let priceOverlay: RunnerDetailsDomainModel.PriceOverlay?
     /// The scope defines in which scope a runner is available for betting based on the market's in-play status. If present betting will be restricted to the indicated scope.
-    public let scope: Scope?
+    public let scope: RunnerDetailsDomainModel.Scope?
 
     public init(selectionID: Int, order: Int, winOdds: OddsDomainModel? = nil, eachwayOdds: OddsDomainModel? = nil,
                 previousWinOdds: [OddsDomainModel]? = nil, handicap: Decimal? = nil,
-                status: RunnerDetailsDomainModel.Status, priceOverlay: PriceOverlay? = nil,
+                status: RunnerDetailsDomainModel.Status, priceOverlay: RunnerDetailsDomainModel.PriceOverlay? = nil,
                 scope: RunnerDetailsDomainModel.Scope? = nil) {
         self.selectionID = selectionID
         self.order = order
@@ -40,9 +40,9 @@ public struct RunnerDetailsDomainModel: Identifiable, Equatable, Hashable {
 
 }
 
-public extension RunnerDetailsDomainModel {
+extension RunnerDetailsDomainModel {
 
-    enum Status: CaseIterable {
+    public enum Status: CaseIterable {
         /// Active.
         case active
         /// Suspended.
@@ -53,7 +53,14 @@ public extension RunnerDetailsDomainModel {
         case unknown
     }
 
-    enum Scope: CaseIterable {
+    public enum PriceOverlay: CaseIterable {
+        /// Enhanced Price Promotion.
+        case enhancedPricePromotion
+        /// Unknown.
+        case unknown
+    }
+
+    public enum Scope: CaseIterable {
         /// Runner is available for betting when preplay only.
         case prePlay
         /// Runner is available for betting when inplay only.

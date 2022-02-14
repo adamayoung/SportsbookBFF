@@ -23,7 +23,8 @@ struct NodeCMSService: NodeService {
 
         let dateFormatter = ISO8601DateFormatter()
         let path = "/nodes?tag=\(tag)&live-at-date=\(dateFormatter.string(from: liveAtDate))"
-        return try await client.get(path, configuration: configuration)
+        let nodes: [CMSNode] = try await client.get(path, configuration: configuration)
+        return nodes
     }
 
 }

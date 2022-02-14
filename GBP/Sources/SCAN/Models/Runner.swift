@@ -31,7 +31,7 @@ extension Runner {
         case unknown = "UNKNOWN"
 
         public init(from decoder: Decoder) throws {
-            self = try RunnerStatus(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
+            self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
         }
 
     }
@@ -60,6 +60,11 @@ extension Runner.RunnerResult {
         case line = "LINE"
         case score = "SCORE"
         case noGoal = "NO_GOAL"
+        case unknown = "UNKNOWN"
+
+        public init(from decoder: Decoder) throws {
+            self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
+        }
 
     }
 

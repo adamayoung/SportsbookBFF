@@ -13,16 +13,11 @@ extension Rule4DeductionDomainModel {
 
 extension Rule4DeductionDomainModel.PriceType {
 
-    init(priceType: SMP.PriceType) {
+    init(priceType: Rule4Deduction.PriceType) {
         switch priceType {
-        case .livePrice:
-            self = .livePrice
-
-        case .startingPrice:
-            self = .startingPrice
-
-        case .unknown:
-            self = .unknown
+        case .livePrice: self = .livePrice
+        case .startingPrice: self = .startingPrice
+        case .unknown: self = .unknown
         }
     }
 

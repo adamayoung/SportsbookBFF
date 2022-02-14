@@ -26,5 +26,10 @@ public enum FacetType: String, Equatable, Hashable, Codable {
     case raceClass = "RACE_CLASS"
     case numberOfWinners = "NUMBER_OF_WINNERS"
     case raceType = "RACE_TYPE"
+    case unknown = "UNKNOWN"
+
+    public init(from decoder: Decoder) throws {
+        self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
+    }
 
 }

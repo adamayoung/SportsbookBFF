@@ -12,7 +12,7 @@ extension MarketRunnerResultDomainModel {
 
 extension MarketRunnerResultDomainModel.ResultType {
 
-    init?(type: SCAN.Runner.RunnerResult.RunnerResultType?) {
+    init?(type: Runner.RunnerResult.RunnerResultType?) {
         guard let type = type else {
             return nil
         }
@@ -26,6 +26,7 @@ extension MarketRunnerResultDomainModel.ResultType {
         case .line: self = .line
         case .score: self = .score
         case .noGoal: self = .noGoal
+        case .unknown: self = .unknown
         }
     }
 

@@ -30,7 +30,7 @@ public struct MarketAttachment: Codable {
     public let marketLevels: [String]
     public let sortPriority: Int
     public let bettingType: MarketBettingType
-    public let marketStatus: MarketStatus
+    public let marketStatus: MarketAttachment.MarketStatus
 
     public init(marketId: String, key: String, eventTypeId: Int, eventId: Int, upperLevelEventId: Int,
                 topLevelEventId: Int, numberOfUpperLevels: Int, competitionId: Int, marketName: String,
@@ -59,6 +59,22 @@ public struct MarketAttachment: Codable {
         self.sortPriority = sortPriority
         self.bettingType = bettingType
         self.marketStatus = marketStatus
+    }
+
+}
+
+extension MarketAttachment {
+
+    public enum MarketStatus: String, CaseIterable, Codable {
+        case `open` = "OPEN"
+        case inactive = "INACTIVE"
+        case suspended = "SUSPENDED"
+        case closed = "CLOSED"
+        case unknown = "UNKNOWN"
+
+        public init(from decoder: Decoder) throws {
+            self = try MarketStatus(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
+        }
     }
 
 }

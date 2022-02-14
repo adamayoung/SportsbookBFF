@@ -20,16 +20,27 @@ extension RunnerDetailsDomainModel {
 
 extension RunnerDetailsDomainModel.Status {
 
-    init(runnerStatus: SMP.RunnerStatus) {
+    init(runnerStatus: RunnerDetails.RunnerStatus) {
         switch runnerStatus {
-        case .active:
-            self = .active
+        case .active: self = .active
+        case .suspended: self = .suspended
+        case .removed: self = .removed
+        case .unknown: self = .unknown
+        }
+    }
 
-        case .suspended:
-            self = .suspended
+}
 
-        case .removed:
-            self = .removed
+extension RunnerDetailsDomainModel.PriceOverlay {
+
+    init?(priceOverlay: RunnerDetails.PriceOverlay?) {
+        guard let priceOverlay = priceOverlay else {
+            return nil
+        }
+
+        switch priceOverlay {
+        case .enhancedPricePromotion:
+            self = .enhancedPricePromotion
 
         case .unknown:
             self = .unknown
@@ -40,23 +51,16 @@ extension RunnerDetailsDomainModel.Status {
 
 extension RunnerDetailsDomainModel.Scope {
 
-    init?(runnerScope: RunnerScope?) {
+    init?(runnerScope: RunnerDetails.RunnerScope?) {
         guard let runnerScope = runnerScope else {
             return nil
         }
 
         switch runnerScope {
-        case .preplay:
-            self = .prePlay
-
-        case .inplay:
-            self = .inPlay
-
-        case .all:
-            self = .all
-
-        case .unknown:
-            self = .unknown
+        case .preplay: self = .prePlay
+        case .inplay: self = .inPlay
+        case .all: self = .all
+        case .unknown: self = .unknown
         }
     }
 
