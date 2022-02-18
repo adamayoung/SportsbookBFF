@@ -11,8 +11,13 @@
 Create a `.env` file in the project root directory with the following variables:
 
 ```bash
-LOG_LEVEL=info
-TLA_KEY=xxx
-# Optional
+# LOG_LEVEL=DEBUG
 AUTH_KEY=xxx
+
+TLA_API_KEY=xxx
+SCAN_BASE_URL=xxx
+SMP_BASE_URL=xxx
+
+CMS_API_KEY=xxx
+CMS_BASE_URL=xxx
 ```
