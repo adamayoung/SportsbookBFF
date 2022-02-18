@@ -1,16 +1,16 @@
 import Foundation
 import SportsbookCore
 
-extension EventTypeDomainModel {
+extension SportDomainModel {
 
-    static var mocks: [EventTypeDomainModel] {
+    static var mocks: [SportDomainModel] {
         [
-            EventTypeDomainModel(id: 1, name: "Soccer"),
-            EventTypeDomainModel(id: 2, name: "Tennis"),
-            EventTypeDomainModel(id: 3, name: "Golf"),
-            EventTypeDomainModel(id: 4, name: "Cricket"),
-            EventTypeDomainModel(id: 5, name: "Rugby Union"),
-            EventTypeDomainModel(id: 6, name: "Boxing")
+            SportDomainModel(id: 1, name: "Soccer"),
+            SportDomainModel(id: 2, name: "Tennis"),
+            SportDomainModel(id: 3, name: "Golf"),
+            SportDomainModel(id: 4, name: "Cricket"),
+            SportDomainModel(id: 5, name: "Rugby Union"),
+            SportDomainModel(id: 6, name: "Boxing")
         ]
     }
 

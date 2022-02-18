@@ -1,7 +1,8 @@
 import Vapor
 
-public struct Runner: Equatable, Content {
+public struct Runner: Identifiable, Equatable, Content {
 
+    public var id: Int { selectionID }
     public let selectionID: Int
     public let name: String
     public let handicap: Double

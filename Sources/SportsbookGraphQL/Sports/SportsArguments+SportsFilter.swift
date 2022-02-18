@@ -1,10 +1,10 @@
 import Foundation
 import SportsbookCore
 
-extension EventTypesArguments: EventTypesFilterConvertible {
+extension SportsArguments: SportsFilterConvertible {
 
-    var eventTypesFilter: EventTypesFilter {
-        let category: EventTypeDomainModel.Category? = {
+    var sportsFilter: SportsFilter {
+        let category: SportDomainModel.Category? = {
             switch self.category {
             case .avb: return .avb
             case .outright: return .outright
@@ -14,7 +14,7 @@ extension EventTypesArguments: EventTypesFilterConvertible {
             }
         }()
 
-        return EventTypesFilter(id: self.id, category: category)
+        return SportsFilter(id: self.id, category: category)
     }
 
 }

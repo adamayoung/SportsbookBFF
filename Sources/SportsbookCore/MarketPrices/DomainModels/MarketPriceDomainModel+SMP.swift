@@ -3,13 +3,18 @@ import SMP
 
 extension MarketPriceDomainModel {
 
-    init(marketPrice: MarketPrice) {
-        let marketStatus = MarketStatus(marketStatus: marketPrice.marketStatus)
-        let bettingType = MarketBettingType(bettingType: marketPrice.bettingType)
-        let runnerDetails = marketPrice.runnerDetails.map(RunnerDetailsDomainModel.init)
+    init?(marketPrice: MarketPrice) {
+        guard
+            let marketStatus = MarketStatus(marketStatus: marketPrice.marketStatus),
+            let bettingType = MarketBettingType(bettingType: marketPrice.bettingType)
+        else {
+            return nil
+        }
+
+        let runnerDetails = marketPrice.runnerDetails.compactMap(RunnerDetailsDomainModel.init)
         let placeFraction = FractionalOddsDomainModel(fractionOdds: marketPrice.placeFraction)
-        let legTypes = marketPrice.legTypes?.map(LegType.init)
-        let rule4Deductions = marketPrice.rule4Deductions?.map(Rule4DeductionDomainModel.init)
+        let legTypes = marketPrice.legTypes?.compactMap(LegType.init)
+        let rule4Deductions = marketPrice.rule4Deductions?.compactMap(Rule4DeductionDomainModel.init)
 
         self.init(marketID: marketPrice.marketId, marketStatus: marketStatus,
                   turnInPlayEnabled: marketPrice.turnInPlayEnabled, inPlay: marketPrice.inplay,
@@ -25,11 +30,12 @@ extension MarketPriceDomainModel {
 
 extension MarketPriceDomainModel.MarketStatus {
 
-    init(marketStatus: MarketPrice.MarketStatus) {
+    init?(marketStatus: MarketPrice.MarketStatus) {
         switch marketStatus {
         case .open: self = .open
         case .suspended: self = .suspended
-        case .unknown: self = .unknown
+        default:
+            return nil
         }
     }
 
@@ -37,11 +43,12 @@ extension MarketPriceDomainModel.MarketStatus {
 
 extension MarketPriceDomainModel.MarketBettingType {
 
-    init(bettingType: MarketPrice.MarketBettingType) {
+    init?(bettingType: MarketPrice.MarketBettingType) {
         switch bettingType {
         case .fixedOdds: self = .fixedOdds
         case .movingHandicap: self = .movingHandicap
-        case .unknown: self = .unknown
+        default:
+            return nil
         }
     }
 
@@ -49,7 +56,7 @@ extension MarketPriceDomainModel.MarketBettingType {
 
 extension MarketPriceDomainModel.LegType {
 
-    init(legType: MarketPrice.LegType) {
+    init?(legType: MarketPrice.LegType) {
         switch legType {
         case .simpleSelection: self = .simpleSelection
         case .forecast: self = .forecast
@@ -59,7 +66,8 @@ extension MarketPriceDomainModel.LegType {
         case .combinationTricast: self = .combinationTricast
         case .scorecast: self = .scorecast
         case .wincast: self = .wincast
-        case .unknown: self = .unknown
+        default:
+            return nil
         }
     }
 

@@ -7,19 +7,20 @@ extension Event {
     func markets(request: Request, arguments: MarketsArguments) -> EventLoopFuture<[Market]> {
         let promise = request.eventLoop.makePromise(of: [Market].self)
         promise.completeWithTask {
-            if let marketID = arguments.id {
-                guard let market = try await Market.find(marketID, on: request) else {
-                    return []
-                }
-
-                return [market]
-            }
-
             if let marketType = arguments.marketType {
                 return try await markets(marketType: marketType, on: request)
             }
 
-            return try await markets(on: request)
+            let markets = try await markets(on: request)
+            guard let marketID = arguments.id else {
+                return markets
+            }
+
+            guard let market = (markets.first { $0.id == marketID }) else {
+                return []
+            }
+
+            return [market]
         }
 
         return promise.futureResult
@@ -34,10 +35,10 @@ extension Event {
         return promise.futureResult
     }
 
-    func eventType(request: Request, arguments: NoArguments) -> EventLoopFuture<EventType?> {
-        let promise = request.eventLoop.makePromise(of: Optional<EventType>.self)
+    func sport(request: Request, arguments: NoArguments) -> EventLoopFuture<Sport?> {
+        let promise = request.eventLoop.makePromise(of: Optional<Sport>.self)
         promise.completeWithTask {
-            try await eventType(on: request)
+            try await sport(on: request)
         }
 
         return promise.futureResult

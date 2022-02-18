@@ -28,7 +28,11 @@ public struct MarketsController: RouteCollection {
             throw Abort(.badRequest)
         }
 
-        let markets = try await Market.all(forEvent: eventID, on: request)
+        guard let event = try await Event.find(eventID, on: request) else {
+            throw Abort(.notFound)
+        }
+
+        let markets = try await event.markets(on: request)
         let model = RootAPIModel(data: markets)
         return model
     }
@@ -51,11 +55,11 @@ public struct MarketsController: RouteCollection {
             throw Abort(.badRequest)
         }
 
-        guard let runners = try await Runner.all(forMarket: marketID, on: request) else {
+        guard let market = try await Market.find(marketID, on: request) else {
             throw Abort(.notFound)
         }
 
-        let model = RootAPIModel(data: runners)
+        let model = RootAPIModel(data: market.runners)
         return model
     }
 
@@ -67,7 +71,10 @@ public struct MarketsController: RouteCollection {
             throw Abort(.badRequest)
         }
 
-        guard let runner = try await Runner.find(withSelection: selectionID, inMarket: marketID, on: request) else {
+        guard
+            let market = try await Market.find(marketID, on: request),
+            let runner = market.runner(selectionID)
+        else {
             throw Abort(.notFound)
         }
 

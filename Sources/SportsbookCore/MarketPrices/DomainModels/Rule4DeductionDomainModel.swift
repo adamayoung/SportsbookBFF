@@ -30,7 +30,6 @@ extension Rule4DeductionDomainModel {
     public enum PriceType: CaseIterable {
         case livePrice
         case startingPrice
-        case unknown
     }
 
 }

@@ -1,7 +1,7 @@
 import Foundation
 import SCAN
 
-extension EventTypeDomainModel {
+extension SportDomainModel {
 
     init?(attachment: EventTypeAttachment) {
         guard
@@ -11,18 +11,18 @@ extension EventTypeDomainModel {
             return nil
         }
 
-        let category = EventTypeDomainModel.Category(eventTypeID: id)
+        let category = SportDomainModel.Category(sportID: id)
 
         self.init(id: id, name: name, category: category)
     }
 
 }
 
-extension EventTypeDomainModel.Category {
+extension SportDomainModel.Category {
 
-    init?(eventTypeID: EventTypeDomainModel.ID) {
+    init?(sportID: SportDomainModel.ID) {
         guard
-            let category = (EventTypeDomainModel.Category.allCases.first { $0.eventTypes.contains(eventTypeID) })
+            let category = (SportDomainModel.Category.allCases.first { $0.sports.contains(sportID) })
         else {
             return nil
         }
@@ -32,9 +32,9 @@ extension EventTypeDomainModel.Category {
 
 }
 
-private extension EventTypeDomainModel.Category {
+private extension SportDomainModel.Category {
 
-    private var eventTypes: [EventTypeDomainModel.ID] {
+    private var sports: [SportDomainModel.ID] {
         switch self {
         case .avb:
             return [

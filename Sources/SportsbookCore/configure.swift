@@ -14,8 +14,8 @@ public func configure(_ app: Application) throws {
         EventSCANService(scanService: $0.scanService, locale: $0.locale, logger: $0.logger)
     }
 
-    app.eventTypeService.use {
-        EventTypeSCANService(scanService: $0.scanService, locale: $0.locale, logger: $0.logger)
+    app.sportService.use {
+        SportSCANService(scanService: $0.scanService, locale: $0.locale, logger: $0.logger)
     }
 
     app.marketService.use {

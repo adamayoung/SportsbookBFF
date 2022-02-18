@@ -3,32 +3,22 @@ import Vapor
 
 extension Event {
 
-    public static func all(forEventType eventTypeID: Int, isInPlay: Bool?,
-                           on request: Request) async throws -> [Event] {
-        try await request.eventService.events(forEventType: eventTypeID, isInPlay: isInPlay)
+    public static func all(forSport sportID: Sport.ID, isInPlay: Bool?, on request: Request) async throws -> [Event] {
+        try await request.eventService.events(forSport: sportID, isInPlay: isInPlay)
             .map(Event.init)
     }
 
-    public static func all(forCompetition competitionID: Int, on request: Request) async throws -> [Event] {
+    public static func all(forCompetition competitionID: Competition.ID, on request: Request) async throws -> [Event] {
         try await request.eventService.events(forCompetition: competitionID)
             .map(Event.init)
     }
 
-    public static func all(forCompetition competitionID: Int, on request: Request) -> EventLoopFuture<[Event]> {
-        let promise = request.eventLoop.makePromise(of: [Event].self)
-        promise.completeWithTask {
-            try await all(forCompetition: competitionID, on: request)
-        }
-
-        return promise.futureResult
-    }
-
-    public static func find(_ id: Int, on request: Request) async throws -> Event? {
+    public static func find(_ id: Event.ID, on request: Request) async throws -> Event? {
         try await request.eventService.event(withID: id)
             .map(Event.init)
     }
 
-    public static func find(forMarket marketID: String, on request: Request) async throws -> Event? {
+    public static func find(forMarket marketID: Market.ID, on request: Request) async throws -> Event? {
         guard
             let market = try await request.marketService.market(withID: marketID),
             let event = try await request.eventService.event(withID: market.eventID)
@@ -55,8 +45,8 @@ extension Event {
         return try await Competition.find(competitionID, on: request)
     }
 
-    public func eventType(on request: Request) async throws -> EventType? {
-        try await EventType.find(eventTypeID, on: request)
+    public func sport(on request: Request) async throws -> Sport? {
+        try await Sport.find(sportID, on: request)
     }
 
 }

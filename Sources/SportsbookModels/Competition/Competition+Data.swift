@@ -3,12 +3,12 @@ import Vapor
 
 public extension Competition {
 
-    static func all(forEventType eventTypeID: Int, on request: Request) async throws -> [Competition] {
-        try await request.competitionService.competitions(forEventType: eventTypeID)
+    static func all(forSport sportID: Sport.ID, on request: Request) async throws -> [Competition] {
+        try await request.competitionService.competitions(forSport: sportID)
             .map(Competition.init)
     }
 
-    static func find(_ id: Int, on request: Request) async throws -> Competition? {
+    static func find(_ id: Competition.ID, on request: Request) async throws -> Competition? {
         guard let competition = try await request.competitionService.competition(withID: id) else {
             return nil
         }
@@ -16,7 +16,7 @@ public extension Competition {
         return Competition(competition: competition)
     }
 
-    static func find(eventID: Int, on request: Request) async throws -> Competition? {
+    static func find(eventID: Event.ID, on request: Request) async throws -> Competition? {
         guard
             let event = try await request.eventService.event(withID: eventID),
             let competitionID = event.competitionID,
@@ -32,8 +32,8 @@ public extension Competition {
 
 public extension Competition {
 
-    func eventType(on request: Request) async throws -> EventType? {
-        try await EventType.find(eventTypeID, on: request)
+    func sport(on request: Request) async throws -> Sport? {
+        try await Sport.find(sportID, on: request)
     }
 
     func events(on request: Request) async throws -> [Event] {

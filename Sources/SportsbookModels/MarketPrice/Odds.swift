@@ -8,4 +8,9 @@ public struct Odds: Equatable, Codable {
     /// The fractional representation of these odds. This should be used for all needed calculations.
     public let fractionalOdds: FractionalOdds?
 
+    public init(decimalOdds: Double?, fractionalOdds: FractionalOdds?) {
+        self.decimalOdds = decimalOdds
+        self.fractionalOdds = fractionalOdds
+    }
+
 }

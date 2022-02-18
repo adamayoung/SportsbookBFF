@@ -30,7 +30,7 @@ extension MarketDomainModel {
                         result: .init(type: nil)
                     )
                 ],
-                eventTypeID: 1,
+                sportID: 1,
                 eventID: 30127940,
                 competitionID: 516320
             ),
@@ -67,7 +67,7 @@ extension MarketDomainModel {
                         result: .init(type: nil)
                     )
                 ],
-                eventTypeID: 1,
+                sportID: 1,
                 eventID: 30127940,
                 competitionID: 516320
             ),
@@ -96,7 +96,7 @@ extension MarketDomainModel {
                         result: .init(type: nil)
                     )
                 ],
-                eventTypeID: 1,
+                sportID: 1,
                 eventID: 30127940,
                 competitionID: 516320
             )

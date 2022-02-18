@@ -26,7 +26,8 @@ extension MarketRunnerResultDomainModel.ResultType {
         case .line: self = .line
         case .score: self = .score
         case .noGoal: self = .noGoal
-        case .unknown: self = .unknown
+        default:
+            return nil
         }
     }
 

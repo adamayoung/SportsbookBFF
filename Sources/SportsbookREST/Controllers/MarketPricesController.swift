@@ -17,7 +17,10 @@ public struct MarketPricesController: RouteCollection {
             throw Abort(.badRequest)
         }
 
-        guard let marketPrice = try await MarketPrice.find(forMarket: marketID, on: request) else {
+        guard
+            let market = try await Market.find(marketID, on: request),
+            let marketPrice = try await market.price(on: request)
+        else {
             throw Abort(.notFound)
         }
 

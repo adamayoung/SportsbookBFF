@@ -14,8 +14,8 @@ final class CompetitionRelationshopsTests: XCTestCase {
         app = Application(.testing)
         request = Request(application: app, on: app.eventLoopGroup.next())
 
-        app.eventTypeService.use { _ in
-            MockEventTypeService()
+        app.sportService.use { _ in
+            MockSportService()
         }
     }
 
@@ -26,20 +26,20 @@ final class CompetitionRelationshopsTests: XCTestCase {
         super.tearDown()
     }
 
-    func testEventTypeReturnsEventTypeForCompetition() {
-        let eventType = EventType.mocks[0]
-        let competition = Competition(id: 10, name: "Premiere League", eventTypeID: eventType.id)
+    func testSportReturnsSportForCompetition() {
+        let sport = Sport.mocks[0]
+        let competition = Competition(id: 10, name: "Premiere League", sportID: sport.id)
 
-        competition.eventType(request: request, arguments: NoArguments.mock)
+        competition.sport(request: request, arguments: NoArguments.mock)
             .whenComplete { result in
-                XCTAssertEqual(try? result.get(), eventType)
+                XCTAssertEqual(try? result.get(), sport)
             }
     }
 
-    func testEventTypeWhenEventTypeDoesntExistReturnsNil() {
-        let competition = Competition(id: 99, name: "Some Competition", eventTypeID: 99)
+    func testSportWhenSportDoesntExistReturnsNil() {
+        let competition = Competition(id: 99, name: "Some Competition", sportID: 99)
 
-        competition.eventType(request: request, arguments: NoArguments.mock)
+        competition.sport(request: request, arguments: NoArguments.mock)
             .whenComplete { result in
                 XCTAssertNil(try? result.get())
             }

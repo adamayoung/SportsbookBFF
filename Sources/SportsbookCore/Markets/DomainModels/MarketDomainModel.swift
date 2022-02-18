@@ -9,12 +9,12 @@ public struct MarketDomainModel: Identifiable, Equatable, Hashable, Comparable {
     public let canTurnInPlay: Bool
     public let marketType: String
     public let runners: [MarketRunnerDomainModel]
-    public let eventTypeID: Int
+    public let sportID: Int
     public let eventID: Int
     public let competitionID: Int
 
     public init(id: String, name: String, marketDate: Date, inPlay: Bool, canTurnInPlay: Bool, marketType: String,
-                runners: [MarketRunnerDomainModel], eventTypeID: Int, eventID: Int, competitionID: Int) {
+                runners: [MarketRunnerDomainModel], sportID: Int, eventID: Int, competitionID: Int) {
         self.id = id
         self.name = name
         self.marketDate = marketDate
@@ -22,7 +22,7 @@ public struct MarketDomainModel: Identifiable, Equatable, Hashable, Comparable {
         self.canTurnInPlay = canTurnInPlay
         self.marketType = marketType
         self.runners = runners
-        self.eventTypeID = eventTypeID
+        self.sportID = sportID
         self.eventID = eventID
         self.competitionID = competitionID
     }

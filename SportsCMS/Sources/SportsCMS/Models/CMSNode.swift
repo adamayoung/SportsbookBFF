@@ -26,7 +26,7 @@ public struct CMSNode: Codable {
 extension CMSNode {
 
     public enum CMSNodeType: String, Codable {
-        case eventType = "SPORT"
+        case sport = "SPORT"
         case competition = "COMPETITION"
         case event = "EVENT"
         case staticBanner = "STATIC_BANNER"

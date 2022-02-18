@@ -1,19 +1,19 @@
 import Foundation
 import SportsbookCore
 
-extension EventType {
+extension Sport {
 
-    init(eventType: EventTypeDomainModel) {
-        let category = Category(category: eventType.category)
+    init(sport: SportDomainModel) {
+        let category = Category(category: sport.category)
 
-        self.init(id: eventType.id, name: eventType.name, category: category)
+        self.init(id: sport.id, name: sport.name, category: category)
     }
 
 }
 
-extension EventType.Category {
+extension Sport.Category {
 
-    init?(category: EventTypeDomainModel.Category?) {
+    init?(category: SportDomainModel.Category?) {
         guard let category = category else {
             return nil
         }

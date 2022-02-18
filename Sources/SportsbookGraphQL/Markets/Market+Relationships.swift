@@ -22,10 +22,10 @@ extension Market {
         return promise.futureResult
     }
 
-    func eventType(request: Request, arguments: NoArguments) throws -> EventLoopFuture<EventType?> {
-        let promise = request.eventLoop.makePromise(of: Optional<EventType>.self)
+    func sport(request: Request, arguments: NoArguments) throws -> EventLoopFuture<Sport?> {
+        let promise = request.eventLoop.makePromise(of: Optional<Sport>.self)
         promise.completeWithTask {
-            try await eventType(on: request)
+            try await sport(on: request)
         }
 
         return promise.futureResult

@@ -9,7 +9,3 @@ public func configure(_ app: Application) throws {
 private func modules(_ app: Application) throws {
     try SportsbookCore.configure(app)
 }
-
-struct PrintHello: LifecycleHandler {
-
-}

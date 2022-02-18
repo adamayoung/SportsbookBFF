@@ -8,4 +8,9 @@ public struct FractionalOdds: Equatable, Codable {
     /// The denominator of a fractional representation of these odds
     public let denominator: Int
 
+    public init(numerator: Int, denominator: Int) {
+        self.numerator = numerator
+        self.denominator = denominator
+    }
+
 }

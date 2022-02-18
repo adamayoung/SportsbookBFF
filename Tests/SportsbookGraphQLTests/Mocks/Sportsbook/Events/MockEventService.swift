@@ -17,9 +17,9 @@ struct MockEventService: EventService {
         events.filter { $0.competitionID == competitionID }
     }
 
-    func events(forEventType eventTypeID: Int, isInPlay: Bool?) async throws -> [EventDomainModel] {
+    func events(forSport sportID: Int, isInPlay: Bool?) async throws -> [EventDomainModel] {
         events
-            .filter { $0.eventTypeID == eventTypeID }
+            .filter { $0.sportID == sportID }
             .filter {
                 guard let isInPlay = isInPlay else {
                     return true

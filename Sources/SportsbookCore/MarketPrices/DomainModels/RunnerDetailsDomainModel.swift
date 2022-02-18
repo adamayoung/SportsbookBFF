@@ -49,15 +49,11 @@ extension RunnerDetailsDomainModel {
         case suspended
         /// Removed.
         case removed
-        /// Unknown.
-        case unknown
     }
 
     public enum PriceOverlay: CaseIterable {
         /// Enhanced Price Promotion.
         case enhancedPricePromotion
-        /// Unknown.
-        case unknown
     }
 
     public enum Scope: CaseIterable {
@@ -67,8 +63,6 @@ extension RunnerDetailsDomainModel {
         case inPlay
         /// Runner is available for betting when both preplay and inplay
         case all
-        /// Unknown.
-        case unknown
     }
 
 }

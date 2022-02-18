@@ -5,30 +5,30 @@ public struct CMSNodeDomainModel: Identifiable, Equatable, Hashable {
     public let id: Int
     public let name: String
     public let type: CMSNodeDomainModel.NodeType
-    public let eventTypeID: Int
-    public let eventTypeCategory: EventTypeDomainModel.Category?
+    public let sportID: Int
+    public let sportCategory: SportDomainModel.Category?
     public let weight: Int
 
     var isSupported: Bool {
         switch type {
-        case .eventType, .competition:
+        case .sport, .competition:
             return true
 
         case .event:
-            return eventTypeID != 3
+            return sportID != 3
 
         default:
             return false
         }
     }
 
-    public init(id: Int, name: String, type: CMSNodeDomainModel.NodeType, eventTypeID: Int,
-                eventTypeCategory: EventTypeDomainModel.Category? = nil, weight: Int = 0) {
+    public init(id: Int, name: String, type: CMSNodeDomainModel.NodeType, sportID: Int,
+                sportCategory: SportDomainModel.Category? = nil, weight: Int = 0) {
         self.id = id
         self.name = name
         self.type = type
-        self.eventTypeID = eventTypeID
-        self.eventTypeCategory = eventTypeCategory
+        self.sportID = sportID
+        self.sportCategory = sportCategory
         self.weight = weight
     }
 
@@ -37,13 +37,12 @@ public struct CMSNodeDomainModel: Identifiable, Equatable, Hashable {
 extension CMSNodeDomainModel {
 
     public enum NodeType: CaseIterable {
-        case eventType
+        case sport
         case competition
         case event
+        case market
         case staticBanner
         case dynamicBanner
-        case marketType
-        case unknown
     }
 
 }

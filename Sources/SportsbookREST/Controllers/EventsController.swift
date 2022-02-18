@@ -6,9 +6,9 @@ public struct EventsController: RouteCollection {
     public init() { }
 
     public func boot(routes: RoutesBuilder) throws {
-        let eventTypes = routes.grouped("event-types")
-        eventTypes.group(":eventTypeID") { eventType in
-            eventType.get("events", use: indexFromEventType)
+        let sports = routes.grouped("sports")
+        sports.group(":sportID") { sport in
+            sport.get("events", use: indexFromSport)
         }
 
         let competitions = routes.grouped("competitions")
@@ -23,34 +23,42 @@ public struct EventsController: RouteCollection {
 
         let markets = routes.grouped("markets")
         markets.group(":marketID") { market in
-            market.get("event", use: showForMarket)
+            market.get("event", use: showFromMarket)
         }
     }
 
-    func indexFromEventType(request: Request) async throws ->RootAPIModel<[Event]> {
-        guard let eventTypeID = request.parameters.get("eventTypeID", as: Int.self) else {
-            throw Abort(.internalServerError)
+    func indexFromSport(request: Request) async throws -> RootAPIModel<[Event]> {
+        guard let sportID = request.parameters.get("sportID", as: Int.self) else {
+            throw Abort(.notFound)
         }
 
-        let query = try request.query.decode(EventsFromEventTypeQuery.self)
-        let events = try await Event.all(forEventType: eventTypeID, isInPlay: query.isInPlay, on: request)
+        guard let sport = try await Sport.find(sportID, on: request) else {
+            throw Abort(.notFound)
+        }
+
+        let query = try request.query.decode(EventsFromSportQuery.self)
+        let events = try await sport.events(isInPlay: query.isInPlay, on: request)
         let model = RootAPIModel(data: events)
         return model
     }
 
     func indexFromCompetition(request: Request) async throws -> RootAPIModel<[Event]> {
         guard let competitionID = request.parameters.get("competitionID", as: Int.self) else {
-            throw Abort(.internalServerError)
+            throw Abort(.notFound)
         }
 
-        let events = try await Event.all(forCompetition: competitionID, on: request)
+        guard let competition = try await Competition.find(competitionID, on: request) else {
+            throw Abort(.notFound)
+        }
+
+        let events = try await competition.events(on: request)
         let model = RootAPIModel(data: events)
         return model
     }
 
     func show(request: Request) async throws -> RootAPIModel<Event> {
         guard let id = request.parameters.get("eventID", as: Int.self) else {
-            throw Abort(.internalServerError)
+            throw Abort(.notFound)
         }
 
         guard let event = try await Event.find(id, on: request) else {
@@ -61,12 +69,15 @@ public struct EventsController: RouteCollection {
         return model
     }
 
-    func showForMarket(request: Request) async throws -> RootAPIModel<Event> {
+    func showFromMarket(request: Request) async throws -> RootAPIModel<Event> {
         guard let marketID = request.parameters.get("marketID") else {
-            throw Abort(.internalServerError)
+            throw Abort(.notFound)
         }
 
-        guard let event = try await Event.find(forMarket: marketID, on: request) else {
+        guard
+            let market = try await Market.find(marketID, on: request),
+            let event = try await market.event(on: request)
+        else {
             throw Abort(.notFound)
         }
 
@@ -78,7 +89,7 @@ public struct EventsController: RouteCollection {
 
 extension EventsController {
 
-    struct EventsFromEventTypeQuery: Content {
+    struct EventsFromSportQuery: Content {
 
         let isInPlay: Bool?
 

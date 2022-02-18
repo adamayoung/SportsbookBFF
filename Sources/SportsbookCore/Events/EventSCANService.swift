@@ -40,10 +40,9 @@ final class EventSCANService: EventService {
             .sorted()
     }
 
-    func events(forEventType eventTypeID: EventTypeDomainModel.ID,
-                isInPlay: Bool? = nil) async throws -> [EventDomainModel] {
+    func events(forSport sportID: SportDomainModel.ID, isInPlay: Bool? = nil) async throws -> [EventDomainModel] {
         var metadata: Logger.Metadata = [
-            "event-type-id": .stringConvertible(eventTypeID)
+            "sport-id": .stringConvertible(sportID)
         ]
         if let isInPlay = isInPlay {
             metadata["is-in-play"] = .stringConvertible(isInPlay)
@@ -51,7 +50,7 @@ final class EventSCANService: EventService {
 
         logger.debug("Fetching Events", metadata: metadata)
 
-        let request = SearchRequest.events(forEventType: eventTypeID, isInPlay: isInPlay, locale: locale)
+        let request = SearchRequest.events(forEventType: sportID, isInPlay: isInPlay, locale: locale)
         let response = try await scanService.search(request)
         guard let attachments = response.attachments.events?.values else {
             return []

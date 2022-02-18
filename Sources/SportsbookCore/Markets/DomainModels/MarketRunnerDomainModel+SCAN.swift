@@ -3,8 +3,11 @@ import SCAN
 
 extension MarketRunnerDomainModel {
 
-    init(runner: SCAN.Runner) {
-        let status = MarketRunnerDomainModel.Status(status: runner.runnerStatus)
+    init?(runner: Runner) {
+        guard let status = MarketRunnerDomainModel.Status(status: runner.runnerStatus) else {
+            return nil
+        }
+
         let result = MarketRunnerResultDomainModel(result: runner.result)
 
         self.init(selectionID: runner.selectionId, name: runner.runnerName, handicap: runner.handicap,
@@ -15,12 +18,13 @@ extension MarketRunnerDomainModel {
 
 extension MarketRunnerDomainModel.Status {
 
-    init(status: SCAN.Runner.RunnerStatus) {
+    init?(status: Runner.RunnerStatus) {
         switch status {
         case .active: self = .active
         case .suspended: self = .suspended
         case .removed: self = .removed
-        case .unknown: self = .unknown
+        default:
+            return nil
         }
     }
 

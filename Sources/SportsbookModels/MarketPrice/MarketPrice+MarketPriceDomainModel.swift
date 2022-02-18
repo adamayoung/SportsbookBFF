@@ -29,7 +29,6 @@ extension MarketPrice.MarketStatus {
         switch marketStatus {
         case .open: self = .open
         case .suspended: self = .suspended
-        case .unknown: self = .unknown
         }
     }
 
@@ -41,7 +40,6 @@ extension MarketPrice.MarketBettingType {
         switch bettingType {
         case .fixedOdds: self = .fixedOdds
         case .movingHandicap: self = .movingHandicap
-        case .unknown: self = .unknown
         }
     }
 
@@ -59,7 +57,6 @@ extension MarketPrice.LegType {
         case .combinationTricast: self = .combinationTricast
         case .scorecast: self = .scorecast
         case .wincast: self = .wincast
-        case .unknown: self = .unknown
         }
     }
 

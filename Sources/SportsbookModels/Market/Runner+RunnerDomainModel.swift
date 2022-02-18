@@ -20,7 +20,6 @@ extension Runner.RunnerStatus {
         case .active: self = .active
         case .suspended: self = .suspended
         case .removed: self = .removed
-        case .unknown: self = .unknown
         }
     }
 
@@ -54,7 +53,6 @@ extension Runner.RunnerResult.RunnerResultType {
         case .line: self = .line
         case .score: self = .score
         case .noGoal: self = .noGoal
-        case .unknown: self = .unknown
         }
     }
 

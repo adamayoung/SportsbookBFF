@@ -28,7 +28,6 @@ extension MarketRunnerDomainModel {
         case active
         case suspended
         case removed
-        case unknown
     }
 
 }

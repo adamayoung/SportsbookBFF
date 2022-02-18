@@ -1,6 +1,6 @@
 import Foundation
 
-public struct EventType: Identifiable, Equatable, Codable {
+public struct Sport: Identifiable, Equatable, Codable {
 
     public let id: Int
     public let name: String
@@ -14,7 +14,7 @@ public struct EventType: Identifiable, Equatable, Codable {
 
 }
 
-extension EventType {
+extension Sport {
 
     public enum Category: String, CaseIterable, Codable {
         case avb

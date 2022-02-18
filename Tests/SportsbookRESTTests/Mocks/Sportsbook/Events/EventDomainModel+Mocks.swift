@@ -8,7 +8,7 @@ extension EventDomainModel {
             EventDomainModel(
                 id: 30127940,
                 name: "AD Isidro Metapan v CD Municipal Limeno",
-                eventTypeID: 1,
+                sportID: 1,
                 competitionID: 516320,
                 countryCode: "GB",
                 timeZone: "GMT",
@@ -20,7 +20,7 @@ extension EventDomainModel {
             EventDomainModel(
                 id: 30189059,
                 name: "Braga v Midtjylland",
-                eventTypeID: 1,
+                sportID: 1,
                 competitionID: 2005,
                 countryCode: "GB",
                 timeZone: "GMT",
@@ -32,7 +32,7 @@ extension EventDomainModel {
             EventDomainModel(
                 id: 30189054,
                 name: "Celtic v Leverkusen",
-                eventTypeID: 1,
+                sportID: 1,
                 competitionID: 2005,
                 countryCode: "GB",
                 timeZone: "GMT",
@@ -44,7 +44,7 @@ extension EventDomainModel {
             EventDomainModel(
                 id: 30189049,
                 name: "Marseille v Galatasaray",
-                eventTypeID: 1,
+                sportID: 1,
                 competitionID: 2005,
                 countryCode: "GB",
                 timeZone: "GMT",
@@ -56,7 +56,7 @@ extension EventDomainModel {
             EventDomainModel(
                 id: 30236195,
                 name: "C Burel v A Bondar",
-                eventTypeID: 2,
+                sportID: 2,
                 competitionID: 794523,
                 countryCode: "GB",
                 timeZone: "GMT",
@@ -68,7 +68,7 @@ extension EventDomainModel {
             EventDomainModel(
                 id: 30255779,
                 name: "I Lavino v L Alhussein Abdel Aziz",
-                eventTypeID: 2,
+                sportID: 2,
                 competitionID: 529306,
                 countryCode: "GB",
                 timeZone: "GMT",
@@ -80,8 +80,20 @@ extension EventDomainModel {
             EventDomainModel(
                 id: 30255780,
                 name: "V Yushchenko v M Capurro Taborda",
-                eventTypeID: 2,
-                competitionID: 529306,
+                sportID: 2,
+                competitionID: 11111111,
+                countryCode: "GB",
+                timeZone: "GMT",
+                openDate: Date(iso8601String: "2021-10-01T09:30:00Z"),
+                isVideoAvailable: false,
+                isInPlay: false,
+                canTurnInPlay: true
+            ),
+            EventDomainModel(
+                id: 9999999,
+                name: "Event without valid sport",
+                sportID: 999999,
+                competitionID: 11111111,
                 countryCode: "GB",
                 timeZone: "GMT",
                 openDate: Date(iso8601String: "2021-10-01T09:30:00Z"),
@@ -90,6 +102,18 @@ extension EventDomainModel {
                 canTurnInPlay: true
             )
         ]
+    }
+
+    static func mock(for id: EventDomainModel.ID) -> EventDomainModel {
+        (mocks.first { $0.id == id })!
+    }
+
+    static func mocks(forSport sportID: SportDomainModel.ID) -> [EventDomainModel] {
+        mocks.filter { $0.sportID == sportID }
+    }
+
+    static func mocks(forCompetition competitionID: CompetitionDomainModel.ID) -> [EventDomainModel] {
+        mocks.filter { $0.competitionID == competitionID }
     }
 
 }

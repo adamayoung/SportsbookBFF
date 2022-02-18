@@ -12,7 +12,7 @@ extension Event {
             return TimeZone(identifier: identifier)
         }()
 
-        self.init(id: event.id, name: event.name, eventTypeID: event.eventTypeID, competitionID: event.competitionID,
+        self.init(id: event.id, name: event.name, sportID: event.sportID, competitionID: event.competitionID,
                   countryCode: event.countryCode, timeZone: timeZone, openDate: event.openDate,
                   isVideoAvailable: event.isVideoAvailable, isInPlay: event.isInPlay,
                   canTurnInPlay: event.canTurnInPlay)

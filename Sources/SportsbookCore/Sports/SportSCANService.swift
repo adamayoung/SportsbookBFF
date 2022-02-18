@@ -2,7 +2,7 @@ import Foundation
 import Logging
 import SCAN
 
-struct EventTypeSCANService: EventTypeService {
+struct SportSCANService: SportService {
 
     private let scanService: SCANService
     private let locale: Locale
@@ -14,8 +14,8 @@ struct EventTypeSCANService: EventTypeService {
         self.logger = logger
     }
 
-    func eventType(withID id: EventTypeDomainModel.ID) async throws -> EventTypeDomainModel? {
-        logger.debug("Fetching Event Type", metadata: ["id": .stringConvertible(id)])
+    func sport(withID id: SportDomainModel.ID) async throws -> SportDomainModel? {
+        logger.debug("Fetching Sport", metadata: ["id": .stringConvertible(id)])
 
         let request = SearchRequest.eventType(withID: id, locale: locale)
         let response = try await scanService.search(request)
@@ -23,11 +23,11 @@ struct EventTypeSCANService: EventTypeService {
             return nil
         }
 
-        return EventTypeDomainModel(attachment: attachment)
+        return SportDomainModel(attachment: attachment)
     }
 
-    func eventTypes(filter: EventTypesFilterConvertible?) async throws -> [EventTypeDomainModel] {
-        logger.debug("Fetching Event Types")
+    func sports(filter: SportsFilterConvertible?) async throws -> [SportDomainModel] {
+        logger.debug("Fetching Sports")
 
         let request = SearchRequest.allEventTypes(locale: locale)
         let response = try await scanService.search(request)
@@ -36,8 +36,8 @@ struct EventTypeSCANService: EventTypeService {
         }
 
         return attachments
-            .compactMap(EventTypeDomainModel.init)
-            .filter(filter?.eventTypesFilter)
+            .compactMap(SportDomainModel.init)
+            .filter(filter?.sportsFilter)
             .sorted()
     }
 

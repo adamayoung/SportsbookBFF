@@ -26,10 +26,10 @@ final class CompetitionSCANService: CompetitionService {
         return CompetitionDomainModel(attachment: attachment)
     }
 
-    func competitions(forEventType eventTypeID: EventTypeDomainModel.ID) async throws -> [CompetitionDomainModel] {
-        logger.debug("Fetching Competitions", metadata: ["event-type-id": .stringConvertible(eventTypeID)])
+    func competitions(forSport sportID: SportDomainModel.ID) async throws -> [CompetitionDomainModel] {
+        logger.debug("Fetching Competitions", metadata: ["sport-id": .stringConvertible(sportID)])
 
-        let request = SearchRequest.competitions(forEventType: eventTypeID, locale: locale)
+        let request = SearchRequest.competitions(forEventType: sportID, locale: locale)
         let response = try await scanService.search(request)
         guard let attachments = response.attachments.competitions?.values else {
             return []

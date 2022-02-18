@@ -32,7 +32,6 @@ extension RunnerDetails.Status {
         case .active: self = .active
         case .suspended: self = .suspended
         case .removed: self = .removed
-        case .unknown: self = .unknown
         }
     }
 
@@ -48,9 +47,6 @@ extension RunnerDetails.PriceOverlay {
         switch priceOverlay {
         case .enhancedPricePromotion:
             self = .enhancedPricePromotion
-
-        case .unknown:
-            self = .unknown
         }
     }
 
@@ -67,7 +63,6 @@ extension RunnerDetails.Scope {
         case .prePlay: self = .prePlay
         case .inPlay: self = .inPlay
         case .all: self = .all
-        case .unknown: self = .unknown
         }
     }
 

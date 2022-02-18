@@ -12,14 +12,14 @@ func buildGraphQLSchema() throws -> Schema<Resolver, Request> {
         }
 
         Enum(MenuItem.MenuItemType.self)
-        Enum(EventType.Category.self)
+        Enum(Sport.Category.self)
 
         Type(MenuItem.self) {
             Field("id", at: \.id)
             Field("name", at: \.name)
             Field("type", at: \.type)
-            Field("eventTypeID", at: \.eventTypeID)
-            Field("eventTypeCategory", at: \.eventTypeCategory)
+            Field("sportID", at: \.sportID)
+            Field("sportCategory", at: \.sportCategory)
             Field("weight", at: \.weight)
         }
 
@@ -135,7 +135,7 @@ func buildGraphQLSchema() throws -> Schema<Resolver, Request> {
             Field("runners", at: \.runners)
             Field("event", at: Market.event, as: TypeReference<Event>.self)
             Field("competition", at: Market.competition, as: TypeReference<Competition>.self)
-            Field("eventType", at: Market.eventType, as: TypeReference<EventType>.self)
+            Field("sport", at: Market.sport, as: TypeReference<Sport>.self)
             Field("price", at: Market.price)
         }
         .description("A specific type or category of bet on a particular event.")
@@ -154,7 +154,7 @@ func buildGraphQLSchema() throws -> Schema<Resolver, Request> {
                 Argument("marketType", at: \.marketType)
             }
             Field("competition", at: Event.competition, as: TypeReference<Competition>.self)
-            Field("eventType", at: Event.eventType, as: TypeReference<EventType>.self)
+            Field("sport", at: Event.sport, as: TypeReference<Sport>.self)
         }
         .description("An event or contest in an event type.")
 
@@ -164,18 +164,18 @@ func buildGraphQLSchema() throws -> Schema<Resolver, Request> {
             Field("events", at: Competition.events) {
                 Argument("id", at: \.id)
             }
-            Field("eventType", at: Competition.eventType, as: TypeReference<EventType>.self)
+            Field("sport", at: Competition.sport, as: TypeReference<Sport>.self)
         }
         .description("A competition in a particular event type.")
 
-        Type(EventType.self) {
+        Type(Sport.self) {
             Field("id", at: \.id)
             Field("name", at: \.name)
             Field("category", at: \.category)
-            Field("competitions", at: EventType.competitions) {
+            Field("competitions", at: Sport.competitions) {
                 Argument("id", at: \.id)
             }
-            Field("events", at: EventType.events) {
+            Field("events", at: Sport.events) {
                 Argument("id", at: \.id)
                 Argument("isInPlay", at: \.isInPlay)
             }
@@ -183,7 +183,7 @@ func buildGraphQLSchema() throws -> Schema<Resolver, Request> {
         .description("An event type.")
 
         Query {
-            Field("eventTypes", at: Resolver.fetchEventTypes) {
+            Field("sports", at: Resolver.fetchSports) {
                 Argument("id", at: \.id)
                 Argument("category", at: \.category)
             }
@@ -202,10 +202,6 @@ func buildGraphQLSchema() throws -> Schema<Resolver, Request> {
 
             Field("featured", at: Resolver.fetchFeatured)
 
-            Field("popular", at: Resolver.fetchPopular)
-        }
-
-        Subscription {
             Field("popular", at: Resolver.fetchPopular)
         }
     }

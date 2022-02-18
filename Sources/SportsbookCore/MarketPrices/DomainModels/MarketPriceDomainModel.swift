@@ -76,8 +76,6 @@ extension MarketPriceDomainModel {
         case open
         /// Suspended Market.
         case suspended
-        /// Unknown.
-        case unknown
     }
 
     public enum MarketBettingType: CaseIterable {
@@ -85,8 +83,6 @@ extension MarketPriceDomainModel {
         case fixedOdds
         /// Moving Handicap Market.
         case movingHandicap
-        /// Unknown.
-        case unknown
     }
 
     public enum LegType: CaseIterable {
@@ -106,8 +102,6 @@ extension MarketPriceDomainModel {
         case scorecast
         /// Wincast. Contains 2 selections per leg consisting of a First Goalscorer selection and a Match Result selection.
         case wincast
-        /// Unknown.
-        case unknown
     }
 
 }

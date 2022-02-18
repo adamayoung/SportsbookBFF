@@ -4,36 +4,34 @@ import SportsCMS
 extension CMSNodeDomainModel {
 
     init?(node: CMSNode) {
-        guard let id = Int(node.id) else {
+        guard
+            let id = Int(node.id),
+            let type = CMSNodeDomainModel.NodeType(type: node.type),
+            let sportId = node.sportId, let sportID = Int(sportId)
+        else {
             return nil
         }
 
-        let type = CMSNodeDomainModel.NodeType(type: node.type)
-
-        guard let sportId = node.sportId, let eventTypeID = Int(sportId) else {
-            return nil
-        }
-
-        let eventTypeCategory = EventTypeDomainModel.Category(eventTypeID: eventTypeID)
+        let sportCategory = SportDomainModel.Category(sportID: sportID)
         let weight = node.weight ?? 0
 
-        self.init(id: id, name: node.name, type: type, eventTypeID: eventTypeID, eventTypeCategory: eventTypeCategory,
-                  weight: weight)
+        self.init(id: id, name: node.name, type: type, sportID: sportID, sportCategory: sportCategory, weight: weight)
     }
 
 }
 
 extension CMSNodeDomainModel.NodeType {
 
-    init(type: CMSNode.CMSNodeType) {
+    init?(type: CMSNode.CMSNodeType) {
         switch type {
-        case .eventType: self = .eventType
+        case .sport: self = .sport
         case .competition: self = .competition
         case .event: self = .event
         case .staticBanner: self = .staticBanner
         case .dynamicBanner: self = .dynamicBanner
-        case .marketType: self = .marketType
-        case .unknown: self = .unknown
+        case .marketType: self = .market
+        default:
+            return nil
         }
     }
 

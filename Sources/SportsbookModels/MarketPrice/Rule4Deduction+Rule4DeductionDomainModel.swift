@@ -19,7 +19,6 @@ extension Rule4Deduction.PriceType {
         switch priceType {
         case .livePrice: self = .livePrice
         case .startingPrice: self = .startingPrice
-        case .unknown: self = .unknown
         }
     }
 

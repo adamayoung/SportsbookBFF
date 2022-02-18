@@ -1,7 +1,8 @@
 import Foundation
+import SportsbookModels
 
 struct CompetitionsArguments: Codable {
 
-    let id: Int?
+    let id: Competition.ID?
 
 }

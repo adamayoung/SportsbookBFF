@@ -3,8 +3,11 @@ import SMP
 
 extension RunnerDetailsDomainModel {
 
-    init(runnerDetails: RunnerDetails) {
-        let status = RunnerDetailsDomainModel.Status(runnerStatus: runnerDetails.runnerStatus)
+    init?(runnerDetails: RunnerDetails) {
+        guard let status = RunnerDetailsDomainModel.Status(runnerStatus: runnerDetails.runnerStatus) else {
+            return nil
+        }
+
         let winOdds = OddsDomainModel(odds: runnerDetails.winRunnerOdds)
         let eachwayOdds = OddsDomainModel(odds: runnerDetails.eachwayRunnerOdds)
         let previousWinOdds = runnerDetails.previousWinRunnerOdds?.compactMap(OddsDomainModel.init)
@@ -20,12 +23,13 @@ extension RunnerDetailsDomainModel {
 
 extension RunnerDetailsDomainModel.Status {
 
-    init(runnerStatus: RunnerDetails.RunnerStatus) {
+    init?(runnerStatus: RunnerDetails.RunnerStatus) {
         switch runnerStatus {
         case .active: self = .active
         case .suspended: self = .suspended
         case .removed: self = .removed
-        case .unknown: self = .unknown
+        default:
+            return nil
         }
     }
 
@@ -39,11 +43,9 @@ extension RunnerDetailsDomainModel.PriceOverlay {
         }
 
         switch priceOverlay {
-        case .enhancedPricePromotion:
-            self = .enhancedPricePromotion
-
-        case .unknown:
-            self = .unknown
+        case .enhancedPricePromotion: self = .enhancedPricePromotion
+        default:
+            return nil
         }
     }
 
@@ -60,7 +62,8 @@ extension RunnerDetailsDomainModel.Scope {
         case .preplay: self = .prePlay
         case .inplay: self = .inPlay
         case .all: self = .all
-        case .unknown: self = .unknown
+        default:
+            return nil
         }
     }
 

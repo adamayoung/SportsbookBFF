@@ -1,7 +1,8 @@
 import Foundation
+import SportsbookModels
 
 struct EventArguments: Codable {
 
-    let id: Int
+    let id: Event.ID
 
 }

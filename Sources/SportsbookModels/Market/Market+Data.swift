@@ -3,7 +3,7 @@ import Vapor
 
 public extension Market {
 
-    static func all(forEvent eventID: Int, marketType: String? = nil, on request: Request) async throws -> [Market] {
+    static func all(forEvent eventID: Event.ID, marketType: String? = nil, on request: Request) async throws -> [Market] {
         try await request.marketService.markets(forEvent: eventID)
             .compactMap {
                 guard let marketType = marketType else {
@@ -14,7 +14,7 @@ public extension Market {
             }
     }
 
-    static func find(_ id: String, on request: Request) async throws -> Market? {
+    static func find(_ id: Market.ID, on request: Request) async throws -> Market? {
         guard let market = try await request.marketService.market(withID: id) else {
             return nil
         }
@@ -34,8 +34,12 @@ public extension Market {
         try await Competition.find(competitionID, on: request)
     }
 
-    func eventType(on request: Request) async throws -> EventType? {
-        try await EventType.find(eventTypeID, on: request)
+    func sport(on request: Request) async throws -> Sport? {
+        try await Sport.find(sportID, on: request)
+    }
+
+    func runner(_ selectionID: Runner.ID) -> Runner? {
+        runners.first { $0.selectionID == selectionID }
     }
 
     func price(on request: Request) async throws -> MarketPrice? {

@@ -1,24 +1,24 @@
 import Foundation
 
-public struct EventTypeDomainModel: Identifiable, Equatable, Hashable, Comparable {
+public struct SportDomainModel: Identifiable, Equatable, Hashable, Comparable {
 
     public let id: Int
     public let name: String
-    public let category: EventTypeDomainModel.Category?
+    public let category: SportDomainModel.Category?
 
-    public init(id: Int, name: String, category: EventTypeDomainModel.Category? = nil) {
+    public init(id: Int, name: String, category: SportDomainModel.Category? = nil) {
         self.id = id
         self.name = name
         self.category = category
     }
 
-    public static func < (lhs: EventTypeDomainModel, rhs: EventTypeDomainModel) -> Bool {
+    public static func < (lhs: SportDomainModel, rhs: SportDomainModel) -> Bool {
         lhs.name.localizedLowercase < rhs.name.localizedLowercase
     }
 
 }
 
-extension EventTypeDomainModel {
+extension SportDomainModel {
 
     public enum Category: CaseIterable {
         case avb

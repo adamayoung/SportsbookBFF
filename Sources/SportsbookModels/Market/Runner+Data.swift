@@ -3,7 +3,7 @@ import Vapor
 
 public extension Runner {
 
-    static func all(forMarket marketID: String, on request: Request) async throws -> [Runner]? {
+    static func all(forMarket marketID: Market.ID, on request: Request) async throws -> [Runner]? {
         guard let market = try await request.marketService.market(withID: marketID) else {
             return nil
         }
@@ -11,10 +11,17 @@ public extension Runner {
         return market.runners.map(Runner.init)
     }
 
-    static func find(withSelection selectionID: Int, inMarket marketID: String,
+    static func find(withSelection selectionID: Runner.ID, inMarket marketID: Market.ID,
                      on request: Request) async throws -> Runner? {
-        try await all(forMarket: marketID, on: request)?
-            .first { $0.selectionID == selectionID }
+        guard let market = try await request.marketService.market(withID: marketID) else {
+            return nil
+        }
+
+        guard let runner = (market.runners.first { $0.selectionID == selectionID }) else {
+            return nil
+        }
+
+        return Runner(runner: runner)
     }
 
 }

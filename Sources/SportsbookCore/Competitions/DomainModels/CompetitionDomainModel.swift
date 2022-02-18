@@ -4,12 +4,12 @@ public struct CompetitionDomainModel: Identifiable, Equatable, Hashable, Compara
 
     public let id: Int
     public let name: String
-    public let eventTypeID: Int
+    public let sportID: Int
 
-    public init(id: Int, name: String, eventTypeID: Int) {
+    public init(id: Int, name: String, sportID: Int) {
         self.id = id
         self.name = name
-        self.eventTypeID = eventTypeID
+        self.sportID = sportID
     }
 
     public static func < (lhs: CompetitionDomainModel, rhs: CompetitionDomainModel) -> Bool {

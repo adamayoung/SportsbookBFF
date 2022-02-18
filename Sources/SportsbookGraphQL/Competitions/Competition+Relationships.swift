@@ -4,10 +4,10 @@ import Vapor
 
 extension Competition {
 
-    func eventType(request: Request, arguments: NoArguments) -> EventLoopFuture<EventType?> {
-        let promise = request.eventLoop.makePromise(of: Optional<EventType>.self)
+    func sport(request: Request, arguments: NoArguments) -> EventLoopFuture<Sport?> {
+        let promise = request.eventLoop.makePromise(of: Optional<Sport>.self)
         promise.completeWithTask {
-            try await eventType(on: request)
+            try await sport(on: request)
         }
 
         return promise.futureResult
@@ -21,7 +21,11 @@ extension Competition {
                 return events
             }
 
-            return events.filter { $0.id == eventID }
+            guard let event = (events.first { $0.id == eventID }) else {
+                return []
+            }
+
+            return [event]
         }
 
         return promise.futureResult

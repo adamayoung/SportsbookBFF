@@ -2,14 +2,12 @@ import Graphiti
 import SportsbookModels
 import Vapor
 
-extension EventType {
+extension Sport {
 
-    func competitions(request: Request,
-                      arguments: CompetitionsArguments) throws -> EventLoopFuture<[Competition]> {
+    func competitions(request: Request, arguments: CompetitionsArguments) throws -> EventLoopFuture<[Competition]> {
         let promise = request.eventLoop.makePromise(of: [Competition].self)
         promise.completeWithTask {
             let competitions = try await competitions(on: request)
-
             guard let competitionID = arguments.id else {
                 return competitions
             }
@@ -28,7 +26,6 @@ extension EventType {
         let promise = request.eventLoop.makePromise(of: [Event].self)
         promise.completeWithTask {
             let events = try await events(isInPlay: arguments.isInPlay, on: request)
-
             guard let eventID = arguments.id else {
                 return events
             }
