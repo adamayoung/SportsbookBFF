@@ -3,13 +3,13 @@ import Foundation
 @testable import SMP
 import XCTest
 
-final class MarketPriceTests: XCTestCase {
+final class MarketDetailsTests: XCTestCase {
 
     func testDecode() throws {
-        let expectedResult = MarketPrice.mock
+        let expectedResult = MarketDetails.mock
 
         let result = try JSONDecoder.tla
-            .decode([MarketPrice].self, fromResource: "market-prices-1", withExtension: "json").first!
+            .decode([MarketDetails].self, fromResource: "market-details-1").first!
 
         XCTAssertEqual(result.marketId, expectedResult.marketId)
         XCTAssertEqual(result.marketStatus, expectedResult.marketStatus)

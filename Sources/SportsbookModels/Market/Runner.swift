@@ -26,9 +26,10 @@ public extension Runner {
 
     enum RunnerStatus: String, CaseIterable, Equatable, Codable {
         case active
-        case suspended
+        case winner
+        case loser
+        case removeVacant
         case removed
-        case unknown
     }
 
     struct RunnerResult: Equatable, Codable {

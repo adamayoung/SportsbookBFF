@@ -23,7 +23,8 @@ final class CompetitionSCANService: CompetitionService {
             return nil
         }
 
-        return CompetitionDomainModel(attachment: attachment)
+        let competition = CompetitionDomainModel(attachment: attachment)
+        return competition
     }
 
     func competitions(forSport sportID: SportDomainModel.ID) async throws -> [CompetitionDomainModel] {
@@ -35,9 +36,23 @@ final class CompetitionSCANService: CompetitionService {
             return []
         }
 
-        return attachments
+        let competitions = attachments
             .compactMap(CompetitionDomainModel.init)
             .sorted()
+        return competitions
+    }
+
+    func competition(forEvent eventID: EventDomainModel.ID) async throws -> CompetitionDomainModel? {
+        logger.debug("Fetching Competition", metadata: ["event-id": .stringConvertible(eventID)])
+
+        let request = SearchRequest.competitions(forEvent: eventID, locale: locale)
+        let response = try await scanService.search(request)
+        guard let attachment = response.attachments.competitions?.first?.value else {
+            return nil
+        }
+
+        let competition = CompetitionDomainModel(attachment: attachment)
+        return competition
     }
 
 }

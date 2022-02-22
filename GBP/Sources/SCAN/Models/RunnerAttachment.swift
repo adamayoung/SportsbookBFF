@@ -1,18 +1,20 @@
 import Foundation
 
-public struct Runner: Codable {
+public struct RunnerAttachment: Equatable, Codable {
 
-    public let selectionId: Int
-    public let handicap: Double
+    public let selectionId: SelectionID
+    public let handicap: Handicap
+    public let key: String?
     public let runnerName: String
     public let sortPriority: Int
-    public let runnerStatus: RunnerStatus
-    public let result: RunnerResult
+    public let runnerStatus: RunnerAttachment.Status
+    public let result: RunnerAttachment.RunnerResult?
 
-    public init(selectionId: Int, handicap: Double, runnerName: String, sortPriority: Int,
-                runnerStatus: Runner.RunnerStatus, result: Runner.RunnerResult) {
+    public init(selectionId: Int, handicap: Double, key: String? = nil, runnerName: String, sortPriority: Int,
+                runnerStatus: RunnerAttachment.Status, result: RunnerAttachment.RunnerResult) {
         self.selectionId = selectionId
         self.handicap = handicap
+        self.key = key
         self.runnerName = runnerName
         self.sortPriority = sortPriority
         self.runnerStatus = runnerStatus
@@ -21,12 +23,14 @@ public struct Runner: Codable {
 
 }
 
-extension Runner {
+extension RunnerAttachment {
 
-    public enum RunnerStatus: String, Equatable, CaseIterable, Codable {
+    public enum Status: String, Equatable, CaseIterable, Codable {
 
         case active = "ACTIVE"
-        case suspended = "SUSPENDED"
+        case winner = "WINNER"
+        case loser = "LOSER"
+        case removeVacant = "REMOVE_VACANT"
         case removed = "REMOVED"
         case unknown = "UNKNOWN"
 
@@ -39,19 +43,22 @@ extension Runner {
     public struct RunnerResult: Equatable, Codable {
 
         public let type: RunnerResultType?
+        public let scoreHome: Int?
+        public let scoreAway: Int?
 
-        public init(type: RunnerResultType? = nil) {
+        public init(type: RunnerResultType? = nil, scoreHome: Int? = nil, scoreAway: Int? = nil) {
             self.type = type
+            self.scoreHome = scoreHome
+            self.scoreAway = scoreAway
         }
 
     }
 
 }
 
-extension Runner.RunnerResult {
+extension RunnerAttachment.RunnerResult {
 
     public enum RunnerResultType: String, Equatable, CaseIterable, Codable {
-
         case home = "HOME"
         case away = "AWAY"
         case draw = "DRAW"
@@ -65,7 +72,6 @@ extension Runner.RunnerResult {
         public init(from decoder: Decoder) throws {
             self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
         }
-
     }
 
 }

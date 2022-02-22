@@ -101,12 +101,6 @@ final class SportsControllerTests: XCTestCase {
         }
     }
 
-
-
-
-
-
-
     func testShowFromEventReturnsSport() throws {
         let event = EventDomainModel.mock(for: 30127940)
         let sport = Sport(sport: SportDomainModel.mock(for: event.sportID))

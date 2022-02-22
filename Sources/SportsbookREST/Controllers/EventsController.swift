@@ -17,9 +17,7 @@ public struct EventsController: RouteCollection {
         }
 
         let events = routes.grouped("events")
-        events.group(":eventID") { event in
-            event.get(use: show)
-        }
+        events.get(":eventID", use: show)
 
         let markets = routes.grouped("markets")
         markets.group(":marketID") { market in
@@ -38,8 +36,7 @@ public struct EventsController: RouteCollection {
 
         let query = try request.query.decode(EventsFromSportQuery.self)
         let events = try await sport.events(isInPlay: query.isInPlay, on: request)
-        let model = RootAPIModel(data: events)
-        return model
+        return RootAPIModel(data: events)
     }
 
     func indexFromCompetition(request: Request) async throws -> RootAPIModel<[Event]> {
@@ -52,8 +49,7 @@ public struct EventsController: RouteCollection {
         }
 
         let events = try await competition.events(on: request)
-        let model = RootAPIModel(data: events)
-        return model
+        return RootAPIModel(data: events)
     }
 
     func show(request: Request) async throws -> RootAPIModel<Event> {
@@ -65,8 +61,7 @@ public struct EventsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = RootAPIModel(data: event)
-        return model
+        return RootAPIModel(data: event)
     }
 
     func showFromMarket(request: Request) async throws -> RootAPIModel<Event> {

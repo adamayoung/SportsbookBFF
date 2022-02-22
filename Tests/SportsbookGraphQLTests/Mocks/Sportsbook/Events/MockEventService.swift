@@ -29,4 +29,8 @@ struct MockEventService: EventService {
             }
     }
 
+    func event(forMarket marketID: MarketDomainModel.ID) async throws -> EventDomainModel? {
+        events.first
+    }
+
 }

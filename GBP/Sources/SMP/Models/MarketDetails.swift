@@ -1,11 +1,14 @@
 import Foundation
 
-public struct MarketPrice: Equatable, Hashable, Codable {
+/// Market Price.
+///
+/// - Note: [GBP | SMP | MarketDetails](https://github.com/Flutter-Global/cap-product-catalogue/blob/master/api/smp/SMP-IDD.md#MarketDetails)
+public struct MarketDetails: Equatable, Hashable, Codable {
 
     /// Unique market identifier in the format 'product.market'.
     public let marketId: String
     /// The current state of a market.
-    public let marketStatus: MarketPrice.MarketStatus
+    public let marketStatus: MarketDetails.MarketStatus
     /// True if a market turns 'in play' at a kick off time, otherwise it is false.
     public let turnInPlayEnabled: Bool
     /// True if a market is currently in play, otherwise it is false.
@@ -17,7 +20,7 @@ public struct MarketPrice: Equatable, Hashable, Codable {
     /// True if guaranteed price is available on this market.
     public let guaranteedPriceAvailable: Bool
     /// Represents a type of a betting market.
-    public let bettingType: MarketPrice.MarketBettingType
+    public let bettingType: MarketDetails.MarketBettingType
     /// Available runners of the market in no particular order.
     public let runnerDetails: [RunnerDetails]
     /// True if eachway betting is available.
@@ -27,7 +30,7 @@ public struct MarketPrice: Equatable, Hashable, Codable {
     /// The fraction to which the place price is derived(each way).
     public let placeFraction: FractionalOdds?
     /// Available Leg Types the user can place bets in this market. e.g. Single Selection, Forecast, Wincast, etc.
-    public let legTypes: [MarketPrice.LegType]?
+    public let legTypes: [MarketDetails.LegType]?
     /// Is this market BPE (Price Rush) eligible.
     public let hasBPE: Bool?
     /// Is this market eligible for same game multiples?
@@ -39,11 +42,11 @@ public struct MarketPrice: Equatable, Hashable, Codable {
     /// List of Rule4 deductions on the represented market.
     public let rule4Deductions: [Rule4Deduction]?
 
-    public init(marketId: String, marketStatus: MarketPrice.MarketStatus, turnInPlayEnabled: Bool, inplay: Bool,
+    public init(marketId: String, marketStatus: MarketDetails.MarketStatus, turnInPlayEnabled: Bool, inplay: Bool,
                 bspMarket: Bool, livePriceAvailable: Bool, guaranteedPriceAvailable: Bool,
-                bettingType: MarketPrice.MarketBettingType, runnerDetails: [RunnerDetails], eachwayAvailable: Bool,
+                bettingType: MarketDetails.MarketBettingType, runnerDetails: [RunnerDetails], eachwayAvailable: Bool,
                 numberOfPlaces: Int? = nil, placeFraction: FractionalOdds? = nil,
-                legTypes: [MarketPrice.LegType]? = nil, hasBPE: Bool? = nil, hasSGM: Bool? = nil,
+                legTypes: [MarketDetails.LegType]? = nil, hasBPE: Bool? = nil, hasSGM: Bool? = nil,
                 linkedMarketId: String? = nil, betDelay: Int, rule4Deductions: [Rule4Deduction]? = nil) {
         self.marketId = marketId
         self.marketStatus = marketStatus
@@ -67,7 +70,7 @@ public struct MarketPrice: Equatable, Hashable, Codable {
 
 }
 
-extension MarketPrice {
+extension MarketDetails {
 
     public enum MarketStatus: String, CaseIterable, Codable {
         /// Open Market.

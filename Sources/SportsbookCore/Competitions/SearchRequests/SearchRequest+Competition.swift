@@ -6,8 +6,8 @@ extension SearchRequest {
     static func competitions(forEventType eventTypeID: Int, locale: Locale) -> SearchRequest {
         SearchRequest(
             facet: Facet(type: .competition),
-            filter: SearchFilter(
-                eventTypeIds: [eventTypeID]
+            filter: FilterQuery(
+                eventTypeIDs: [eventTypeID]
             ),
             locale: locale
         )
@@ -16,8 +16,18 @@ extension SearchRequest {
     static func competition(withID competitionID: Int, locale: Locale) -> SearchRequest {
         SearchRequest(
             facet: Facet(type: .competition),
-            filter: SearchFilter(
-                competitionIds: [competitionID]
+            filter: FilterQuery(
+                competitionIDs: [competitionID]
+            ),
+            locale: locale
+        )
+    }
+
+    static func competitions(forEvent eventID: Int, locale: Locale) -> SearchRequest {
+        SearchRequest(
+            facet: Facet(type: .competition),
+            filter: FilterQuery(
+                eventIDs: [eventID]
             ),
             locale: locale
         )

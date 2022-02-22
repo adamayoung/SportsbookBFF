@@ -19,14 +19,8 @@ extension Event {
     }
 
     public static func find(forMarket marketID: Market.ID, on request: Request) async throws -> Event? {
-        guard
-            let market = try await request.marketService.market(withID: marketID),
-            let event = try await request.eventService.event(withID: market.eventID)
-        else {
-            return nil
-        }
-
-        return Event(event: event)
+        try await request.eventService.event(forMarket: marketID)
+            .map(Event.init)
     }
 
 }

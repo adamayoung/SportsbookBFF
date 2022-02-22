@@ -16,7 +16,7 @@ struct SCANGBPService: SCANService {
         self.logger = logger
     }
 
-    func search(_ searchRequest: SearchRequest) async throws -> SearchResponse {
+    func search(_ searchRequest: SearchRequest) async throws -> FacetedSearchResult {
         logger.debug("Searching SCAN service", metadata: ["facets": .stringConvertible(searchRequest.facets)])
 
         return try await client.post(Self.searchPath, body: searchRequest, configuration: configuration)

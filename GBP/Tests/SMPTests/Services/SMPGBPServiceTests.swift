@@ -30,7 +30,7 @@ final class SMPGBPServiceTests: XCTestCase {
         let marketIds = ["1", "2", "3", "4"]
         let maxResults = 10
         let expectedBody = MarketPricesRequest(marketIds: marketIds, priceHistory: maxResults)
-        let expectedResult = [MarketPrice.mock]
+        let expectedResult = [MarketDetails.mock]
 
         gbpClient.result = .success(expectedResult)
 
@@ -45,7 +45,7 @@ final class SMPGBPServiceTests: XCTestCase {
     func testMarketPricesWithMaketIDsReturnsMarketPrices() async throws {
         let marketIds = ["1", "2", "3", "4"]
         let expectedBody = MarketPricesRequest(marketIds: marketIds)
-        let expectedResult = [MarketPrice.mock]
+        let expectedResult = [MarketDetails.mock]
 
         gbpClient.result = .success(expectedResult)
 
@@ -60,7 +60,7 @@ final class SMPGBPServiceTests: XCTestCase {
     func testMarketPricesWithMaketIDReturnsMarketPrices() async throws {
         let marketId = "1"
         let expectedBody = MarketPricesRequest(marketId: marketId)
-        let expectedResult = MarketPrice.mock
+        let expectedResult = MarketDetails.mock
 
         gbpClient.result = .success([expectedResult])
 

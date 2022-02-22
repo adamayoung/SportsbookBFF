@@ -16,11 +16,11 @@ struct SMPGBPService: SMPService {
         self.logger = logger
     }
 
-    func marketPrices(forMarkets marketIds: [String], maxResults: Int?) async throws -> [MarketPrice] {
+    func marketPrices(forMarkets marketIDs: [String], maxResults: Int?) async throws -> [MarketDetails] {
         logger.debug("Fetching market prices from SMP service",
-                     metadata: ["marketIDs": .stringConvertible(marketIds.joined(separator: ", "))])
+                     metadata: ["marketIDs": .stringConvertible(marketIDs.joined(separator: ", "))])
 
-        let body = MarketPricesRequest(marketIds: marketIds, priceHistory: maxResults)
+        let body = MarketPricesRequest(marketIds: marketIDs, priceHistory: maxResults)
         return try await client.post(Self.marketPricesPath, body: body, configuration: configuration)
     }
 

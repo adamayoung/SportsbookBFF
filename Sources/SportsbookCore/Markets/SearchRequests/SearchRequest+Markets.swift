@@ -3,11 +3,11 @@ import SCAN
 
 extension SearchRequest {
 
-    static func market(withID marketID: String, locale: Locale) -> SearchRequest {
+    static func markets(withID marketID: String, locale: Locale) -> SearchRequest {
         SearchRequest(
             facet: Facet(type: .market),
-            filter: SearchFilter(
-                marketIds: [marketID]
+            filter: FilterQuery(
+                marketIDs: [marketID]
             ),
             locale: locale
         )
@@ -16,8 +16,8 @@ extension SearchRequest {
     static func markets(forEvent eventID: Int, locale: Locale) -> SearchRequest {
         SearchRequest(
             facet: Facet(type: .market),
-            filter: SearchFilter(
-                eventIds: [eventID]
+            filter: FilterQuery(
+                eventIDs: [eventID]
             ),
             locale: locale
         )

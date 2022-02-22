@@ -3,5 +3,4 @@ import XCTVapor
 
 final class CMSConfigurationTests: XCTestCase {
 
-
 }

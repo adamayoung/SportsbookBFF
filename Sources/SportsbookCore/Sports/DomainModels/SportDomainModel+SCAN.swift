@@ -4,16 +4,13 @@ import SCAN
 extension SportDomainModel {
 
     init?(attachment: EventTypeAttachment) {
-        guard
-            let id = attachment.eventTypeId,
-            let name = attachment.name
-        else {
+        guard let name = attachment.name else {
             return nil
         }
 
-        let category = SportDomainModel.Category(sportID: id)
+        let category = SportDomainModel.Category(sportID: attachment.eventTypeID)
 
-        self.init(id: id, name: name, category: category)
+        self.init(id: attachment.eventTypeID, name: name, category: category)
     }
 
 }

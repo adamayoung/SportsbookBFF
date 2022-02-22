@@ -8,6 +8,8 @@ public protocol EventService {
 
     func events(forSport sportID: SportDomainModel.ID, isInPlay: Bool?) async throws -> [EventDomainModel]
 
+    func event(forMarket marketID: MarketDomainModel.ID) async throws -> EventDomainModel?
+
 }
 
 extension EventService {

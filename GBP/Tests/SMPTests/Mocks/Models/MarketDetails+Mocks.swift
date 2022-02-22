@@ -1,9 +1,9 @@
 import Foundation
 @testable import SMP
 
-extension MarketPrice {
+extension MarketDetails {
 
-    static var mock = MarketPrice(
+    static var mock = MarketDetails(
         marketId: "501.16147765",
         marketStatus: .open,
         turnInPlayEnabled: true,

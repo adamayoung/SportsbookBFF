@@ -6,6 +6,10 @@ public protocol SportService {
 
     func sports(filter: SportsFilterConvertible?) async throws -> [SportDomainModel]
 
+    func sport(forCompetition competitionID: CompetitionDomainModel.ID) async throws -> SportDomainModel?
+
+    func sport(forEvent eventID: EventDomainModel.ID) async throws -> SportDomainModel?
+
 }
 
 extension SportService {

@@ -12,6 +12,6 @@ public protocol SCANService {
     ///   - searchRequest: The SCAN search request.
     ///
     /// - Returns: A future that will receive the eventual search response.
-    func search(_ searchRequest: SearchRequest) async throws -> SearchResponse
+    func search(_ searchRequest: SearchRequest) async throws -> FacetedSearchResult
 
 }

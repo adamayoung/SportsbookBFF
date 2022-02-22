@@ -17,13 +17,14 @@ final class MarketSCANService: MarketService {
     func market(withID id: MarketDomainModel.ID) async throws -> MarketDomainModel? {
         logger.debug("Fetching Market", metadata: ["id": .stringConvertible(id)])
 
-        let request = SearchRequest.market(withID: id, locale: locale)
+        let request = SearchRequest.markets(withID: id, locale: locale)
         let response = try await scanService.search(request)
         guard let attachment = response.attachments.sportsBookMarkets?.first else {
             return nil
         }
 
-        return MarketDomainModel(id: attachment.key, attachment: attachment.value)
+        let market = MarketDomainModel(id: attachment.key, attachment: attachment.value)
+        return market
     }
 
     func markets(forEvent eventID: Int) async throws -> [MarketDomainModel] {
@@ -35,10 +36,11 @@ final class MarketSCANService: MarketService {
             return []
         }
 
-        return attachments
-            .map(MarketDomainModel.init)
+        let markets = attachments
+            .compactMap(MarketDomainModel.init)
             .sorted { $0.name < $1.name }
             .sorted { $0.marketDate < $1.marketDate }
+        return markets
     }
 
 }

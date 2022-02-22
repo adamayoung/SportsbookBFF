@@ -2,30 +2,47 @@ import Foundation
 
 public struct AttachmentKey: Equatable, Codable {
 
-    public let eventId: Int?
-    public let marketId: String?
-    public let sportsbookMarketId: String?
-    public let competitionId: Int?
-    public let eventTypeId: Int?
-    public let meetingId: String?
-    public let raceId: String?
-    public let externalMarketId: String?
+    public let eventID: EventID?
+    public let marketID: MarketID?
+    public let sportsbookMarketID: MarketID?
+    public let competitionID: CompetitionID?
+    public let eventTypeID: EventTypeID?
+    public let meetingID: MeetingID?
+    public let raceID: RaceID?
+    public let externalMarketID: MarketID?
 
-    public init(eventId: Int? = nil, marketId: String? = nil, sportsbookMarketId: String? = nil,
-                competitionId: Int? = nil, eventTypeId: Int? = nil, meetingId: String? = nil, raceId: String? = nil,
-                externalMarketId: String? = nil) {
-        self.eventId = eventId
-        self.marketId = marketId
-        self.sportsbookMarketId = sportsbookMarketId
-        self.competitionId = competitionId
-        self.eventTypeId = eventTypeId
-        self.meetingId = meetingId
-        self.raceId = raceId
-        self.externalMarketId = externalMarketId
+    public init(eventID: EventID? = nil, marketID: MarketID? = nil, sportsbookMarketID: MarketID? = nil,
+                competitionID: CompetitionID? = nil, eventTypeID: EventTypeID? = nil, meetingID: MeetingID? = nil,
+                raceID: RaceID? = nil, externalMarketID: MarketID? = nil) {
+        self.eventID = eventID
+        self.marketID = marketID
+        self.sportsbookMarketID = sportsbookMarketID
+        self.competitionID = competitionID
+        self.eventTypeID = eventTypeID
+        self.meetingID = meetingID
+        self.raceID = raceID
+        self.externalMarketID = externalMarketID
     }
 
     public static func == (lhs: AttachmentKey, rhs: AttachmentKey) -> Bool {
-        lhs.eventId != nil && lhs.eventId == rhs.eventId
+        lhs.eventID != nil && lhs.eventID == rhs.eventID
+    }
+
+}
+
+extension AttachmentKey {
+
+    private enum CodingKeys: String, CodingKey {
+
+        case eventID = "eventId"
+        case marketID = "marketId"
+        case sportsbookMarketID = "sportsbookMarketId"
+        case competitionID = "competitionId"
+        case eventTypeID = "eventTypeId"
+        case meetingID = "meetingId"
+        case raceID = "raceId"
+        case externalMarketID = "externalMarketId"
+
     }
 
 }

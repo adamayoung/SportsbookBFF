@@ -26,7 +26,9 @@ extension MarketRunnerDomainModel {
 
     public enum Status: CaseIterable {
         case active
-        case suspended
+        case winner
+        case loser
+        case removeVacant
         case removed
     }
 

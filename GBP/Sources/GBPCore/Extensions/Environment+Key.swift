@@ -2,7 +2,7 @@ import Vapor
 
 public extension Environment {
 
-    struct Key: CustomStringConvertible {
+    struct Key: CustomStringConvertible, Equatable {
 
         private let name: String
 

@@ -8,9 +8,7 @@ public struct SportsController: RouteCollection {
     public func boot(routes: RoutesBuilder) throws {
         let sports = routes.grouped("sports")
         sports.get(use: index)
-        sports.group(":sportID") { sport in
-            sport.get(use: show)
-        }
+        sports.get(":sportID", use: show)
 
         let competitions = routes.grouped("competitions")
         competitions.group(":competitionID") { competition in
@@ -26,8 +24,7 @@ public struct SportsController: RouteCollection {
     func index(request: Request) async throws -> RootAPIModel<[Sport]> {
         let query = try request.query.decode(SportsQuery.self)
         let sports = try await Sport.all(filter: query, on: request)
-        let model = RootAPIModel(data: sports)
-        return model
+        return RootAPIModel(data: sports)
     }
 
     func show(request: Request) async throws -> RootAPIModel<Sport> {
@@ -39,8 +36,7 @@ public struct SportsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = RootAPIModel(data: sport)
-        return model
+        return RootAPIModel(data: sport)
     }
 
     func showFromCompetition(request: Request) async throws -> RootAPIModel<Sport> {
@@ -55,8 +51,7 @@ public struct SportsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = RootAPIModel(data: sport)
-        return model
+        return RootAPIModel(data: sport)
     }
 
     func showFromEvent(request: Request) async throws -> RootAPIModel<Sport> {
@@ -71,8 +66,7 @@ public struct SportsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = RootAPIModel(data: sport)
-        return model
+        return RootAPIModel(data: sport)
     }
 
 }

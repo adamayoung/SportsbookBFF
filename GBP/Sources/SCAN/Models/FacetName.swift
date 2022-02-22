@@ -1,6 +1,6 @@
 import Foundation
 
-public enum FacetType: String, Equatable, Hashable, Codable {
+public enum FacetName: String, Equatable, Hashable, Codable {
 
     case event = "EVENT"
     case eventType = "EVENT_TYPE"

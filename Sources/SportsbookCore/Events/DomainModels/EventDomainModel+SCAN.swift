@@ -3,11 +3,15 @@ import SCAN
 
 extension EventDomainModel {
 
-    init(attachment: EventAttachment, facets: [FacetResultNode]) {
+    init?(attachment: EventAttachment, facets: [FacetResultNode]) {
+        guard let attachmentName = attachment.name else {
+            return nil
+        }
+
         let eventFacetedValue = facets
             .first { $0.type == .event }?
             .values
-            .first { $0.key?.eventId == attachment.eventId }
+            .first { $0.key?.eventID == attachment.eventID }
 
         let isInPlayFacet = eventFacetedValue?.next?.type == .inPlay ? eventFacetedValue?.next : nil
         let isInPlayFacetedValue = isInPlayFacet?.values.first
@@ -17,8 +21,8 @@ extension EventDomainModel {
         let canTurnInPlayFacetedValue = canTurnInPlayFacet?.values.first
         let canTurnInPlay = canTurnInPlayFacetedValue?.value == "true"
 
-        self.init(id: attachment.eventId, name: attachment.name ?? "", sportID: attachment.eventTypeId,
-                  competitionID: attachment.competitionId, countryCode: attachment.countryCode,
+        self.init(id: attachment.eventID, name: attachmentName, sportID: attachment.eventTypeID,
+                  competitionID: attachment.competitionID, countryCode: attachment.countryCode,
                   timeZone: attachment.timezone, openDate: attachment.openDate,
                   isVideoAvailable: attachment.videoAvailable, isInPlay: isInPlay, canTurnInPlay: canTurnInPlay)
     }

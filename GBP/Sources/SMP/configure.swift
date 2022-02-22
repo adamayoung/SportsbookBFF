@@ -1,6 +1,7 @@
 import GBPCore
 import Vapor
 
+/// Configures services for Sportsbook Market Prices.
 public func configure(_ app: Application) throws {
     try modules(app)
 

@@ -17,4 +17,8 @@ struct MockCompetitionService: CompetitionService {
         competitions.filter { $0.sportID == sportID }
     }
 
+    func competition(forEvent eventID: EventDomainModel.ID) async throws -> CompetitionDomainModel? {
+        competitions.first
+    }
+
 }

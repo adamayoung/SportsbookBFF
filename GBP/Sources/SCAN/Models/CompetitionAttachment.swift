@@ -1,22 +1,35 @@
 import Foundation
 
-public struct CompetitionAttachment: Codable {
+public struct CompetitionAttachment: Equatable, Codable {
 
     public let key: String?
     public let name: String?
-    public let competitionId: Int?
-    public let region: String?
-    public let eventTypeId: Int?
-    public let oddsBoostCount: Int?
+    public let competitionID: CompetitionID
+    public let eventID: EventID
+    public let eventTypeID: EventTypeID
+    public let region: CountryCode?
 
-    public  init(key: String? = nil, name: String? = nil, competitionId: Int?, region: String? = nil,
-                 eventTypeId: Int? = nil, oddsBoostCount: Int? = nil) {
+    public init(key: String? = nil, name: String? = nil, competitionID: CompetitionID, eventID: EventID,
+                eventTypeID: EventTypeID, region: CountryCode? = nil) {
         self.key = key
         self.name = name
-        self.competitionId = competitionId
+        self.competitionID = competitionID
+        self.eventID = eventID
+        self.eventTypeID = eventTypeID
         self.region = region
-        self.eventTypeId = eventTypeId
-        self.oddsBoostCount = oddsBoostCount
+    }
+
+}
+
+extension CompetitionAttachment {
+
+    private enum CodingKeys: String, CodingKey {
+        case key
+        case name
+        case competitionID = "competitionId"
+        case eventID = "eventId"
+        case eventTypeID = "eventTypeId"
+        case region
     }
 
 }

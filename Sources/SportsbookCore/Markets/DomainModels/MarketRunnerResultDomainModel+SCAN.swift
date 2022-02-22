@@ -3,7 +3,7 @@ import SCAN
 
 extension MarketRunnerResultDomainModel {
 
-    init(result: SCAN.Runner.RunnerResult) {
+    init(result: RunnerAttachment.RunnerResult) {
         let type = MarketRunnerResultDomainModel.ResultType(type: result.type)
         self.init(type: type)
     }
@@ -12,7 +12,7 @@ extension MarketRunnerResultDomainModel {
 
 extension MarketRunnerResultDomainModel.ResultType {
 
-    init?(type: Runner.RunnerResult.RunnerResultType?) {
+    init?(type: RunnerAttachment.RunnerResult.RunnerResultType?) {
         guard let type = type else {
             return nil
         }

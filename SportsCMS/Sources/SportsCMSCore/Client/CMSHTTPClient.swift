@@ -32,7 +32,7 @@ extension CMSHTTPClient {
     private static func headers(using configuration: CMSConfiguration) -> HTTPHeaders {
         var headers = HTTPHeaders()
         headers.add(name: .accept, value: "application/json")
-        headers.add(name: "SecretHeader", value: configuration.apiKey)
+        headers.add(name: .secret, value: configuration.apiKey)
         return headers
     }
 

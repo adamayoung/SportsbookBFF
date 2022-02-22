@@ -3,7 +3,7 @@ import SMP
 
 extension MarketPriceDomainModel {
 
-    init?(marketPrice: MarketPrice) {
+    init?(marketPrice: MarketDetails) {
         guard
             let marketStatus = MarketStatus(marketStatus: marketPrice.marketStatus),
             let bettingType = MarketBettingType(bettingType: marketPrice.bettingType)
@@ -30,7 +30,7 @@ extension MarketPriceDomainModel {
 
 extension MarketPriceDomainModel.MarketStatus {
 
-    init?(marketStatus: MarketPrice.MarketStatus) {
+    init?(marketStatus: MarketDetails.MarketStatus) {
         switch marketStatus {
         case .open: self = .open
         case .suspended: self = .suspended
@@ -43,7 +43,7 @@ extension MarketPriceDomainModel.MarketStatus {
 
 extension MarketPriceDomainModel.MarketBettingType {
 
-    init?(bettingType: MarketPrice.MarketBettingType) {
+    init?(bettingType: MarketDetails.MarketBettingType) {
         switch bettingType {
         case .fixedOdds: self = .fixedOdds
         case .movingHandicap: self = .movingHandicap
@@ -56,7 +56,7 @@ extension MarketPriceDomainModel.MarketBettingType {
 
 extension MarketPriceDomainModel.LegType {
 
-    init?(legType: MarketPrice.LegType) {
+    init?(legType: MarketDetails.LegType) {
         switch legType {
         case .simpleSelection: self = .simpleSelection
         case .forecast: self = .forecast

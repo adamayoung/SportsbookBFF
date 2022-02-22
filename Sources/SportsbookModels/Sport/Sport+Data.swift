@@ -9,33 +9,18 @@ public extension Sport {
     }
 
     static func find(_ id: Sport.ID, on request: Request) async throws -> Sport? {
-        guard let sport = try await request.sportService.sport(withID: id) else {
-            return nil
-        }
-
-        return Sport(sport: sport)
+        try await request.sportService.sport(withID: id)
+            .map(Sport.init)
     }
 
     static func find(forCompetition competitionID: Competition.ID, on request: Request) async throws -> Sport? {
-        guard
-            let competition = try await request.competitionService.competition(withID: competitionID),
-            let sport = try await request.sportService.sport(withID: competition.sportID)
-        else {
-            return nil
-        }
-
-        return Sport(sport: sport)
+        try await request.sportService.sport(forCompetition: competitionID)
+            .map(Sport.init)
     }
 
     static func find(forEvent eventID: Event.ID, on request: Request) async throws -> Sport? {
-        guard
-            let event = try await request.eventService.event(withID: eventID),
-            let sport = try await request.sportService.sport(withID: event.sportID)
-        else {
-            return nil
-        }
-
-        return Sport(sport: sport)
+        try await request.sportService.sport(forEvent: eventID)
+            .map(Sport.init)
     }
 
 }

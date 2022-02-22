@@ -1,6 +1,6 @@
 import Foundation
 
-public struct FacetedValue: Codable {
+public struct FacetedValues: Equatable, Codable {
 
     public let key: AttachmentKey?
     public let value: String?

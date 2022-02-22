@@ -7,6 +7,7 @@ extension Application {
         typealias Value = SMPServiceFactory
     }
 
+    /// GBP's `SMPService` factory.
     public var smpService: SMPServiceFactory {
         get {
             self.storage[SMPServiceKey.self] ?? .init()

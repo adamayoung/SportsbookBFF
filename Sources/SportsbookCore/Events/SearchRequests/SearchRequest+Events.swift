@@ -6,8 +6,8 @@ extension SearchRequest {
     static func event(withID eventID: Int, locale: Locale) -> SearchRequest {
         SearchRequest(
             facet: Self.eventFacet,
-            filter: SearchFilter(
-                eventIds: [eventID],
+            filter: FilterQuery(
+                eventIDs: [eventID],
                 maxResults: 1
             ),
             locale: locale
@@ -17,8 +17,8 @@ extension SearchRequest {
     static func events(forCompetition competitionID: Int, locale: Locale) -> SearchRequest {
         SearchRequest(
             facet: Self.eventFacet,
-            filter: SearchFilter(
-                competitionIds: [competitionID],
+            filter: FilterQuery(
+                competitionIDs: [competitionID],
                 maxResults: 0
             ),
             locale: locale
@@ -28,11 +28,22 @@ extension SearchRequest {
     static func events(forEventType eventTypeID: Int, isInPlay: Bool? = nil, locale: Locale) -> SearchRequest {
         SearchRequest(
             facet: Self.eventFacet,
-            filter: SearchFilter(
-                eventTypeIds: [eventTypeID],
+            filter: FilterQuery(
+                eventTypeIDs: [eventTypeID],
                 turnInPlayEnabled: isInPlay == true ? true : nil,
                 marketStartingBefore: isInPlay == true ? Date().addingTimeInterval(30) : nil,
                 marketLevels: isInPlay == true ? [.avbEvent] : nil
+            ),
+            locale: locale
+        )
+    }
+
+    static func events(forMarket marketID: String, locale: Locale) -> SearchRequest {
+        SearchRequest(
+            facet: Self.eventFacet,
+            filter: FilterQuery(
+                marketIDs: [marketID],
+                maxResults: 0
             ),
             locale: locale
         )

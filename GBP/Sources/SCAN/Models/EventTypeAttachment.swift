@@ -1,15 +1,25 @@
 import Foundation
 
-public struct EventTypeAttachment: Codable {
+public struct EventTypeAttachment: Equatable, Codable {
 
     public let name: String?
     public let key: String?
-    public let eventTypeId: Int?
+    public let eventTypeID: EventTypeID
 
-    public init(name: String? = nil, key: String? = nil, eventTypeId: Int? = nil) {
+    public init(name: String? = nil, key: String? = nil, eventTypeID: EventTypeID) {
         self.name = name
         self.key = key
-        self.eventTypeId = eventTypeId
+        self.eventTypeID = eventTypeID
+    }
+
+}
+
+extension EventTypeAttachment {
+
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case key
+        case eventTypeID = "eventTypeId"
     }
 
 }

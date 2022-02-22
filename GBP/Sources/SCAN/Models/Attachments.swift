@@ -1,18 +1,19 @@
 import Foundation
 
-public struct Attachments: Codable {
+public struct Attachments: Equatable, Codable {
 
     public let eventTypes: [String: EventTypeAttachment]?
-    public let competitions: [String: CompetitionAttachment]?
-    public let events: [String: EventAttachment]?
     public let sportsBookMarkets: [String: MarketAttachment]?
+    public let events: [String: EventAttachment]?
+    public let competitions: [String: CompetitionAttachment]?
 
-    public init(eventTypes: [String: EventTypeAttachment]? = nil, competitions: [String: CompetitionAttachment]? = nil,
-                events: [String: EventAttachment]? = nil, sportsBookMarkets: [String: MarketAttachment]? = nil) {
+    public init(eventTypes: [String: EventTypeAttachment]? = nil,
+                sportsBookMarkets: [String: MarketAttachment]? = nil, events: [String: EventAttachment]? = nil,
+                competitions: [String: CompetitionAttachment]? = nil) {
         self.eventTypes = eventTypes
-        self.competitions = competitions
-        self.events = events
         self.sportsBookMarkets = sportsBookMarkets
+        self.events = events
+        self.competitions = competitions
     }
 
 }

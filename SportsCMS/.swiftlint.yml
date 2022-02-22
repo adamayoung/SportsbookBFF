@@ -25,6 +25,7 @@ identifier_name:
     - cms
     - dev
     - id
+    - key
     - qr
     - tag
     - uri

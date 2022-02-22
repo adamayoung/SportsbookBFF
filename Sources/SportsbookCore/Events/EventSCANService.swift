@@ -23,7 +23,8 @@ final class EventSCANService: EventService {
             return nil
         }
 
-        return EventDomainModel(attachment: attachment, facets: response.facets)
+        let event = EventDomainModel(attachment: attachment, facets: response.facets)
+        return event
     }
 
     func events(forCompetition competitionID: CompetitionDomainModel.ID) async throws -> [EventDomainModel] {
@@ -35,9 +36,10 @@ final class EventSCANService: EventService {
             return []
         }
 
-        return attachments
+        let events = attachments
             .compactMap { EventDomainModel(attachment: $0, facets: response.facets) }
             .sorted()
+        return events
     }
 
     func events(forSport sportID: SportDomainModel.ID, isInPlay: Bool? = nil) async throws -> [EventDomainModel] {
@@ -56,9 +58,23 @@ final class EventSCANService: EventService {
             return []
         }
 
-        return attachments
+        let events = attachments
             .compactMap { EventDomainModel(attachment: $0, facets: response.facets) }
             .sorted()
+        return events
+    }
+
+    func event(forMarket marketID: MarketDomainModel.ID) async throws -> EventDomainModel? {
+        logger.debug("Fetching Event", metadata: ["market-id": .stringConvertible(marketID)])
+
+        let request = SearchRequest.events(forMarket: marketID, locale: locale)
+        let response = try await scanService.search(request)
+        guard let attachment = response.attachments.events?.first?.value else {
+            return nil
+        }
+
+        let event = EventDomainModel(attachment: attachment, facets: response.facets)
+        return event
     }
 
 }

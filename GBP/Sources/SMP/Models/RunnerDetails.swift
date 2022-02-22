@@ -14,9 +14,9 @@ public struct RunnerDetails: Equatable, Hashable, Codable {
     public let previousWinRunnerOdds: [Odds]?
     /// The handicap applied to the selection, if on an asian-style market.
     public let handicap: Decimal?
-    /// The current state of a runner, e.g. ACTIVE or SUSPENDED
+    /// The current state of a runner.
     public let runnerStatus: RunnerDetails.RunnerStatus
-    /// If present, indicates the type of price override applied to the runner
+    /// If present, indicates the type of price override applied to the runner.
     public let priceOverlay: RunnerDetails.PriceOverlay?
     /// The scope defines in which scope a runner is available for betting based on the market's in-play status. If present betting will be restricted to the indicated scope.
     public let runnerScope: RunnerDetails.RunnerScope?
@@ -40,6 +40,7 @@ public struct RunnerDetails: Equatable, Hashable, Codable {
 
 extension RunnerDetails {
 
+    /// State of a runner.
     public enum RunnerStatus: String, CaseIterable, Codable {
         /// Active.
         case active = "ACTIVE"
@@ -55,6 +56,7 @@ extension RunnerDetails {
         }
     }
 
+    /// Type of price override applied to the runner.
     public enum PriceOverlay: String, CaseIterable, Codable {
         /// Enhanced Price Promotion.
         case enhancedPricePromotion = "ENHANCED_PRICE_PROMOTION"
@@ -66,6 +68,7 @@ extension RunnerDetails {
         }
     }
 
+    /// Scope a runner is available for betting based on the market's in-play status.
     public enum RunnerScope: String, CaseIterable, Codable {
         /// Runner is available for betting when preplay only.
         case preplay = "PREPLAY"

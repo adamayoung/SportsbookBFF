@@ -27,6 +27,7 @@ public struct Rule4Deduction: Equatable, Hashable, Codable {
 
 extension Rule4Deduction {
 
+    /// Price type to which deduction refers.
     public enum PriceType: String, CaseIterable, Codable {
         /// Live price (LP).
         case livePrice = "LIVE_PRICE"

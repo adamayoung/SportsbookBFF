@@ -14,7 +14,7 @@ public struct MarketPricesController: RouteCollection {
 
     func showForMarket(request: Request) async throws -> RootAPIModel<MarketPrice> {
         guard let marketID = request.parameters.get("marketID") else {
-            throw Abort(.badRequest)
+            throw Abort(.notFound)
         }
 
         guard
@@ -24,8 +24,7 @@ public struct MarketPricesController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = RootAPIModel(data: marketPrice)
-        return model
+        return RootAPIModel(data: marketPrice)
     }
 
 }

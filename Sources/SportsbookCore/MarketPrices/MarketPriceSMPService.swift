@@ -19,7 +19,8 @@ final class MarketPriceSMPService: MarketPriceService {
             return nil
         }
 
-        return MarketPriceDomainModel(marketPrice: marketPrice)
+        let model = MarketPriceDomainModel(marketPrice: marketPrice)
+        return model
     }
 
 }

@@ -3,7 +3,7 @@ import SportsbookCore
 
 extension Runner {
 
-    init(runner: SportsbookCore.MarketRunnerDomainModel) {
+    init(runner: MarketRunnerDomainModel) {
         let status = RunnerStatus(status: runner.status)
         let result = RunnerResult(result: runner.result)
 
@@ -15,10 +15,12 @@ extension Runner {
 
 extension Runner.RunnerStatus {
 
-    init(status: SportsbookCore.MarketRunnerDomainModel.Status) {
+    init(status: MarketRunnerDomainModel.Status) {
         switch status {
         case .active: self = .active
-        case .suspended: self = .suspended
+        case .winner: self = .winner
+        case .loser: self = .loser
+        case .removeVacant: self = .removeVacant
         case .removed: self = .removed
         }
     }
@@ -27,7 +29,7 @@ extension Runner.RunnerStatus {
 
 extension Runner.RunnerResult {
 
-    init?(result: SportsbookCore.MarketRunnerResultDomainModel?) {
+    init?(result: MarketRunnerResultDomainModel?) {
         guard let type = RunnerResultType(type: result?.type) else {
             return nil
         }
@@ -39,7 +41,7 @@ extension Runner.RunnerResult {
 
 extension Runner.RunnerResult.RunnerResultType {
 
-    init?(type: SportsbookCore.MarketRunnerResultDomainModel.ResultType?) {
+    init?(type: MarketRunnerResultDomainModel.ResultType?) {
         guard let type = type else {
             return nil
         }

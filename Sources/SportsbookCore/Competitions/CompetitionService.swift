@@ -6,4 +6,6 @@ public protocol CompetitionService {
 
     func competitions(forSport sportID: SportDomainModel.ID) async throws -> [CompetitionDomainModel]
 
+    func competition(forEvent eventID: EventDomainModel.ID) async throws -> CompetitionDomainModel?
+
 }
