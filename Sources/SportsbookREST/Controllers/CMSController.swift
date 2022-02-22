@@ -6,7 +6,7 @@ public struct CMSController: RouteCollection {
     public init() { }
 
     public func boot(routes: RoutesBuilder) throws {
-        let cms = routes.grouped("sports")
+        let cms = routes.grouped("cms")
         cms.get("featured", use: indexForFeatured)
         cms.get("popular", use: indexForPopular)
     }
