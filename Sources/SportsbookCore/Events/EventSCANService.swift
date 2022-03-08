@@ -5,16 +5,14 @@ import SCAN
 final class EventSCANService: EventService {
 
     private let scanService: SCANService
-    private let locale: Locale
     private let logger: Logger
 
-    init(scanService: SCANService, locale: Locale, logger: Logger) {
+    init(scanService: SCANService, logger: Logger) {
         self.scanService = scanService
-        self.locale = locale
         self.logger = logger
     }
 
-    func event(withID id: EventDomainModel.ID) async throws -> EventDomainModel? {
+    func event(withID id: EventDomainModel.ID, locale: Locale) async throws -> EventDomainModel? {
         logger.debug("Fetching Event", metadata: ["id": .stringConvertible(id)])
 
         let request = SearchRequest.event(withID: id, locale: locale)
@@ -27,7 +25,8 @@ final class EventSCANService: EventService {
         return event
     }
 
-    func events(forCompetition competitionID: CompetitionDomainModel.ID) async throws -> [EventDomainModel] {
+    func events(forCompetition competitionID: CompetitionDomainModel.ID,
+                locale: Locale) async throws -> [EventDomainModel] {
         logger.debug("Fetching Events", metadata: ["competition-id": .stringConvertible(competitionID)])
 
         let request = SearchRequest.events(forCompetition: competitionID, locale: locale)
@@ -42,7 +41,8 @@ final class EventSCANService: EventService {
         return events
     }
 
-    func events(forSport sportID: SportDomainModel.ID, isInPlay: Bool? = nil) async throws -> [EventDomainModel] {
+    func events(forSport sportID: SportDomainModel.ID, isInPlay: Bool? = nil,
+                locale: Locale) async throws -> [EventDomainModel] {
         var metadata: Logger.Metadata = [
             "sport-id": .stringConvertible(sportID)
         ]
@@ -64,7 +64,7 @@ final class EventSCANService: EventService {
         return events
     }
 
-    func event(forMarket marketID: MarketDomainModel.ID) async throws -> EventDomainModel? {
+    func event(forMarket marketID: MarketDomainModel.ID, locale: Locale) async throws -> EventDomainModel? {
         logger.debug("Fetching Event", metadata: ["market-id": .stringConvertible(marketID)])
 
         let request = SearchRequest.events(forMarket: marketID, locale: locale)

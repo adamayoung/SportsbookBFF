@@ -15,11 +15,7 @@ let package = Package(
     ],
 
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.50.0"),
-        .package(url: "https://github.com/alexsteinerde/graphql-kit.git", from: "2.0.0"),
-        .package(url: "https://github.com/alexsteinerde/graphiql-vapor.git", from: "2.0.0"),
-        .package(name: "GBP", path: "./GBP"),
-        .package(name: "SportsCMS", path: "./SportsCMS")
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.50.0")
     ],
 
     targets: [
@@ -35,8 +31,6 @@ let package = Package(
             name: "SportsbookApp",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                "SportsbookREST",
-                "SportsbookGraphQL",
                 "SportsbookCore"
             ],
             swiftSettings: [
@@ -52,60 +46,11 @@ let package = Package(
         ),
 
         .target(
-            name: "SportsbookREST",
-            dependencies: [
-                .product(name: "Vapor", package: "vapor"),
-                "SportsbookModels"
-            ]
-        ),
-        .testTarget(
-            name: "SportsbookRESTTests",
-            dependencies: [
-                "SportsbookREST",
-                "SportsbookCore",
-                .product(name: "XCTVapor", package: "vapor")
-            ]
-        ),
-
-        .target(
-            name: "SportsbookGraphQL",
-            dependencies: [
-                .product(name: "Vapor", package: "vapor"),
-                .product(name: "GraphQLKit", package: "graphql-kit"),
-                .product(name: "GraphiQLVapor", package: "graphiql-vapor"),
-                "SportsbookModels"
-            ]
-        ),
-        .testTarget(
-            name: "SportsbookGraphQLTests",
-            dependencies: [
-                "SportsbookGraphQL",
-                "SportsbookCore",
-                .product(name: "XCTVapor", package: "vapor")
-            ]
-        ),
-
-        .target(
-            name: "SportsbookModels",
-            dependencies: [
-                .product(name: "Vapor", package: "vapor"),
-                "SportsbookCore"
-            ]
-        ),
-        .testTarget(
-            name: "SportsbookModelsTests",
-            dependencies: [
-                "SportsbookModels",
-                .product(name: "XCTVapor", package: "vapor")
-            ]
-        ),
-
-        .target(
             name: "SportsbookCore",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "SCAN", package: "GBP"),
-                .product(name: "SMP", package: "GBP"),
+                "SCAN",
+                "SMP",
                 "SportsCMS"
             ]
         ),
@@ -113,6 +58,81 @@ let package = Package(
             name: "SportsbookCoreTests",
             dependencies: [
                 "SportsbookCore",
+                .product(name: "XCTVapor", package: "vapor")
+            ]
+        ),
+
+        .target(
+            name: "SCAN",
+            dependencies: [
+                "GBPCore",
+                .product(name: "Vapor", package: "vapor")
+            ]
+        ),
+        .testTarget(
+            name: "SCANTests",
+            dependencies: [
+                "SCAN",
+                .product(name: "XCTVapor", package: "vapor")
+            ]
+        ),
+
+        .target(
+            name: "SMP",
+            dependencies: [
+                "GBPCore",
+                .product(name: "Vapor", package: "vapor")
+            ]
+        ),
+        .testTarget(
+            name: "SMPTests",
+            dependencies: [
+                "SMP"
+            ],
+            resources: [
+                .process("Resources")
+            ]
+        ),
+
+        .target(
+            name: "GBPCore",
+            dependencies: [
+                .product(name: "Vapor", package: "vapor")
+            ]
+        ),
+        .testTarget(
+            name: "GBPCoreTests",
+            dependencies: [
+                "GBPCore",
+                .product(name: "XCTVapor", package: "vapor")
+            ]
+        ),
+
+        .target(
+            name: "SportsCMS",
+            dependencies: [
+                "SportsCMSCore",
+                .product(name: "Vapor", package: "vapor")
+            ]
+        ),
+        .testTarget(
+            name: "SportsCMSTests",
+            dependencies: [
+                "SportsCMS",
+                .product(name: "XCTVapor", package: "vapor")
+            ]
+        ),
+
+        .target(
+            name: "SportsCMSCore",
+            dependencies: [
+                .product(name: "Vapor", package: "vapor")
+            ]
+        ),
+        .testTarget(
+            name: "SportsCMSCoreTests",
+            dependencies: [
+                "SportsCMS",
                 .product(name: "XCTVapor", package: "vapor")
             ]
         )

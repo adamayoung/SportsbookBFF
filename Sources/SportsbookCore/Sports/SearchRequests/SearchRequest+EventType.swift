@@ -14,6 +14,17 @@ extension SearchRequest {
         )
     }
 
+    static func eventTypes(withIDs ids: [Int], locale: Locale) -> SearchRequest {
+        SearchRequest(
+            facet: Facet(type: .eventType),
+            filter: FilterQuery(
+                eventTypeIDs: ids,
+                maxResults: 0
+            ),
+            locale: locale
+        )
+    }
+
     static func eventTypes(locale: Locale) -> SearchRequest {
         SearchRequest(
             facet: Facet(type: .eventType),

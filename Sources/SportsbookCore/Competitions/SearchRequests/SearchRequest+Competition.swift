@@ -5,9 +5,14 @@ extension SearchRequest {
 
     static func competitions(forEventType eventTypeID: Int, locale: Locale) -> SearchRequest {
         SearchRequest(
-            facet: Facet(type: .competition),
+            facet: Facet(
+                type: .eventType,
+                next: Facet(type: .competition)
+            ),
             filter: FilterQuery(
-                eventTypeIDs: [eventTypeID]
+                eventTypeIDs: [eventTypeID],
+                selectBy: .firstToStart,
+                maxResults: 0
             ),
             locale: locale
         )
@@ -17,7 +22,8 @@ extension SearchRequest {
         SearchRequest(
             facet: Facet(type: .competition),
             filter: FilterQuery(
-                competitionIDs: [competitionID]
+                competitionIDs: [competitionID],
+                maxResults: 1
             ),
             locale: locale
         )
@@ -25,9 +31,14 @@ extension SearchRequest {
 
     static func competitions(forEvent eventID: Int, locale: Locale) -> SearchRequest {
         SearchRequest(
-            facet: Facet(type: .competition),
+            facet: Facet(
+                type: .event,
+                next: Facet(type: .competition)
+            ),
             filter: FilterQuery(
-                eventIDs: [eventID]
+                eventIDs: [eventID],
+                selectBy: .firstToStart,
+                maxResults: 1
             ),
             locale: locale
         )
