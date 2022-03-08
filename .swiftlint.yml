@@ -1,7 +1,5 @@
 excluded:
   - .build
-  - GBP/
-  - SportsCMS/
 
 opt_in_rules:
   - attributes
@@ -30,9 +28,14 @@ identifier_name:
     - cms
     - env
     - id
+    - ids
+    - key
     - lhs
     - rhs
     - tag
+    - tla
+    - uri
+    - v1
 
 file_length:
   warning: 600

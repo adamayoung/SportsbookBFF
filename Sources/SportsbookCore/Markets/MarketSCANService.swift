@@ -5,16 +5,14 @@ import SCAN
 final class MarketSCANService: MarketService {
 
     private let scanService: SCANService
-    private let locale: Locale
     private let logger: Logger
 
-    init(scanService: SCANService, locale: Locale = .default, logger: Logger) {
+    init(scanService: SCANService, logger: Logger) {
         self.scanService = scanService
-        self.locale = locale
         self.logger = logger
     }
 
-    func market(withID id: MarketDomainModel.ID) async throws -> MarketDomainModel? {
+    func market(withID id: MarketDomainModel.ID, locale: Locale) async throws -> MarketDomainModel? {
         logger.debug("Fetching Market", metadata: ["id": .stringConvertible(id)])
 
         let request = SearchRequest.markets(withID: id, locale: locale)
@@ -27,7 +25,7 @@ final class MarketSCANService: MarketService {
         return market
     }
 
-    func markets(forEvent eventID: Int) async throws -> [MarketDomainModel] {
+    func markets(forEvent eventID: Int, locale: Locale) async throws -> [MarketDomainModel] {
         logger.debug("Fetching Markets", metadata: ["event-id": .stringConvertible(eventID)])
 
         let request = SearchRequest.markets(forEvent: eventID, locale: locale)

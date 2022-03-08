@@ -2,20 +2,15 @@ import Foundation
 
 public protocol SportService {
 
-    func sport(withID id: SportDomainModel.ID) async throws -> SportDomainModel?
+    func sports(locale: Locale) async throws -> [SportDomainModel]
 
-    func sports(filter: SportsFilterConvertible?) async throws -> [SportDomainModel]
+    func popularSports(locale: Locale) async throws -> [SportDomainModel]
 
-    func sport(forCompetition competitionID: CompetitionDomainModel.ID) async throws -> SportDomainModel?
+    func sport(withID id: SportDomainModel.ID, locale: Locale) async throws -> SportDomainModel?
 
-    func sport(forEvent eventID: EventDomainModel.ID) async throws -> SportDomainModel?
+    func sport(forCompetition competitionID: CompetitionDomainModel.ID,
+               locale: Locale) async throws -> SportDomainModel?
 
-}
-
-extension SportService {
-
-    public func fetchSports() async throws -> [SportDomainModel] {
-        try await sports(filter: nil)
-    }
+    func sport(forEvent eventID: EventDomainModel.ID, locale: Locale) async throws -> SportDomainModel?
 
 }

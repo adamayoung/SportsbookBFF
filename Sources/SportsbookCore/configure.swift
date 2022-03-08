@@ -7,27 +7,23 @@ public func configure(_ app: Application) throws {
     try modules(app)
 
     app.competitionService.use {
-        CompetitionSCANService(scanService: $0.scanService, locale: $0.locale, logger: $0.logger)
+        CompetitionSCANService(scanService: $0.scanService, logger: $0.logger)
     }
 
     app.eventService.use {
-        EventSCANService(scanService: $0.scanService, locale: $0.locale, logger: $0.logger)
+        EventSCANService(scanService: $0.scanService, logger: $0.logger)
     }
 
     app.sportService.use {
-        SportSCANService(scanService: $0.scanService, locale: $0.locale, logger: $0.logger)
+        SportSCANService(scanService: $0.scanService, cmsNodeService: $0.cmsNodeService, logger: $0.logger)
     }
 
     app.marketService.use {
-        MarketSCANService(scanService: $0.scanService, locale: $0.locale, logger: $0.logger)
+        MarketSCANService(scanService: $0.scanService, logger: $0.logger)
     }
 
     app.marketPriceService.use {
         MarketPriceSMPService(smpService: $0.smpService, logger: $0.logger)
-    }
-
-    app.cmsContentService.use {
-        CMSContentSportsCMSService(cmsNodeService: $0.cmsNodeService, logger: $0.logger)
     }
 }
 
