@@ -22,16 +22,10 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .build/lambda/SportsbookBFFLambda/lambda.zip
-      Handler: swift.bootstrap
+      Handler: "SportsbookBFFHandler"
       Runtime: provided
       Events:
         Api:
           Type: HttpApi
           Properties:
             ApiId: !Ref APIGateway
-
-Outputs:
-  ApiEndpoint:
-    Description: "SportsbookBFF API endpoint URL"
-    Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/

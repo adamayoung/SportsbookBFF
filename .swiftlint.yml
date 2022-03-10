@@ -1,5 +1,6 @@
 excluded:
   - .build
+  - .aws-sam
 
 opt_in_rules:
   - attributes
