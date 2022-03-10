@@ -54,7 +54,7 @@ jobs:
 
   build-lambda:
     name: Build Lambda
-    runs-on: ubunutu-latest
+    runs-on: ubuntu-latest
     container:
       image: swift:5.5.2-focal
     
@@ -73,7 +73,10 @@ jobs:
             ${{ runner.os }}-spm-
 
       - name: Build
-        run: swift build --product $(EXECUTABLE) -c release
+        run: swift build --product SportsbookBFFLambda -c release
+      
+      - name: Package
+        run: scripts/package.sh SportsbookBFFLambda
 
 
       
