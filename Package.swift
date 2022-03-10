@@ -15,7 +15,8 @@ let package = Package(
     ],
 
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.50.0")
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.50.0"),
+        .package(url: "https://github.com/vapor-community/vapor-aws-lambda-runtime.git", .upToNextMajor(from: "0.4.0"))
     ],
 
     targets: [
@@ -23,6 +24,14 @@ let package = Package(
             name: "SportsbookBFF",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
+                "SportsbookApp"
+            ]
+        ),
+        .executableTarget(
+            name: "SportsbookBFFLambda",
+            dependencies: [
+                .product(name: "Vapor", package: "vapor"),
+                .product(name: "VaporAWSLambdaRuntime", package: "vapor-aws-lambda-runtime"),
                 "SportsbookApp"
             ]
         ),

@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SportsbookBFF
+
+Globals:
+  Function:
+    Timeout: 3
+    Environment:
+      Variables:
+        AUTH_KEY: 465DF9E5-76E3-4305-94F1-C35B0F26608B
+        TLA_API_KEY: b0*=!|`tSgl'^;|roG?L?VO&AK+i)WC,
+        SCAN_BASE_URL: https://scan.gbp-qacore.isp-pub.starsops.com
+        SMP_BASE_URL: https://smp.gbp-qacore.isp-pub.starsops.com
+        CMS_API_KEY: zshitWE1z5SchAdEVSzHbql90QZL94cV
+        CMS_BASE_URL: https://cms-api.cms-dev.isp-pub.starsops.com
+
+Resources:
+  APIGateway:
+    Type: AWS::Serverless::HttpApi
+
+  SportsbookBFFLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .build/lambda/SportsbookBFFLambda/lambda.zip
+      Handler: swift.bootstrap
+      Runtime: provided
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref APIGateway
+
+Outputs:
+  ApiEndpoint:
+    Description: "SportsbookBFF API endpoint URL"
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/

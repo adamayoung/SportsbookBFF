@@ -51,3 +51,29 @@ jobs:
 
       - name: Test
         run: swift test --skip-build --parallel
+
+  build-lambda:
+    name: Build Lambda
+    runs-on: ubunutu-latest
+    container:
+      image: swift:5.5.2-focal
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Cache SPM
+        uses: actions/cache@v2
+        with:
+          path: .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Build
+        run: swift build --product $(EXECUTABLE) -c release
+
+
+      
