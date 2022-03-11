@@ -87,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: sam-artifact
-          path: .aws-sam/build
+          path: .aws-sam
           if-no-files-found: error
           retention-days: 1
     
@@ -109,7 +109,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: lambda-artifact
-          path: .build
+          path: .build/lambda
       
       - name: Download SAM artifact
         uses: actions/download-artifact@v2
@@ -134,7 +134,7 @@ jobs:
         id: deploy
         run: |
           sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --resolve-s3 --stack-name "$AWS_STACK" --capabilities CAPABILITY_IAM --region "$AWS_REGION" --parameter-overrides AuthKey="$AUTH_KEY" TlaApiKey="$TLA_API_KEY" ScanBaseUrl="$SCAN_BASE_URL" SmpBaseUrl="$SMP_BASE_URL" CmsApiKey="$CMS_API_KEY" CmsBaseUrl="$CMS_BASE_URL"
-          API_GATEWAY_URL==$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
+          API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
           echo "::set-output name=apigateway_url::$API_GATEWAY_URL"
         env:
           AWS_STACK: sportsbook-dev
