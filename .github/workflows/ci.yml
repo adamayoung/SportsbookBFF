@@ -82,6 +82,8 @@ jobs:
         run: scripts/package.sh SportsbookBFFLambda
       
       - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
       - uses: aws-actions/setup-sam@v1
 
@@ -91,9 +93,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-2
 
-      - name: Build SAM template
+      - name: Validate SAM template
         run: sam validate
 
-      - name: Build SAM
+      - name: Build SAM template
         run: sam build
       

@@ -2,17 +2,37 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: SportsbookBFF
 
+Parameters:
+  AUTH_KEY_P:
+    Description: 'API Key'
+    Type: 'String'
+  TLA_API_KEY_P:
+    Description: 'TLA API Key'
+    Type: 'String'
+  SCAN_BASE_URL_P:
+    Description: 'SCAN Base URL'
+    Type: 'String'
+  SMP_BASE_URL_P:
+    Description: 'SMP Base URL'
+    Type: 'String'
+  CMS_API_KEY_P:
+    Description: 'CMS API Key'
+    Type: 'String'
+  CMS_BASE_URL_P:
+    Description: 'CMS Base URL'
+    Type: 'String'
+
 Globals:
   Function:
     Timeout: 3
     Environment:
       Variables:
-        AUTH_KEY: 465DF9E5-76E3-4305-94F1-C35B0F26608B
-        TLA_API_KEY: b0*=!|`tSgl'^;|roG?L?VO&AK+i)WC,
-        SCAN_BASE_URL: https://scan.gbp-qacore.isp-pub.starsops.com
-        SMP_BASE_URL: https://smp.gbp-qacore.isp-pub.starsops.com
-        CMS_API_KEY: zshitWE1z5SchAdEVSzHbql90QZL94cV
-        CMS_BASE_URL: https://cms-api.cms-dev.isp-pub.starsops.com
+        AUTH_KEY: !Ref AUTH_KEY_P
+        TLA_API_KEY: !Ref TLA_API_KEY_P
+        SCAN_BASE_URL: !Ref SCAN_BASE_URL_P
+        SMP_BASE_URL: !Ref SMP_BASE_URL_P
+        CMS_API_KEY: !Ref CMS_API_KEY_P
+        CMS_BASE_URL: !Ref CMS_BASE_URL_P
 
 Resources:
   APIGateway:
