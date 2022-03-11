@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SportsbookBFF
+
+Parameters:
+  AuthKey:
+    Description: 'API Key'
+    Type: 'String'
+    NoEcho: true
+  TlaApiKey:
+    Description: 'TLA API Key'
+    Type: 'String'
+    NoEcho: true
+  ScanBaseUrl:
+    Description: 'SCAN Base URL'
+    Type: 'String'
+  SmpBaseUrl:
+    Description: 'SMP Base URL'
+    Type: 'String'
+  CmsApiKey:
+    Description: 'CMS API Key'
+    Type: 'String'
+    NoEcho: true
+  CmsBaseUrl:
+    Description: 'CMS Base URL'
+    Type: 'String'
+  RETENTIONINDAYS: 
+    Type: Number
+    Default: 1
+    Description: Number of days to retain the logs.
+
+Resources:
+  SportsbookApiGateway:
+    Type: AWS::Serverless::HttpApi
+
+  SportsbookBFFLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .build/lambda/SportsbookBFFLambda/lambda.zip
+      FunctionName: SportsbookBFFHandler
+      Handler: SportsbookBFFHandler
+      Runtime: provided
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref SportsbookApiGateway
+      Timeout: 3
+      MemorySize: 128
+      Environment:
+        Variables:
+          AUTH_KEY: !Ref AuthKey
+          TLA_API_KEY: !Ref TlaApiKey
+          SCAN_BASE_URL: !Ref ScanBaseUrl
+          SMP_BASE_URL: !Ref SmpBaseUrl
+          CMS_API_KEY: !Ref CmsApiKey
+          CMS_BASE_URL: !Ref CmsBaseUrl
+          RETENTION_IN_DAYS: !Ref RETENTIONINDAYS
+
+Outputs:
+  SportsbookApiGateway:
+    Description: API Gateway endpoint URL
+    Value: !Sub https://${SportsbookApiGateway}.execute-api.${AWS::Region}.amazonaws.com/
