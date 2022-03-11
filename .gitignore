@@ -9,7 +9,4 @@ DerivedData/
 .env.development
 default.profraw
 
-/GBP/.swiftpm
-/GBP/.build
-/SportsCMS/.swiftpm
-/SportsCMS/.build
+/.aws-sam
