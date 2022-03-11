@@ -81,13 +81,37 @@ jobs:
       - name: Package
         run: scripts/package.sh SportsbookBFFLambda
       
-      - uses: actions/setup-python@v2
+      - name: Upload lambda artifact
+        uses: actions/upload-artifact@v2
         with:
-          python-version: '3.x'
+          name: lambda-artifact
+          path: .build/lambda
 
-      - uses: aws-actions/setup-sam@v1
+  samTemplate:
+    name: Verify SAM Template
+    runs-on: ubuntu-latest
+    needs: build-lambda
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Download lambda artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: lambda-artifact
+          path: .build
 
-      - uses: aws-actions/configure-aws-credentials@v1
+      - name: Setup python 
+        uses: actions/setup-python@v2
+
+      - name: Setup SAM
+        uses: aws-actions/setup-sam@v1
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
