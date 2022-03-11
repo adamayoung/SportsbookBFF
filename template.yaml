@@ -3,22 +3,25 @@ Transform: AWS::Serverless-2016-10-31
 Description: SportsbookBFF
 
 Parameters:
-  AUTH_KEY_P:
+  AuthKey:
     Description: 'API Key'
     Type: 'String'
-  TLA_API_KEY_P:
+    NoEcho: true
+  TlaApiKey:
     Description: 'TLA API Key'
     Type: 'String'
-  SCAN_BASE_URL_P:
+    NoEcho: true
+  ScanBaseUrl:
     Description: 'SCAN Base URL'
     Type: 'String'
-  SMP_BASE_URL_P:
+  SmpBaseUrl:
     Description: 'SMP Base URL'
     Type: 'String'
-  CMS_API_KEY_P:
+  CmsApiKey:
     Description: 'CMS API Key'
     Type: 'String'
-  CMS_BASE_URL_P:
+    NoEcho: true
+  CmsBaseUrl:
     Description: 'CMS Base URL'
     Type: 'String'
 
@@ -27,12 +30,12 @@ Globals:
     Timeout: 3
     Environment:
       Variables:
-        AUTH_KEY: !Ref AUTH_KEY_P
-        TLA_API_KEY: !Ref TLA_API_KEY_P
-        SCAN_BASE_URL: !Ref SCAN_BASE_URL_P
-        SMP_BASE_URL: !Ref SMP_BASE_URL_P
-        CMS_API_KEY: !Ref CMS_API_KEY_P
-        CMS_BASE_URL: !Ref CMS_BASE_URL_P
+        AUTH_KEY: !Ref AuthKey
+        TLA_API_KEY: !Ref TlaApiKey
+        SCAN_BASE_URL: !Ref ScanBaseUrl
+        SMP_BASE_URL: !Ref SmpBaseUrl
+        CMS_API_KEY: !Ref CmsApiKey
+        CMS_BASE_URL: !Ref CmsBaseUrl
 
 Resources:
   APIGateway:
