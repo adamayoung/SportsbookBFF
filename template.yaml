@@ -24,31 +24,40 @@ Parameters:
   CmsBaseUrl:
     Description: 'CMS Base URL'
     Type: 'String'
-
-Globals:
-  Function:
-    Timeout: 3
-    Environment:
-      Variables:
-        AUTH_KEY: !Ref AuthKey
-        TLA_API_KEY: !Ref TlaApiKey
-        SCAN_BASE_URL: !Ref ScanBaseUrl
-        SMP_BASE_URL: !Ref SmpBaseUrl
-        CMS_API_KEY: !Ref CmsApiKey
-        CMS_BASE_URL: !Ref CmsBaseUrl
+  RETENTIONINDAYS: 
+    Type: Number
+    Default: 1
+    Description: Number of days to retain the logs.
 
 Resources:
-  APIGateway:
+  SportsbookApiGateway:
     Type: AWS::Serverless::HttpApi
 
   SportsbookBFFLambda:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .build/lambda/SportsbookBFFLambda/lambda.zip
-      Handler: "SportsbookBFFHandler"
+      FunctionName: SportsbookBFFHandler
+      Handler: SportsbookBFFHandler
       Runtime: provided
       Events:
         Api:
           Type: HttpApi
           Properties:
-            ApiId: !Ref APIGateway
+            ApiId: !Ref SportsbookApiGateway
+      Timeout: 3
+      MemorySize: 128
+      Environment:
+        Variables:
+          AUTH_KEY: !Ref AuthKey
+          TLA_API_KEY: !Ref TlaApiKey
+          SCAN_BASE_URL: !Ref ScanBaseUrl
+          SMP_BASE_URL: !Ref SmpBaseUrl
+          CMS_API_KEY: !Ref CmsApiKey
+          CMS_BASE_URL: !Ref CmsBaseUrl
+          RETENTION_IN_DAYS: !Ref RETENTIONINDAYS
+
+Outputs:
+  SportsbookApiGateway:
+    Description: API Gateway endpoint URL
+    Value: !Sub https://${SportsbookApiGateway}.execute-api.${AWS::Region}.amazonaws.com/
