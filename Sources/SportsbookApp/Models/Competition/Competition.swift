@@ -1,6 +1,6 @@
-import Foundation
+import Vapor
 
-struct Competition: Identifiable, Equatable, Codable {
+struct Competition: Identifiable, Equatable {
 
     let id: Int
     let name: String
@@ -13,3 +13,5 @@ struct Competition: Identifiable, Equatable, Codable {
     }
 
 }
+
+extension Competition: Content { }

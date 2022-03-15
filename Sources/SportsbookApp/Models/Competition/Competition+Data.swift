@@ -1,20 +1,14 @@
-import SportsbookCore
 import Vapor
 
 extension Competition {
 
-    static func all(forSport sportID: Sport.ID, on request: Request) async throws -> [Competition]? {
-        try await request.competitionService.competitions(forSport: sportID, locale: request.locale)?
-            .map(Competition.init)
-    }
-
     static func find(_ id: Competition.ID, on request: Request) async throws -> Competition? {
-        try await request.competitionService.competition(withID: id, locale: request.locale)
+        try await request.competitions.find(withID: id, locale: request.locale)
             .map(Competition.init)
     }
 
     static func find(forEvent eventID: Event.ID, on request: Request) async throws -> Competition? {
-        try await request.competitionService.competition(forEvent: eventID, locale: request.locale)
+        try await request.competitions.find(forEvent: eventID, locale: request.locale)
             .map(Competition.init)
     }
 

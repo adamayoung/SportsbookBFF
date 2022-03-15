@@ -1,10 +1,9 @@
-import SportsbookCore
 import Vapor
 
 extension MarketPrice {
 
     static func find(forMarket marketID: Market.ID, on request: Request) async throws -> MarketPrice? {
-        try await request.marketPriceService.marketPrice(forMarket: marketID)
+        try await request.marketPrices.find(forMarket: marketID)
             .map(MarketPrice.init)
     }
 

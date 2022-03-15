@@ -2,8 +2,6 @@ import Vapor
 
 struct SportsController: RouteCollection {
 
-    init() { }
-
     func boot(routes: RoutesBuilder) throws {
         let sports = routes.grouped("sports")
         sports.get(use: index)

@@ -1,11 +1,10 @@
-import SportsbookCore
 import Vapor
 
 extension Market {
 
     static func all(forEvent eventID: Event.ID, marketType: String? = nil,
                     on request: Request) async throws -> [Market] {
-        try await request.marketService.markets(forEvent: eventID, locale: request.locale)
+        try await request.markets.all(forEvent: eventID, locale: request.locale)
             .compactMap {
                 let market = Market(market: $0)
                 guard let marketType = marketType else {
@@ -17,7 +16,7 @@ extension Market {
     }
 
     static func find(_ id: Market.ID, on request: Request) async throws -> Market? {
-        try await request.marketService.market(withID: id, locale: request.locale)
+        try await request.markets.find(withID: id, locale: request.locale)
             .map(Market.init)
     }
 

@@ -2,8 +2,6 @@ import Vapor
 
 struct MarketPricesController: RouteCollection {
 
-    init() { }
-
     func boot(routes: RoutesBuilder) throws {
         let markets = routes.grouped("markets")
         markets.group(":marketID") { market in

@@ -1,5 +1,5 @@
 import Foundation
-import SportsbookCore
+@testable import SportsbookApp
 
 extension SportDomainModel {
 

@@ -2,8 +2,6 @@ import Vapor
 
 struct EventsController: RouteCollection {
 
-    init() { }
-
     func boot(routes: RoutesBuilder) throws {
         let sports = routes.grouped("sports")
         sports.group(":sportID") { sport in

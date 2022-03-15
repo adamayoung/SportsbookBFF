@@ -1,7 +1,7 @@
 import Foundation
-import SportsbookCore
+@testable import SportsbookApp
 
-struct MockMarketService: MarketService {
+struct MockMarketService: MarketProvider {
 
     let markets: [MarketDomainModel]
 
@@ -9,12 +9,16 @@ struct MockMarketService: MarketService {
         self.markets = markets
     }
 
-    func market(withID id: MarketDomainModel.ID, locale: Locale) async throws -> MarketDomainModel? {
+    func find(withID id: MarketDomainModel.ID, locale: Locale) async throws -> MarketDomainModel? {
         markets.first { $0.id == id }
     }
 
-    func markets(forEvent eventID: Int, locale: Locale) async throws -> [MarketDomainModel] {
+    func all(forEvent eventID: Int, locale: Locale) async throws -> [MarketDomainModel] {
         markets.filter { $0.eventID == eventID }
+    }
+
+    func all(forEvents eventIDs: [Int], locale: Locale) async throws -> [EventDomainModel.ID: [MarketDomainModel]] {
+        return [:]
     }
 
 }

@@ -1,5 +1,4 @@
 @testable import SportsbookApp
-import SportsbookCore
 import XCTVapor
 
 final class SportsControllerTests: XCTestCase {
@@ -10,13 +9,13 @@ final class SportsControllerTests: XCTestCase {
         try super.setUpWithError()
         app = Application(.testing)
         try app.register(collection: SportsController())
-        app.sportService.use { _ in
+        app.sportsFactory.use { _ in
             MockSportService(sports: SportDomainModel.mocks)
         }
-        app.competitionService.use { _ in
+        app.competitionsFactory.use { _ in
             MockCompetitionService(competitions: CompetitionDomainModel.mocks)
         }
-        app.eventService.use { _ in
+        app.eventsFactory.use { _ in
             MockEventService(events: EventDomainModel.mocks)
         }
     }

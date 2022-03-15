@@ -2,8 +2,6 @@ import Vapor
 
 struct CompetitionsController: RouteCollection {
 
-    init() { }
-
     func boot(routes: RoutesBuilder) throws {
         let sports = routes.grouped("sports")
         sports.group(":sportID") { sport in
@@ -24,9 +22,11 @@ struct CompetitionsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        guard let competitions = try await Competition.all(forSport: sportID, on: request) else {
+        guard let results = try await request.competitions.all(forSport: sportID, locale: request.locale) else {
             throw Abort(.notFound)
         }
+
+        let competitions = results.map(Competition.init)
 
         return RootAPIModel(data: competitions)
     }

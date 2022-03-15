@@ -1,7 +1,7 @@
 import Foundation
-import SportsbookCore
+@testable import SportsbookApp
 
-struct MockSportService: SportService {
+struct MockSportService: SportProvider {
 
     let sports: [SportDomainModel]
 
@@ -9,24 +9,24 @@ struct MockSportService: SportService {
         self.sports = sports
     }
 
-    func sports(locale: Locale) async throws -> [SportDomainModel] {
+    func all(locale: Locale) async throws -> [SportDomainModel] {
         sports
     }
 
-    func popularSports(locale: Locale) async throws -> [SportDomainModel] {
+    func popular(locale: Locale) async throws -> [SportDomainModel] {
         sports
     }
 
-    func sport(withID id: SportDomainModel.ID, locale: Locale) async throws -> SportDomainModel? {
+    func find(withID id: SportDomainModel.ID, locale: Locale) async throws -> SportDomainModel? {
         sports.first { $0.id == id }
     }
 
-    func sport(forCompetition competitionID: CompetitionDomainModel.ID,
+    func find(forCompetition competitionID: CompetitionDomainModel.ID,
                locale: Locale) async throws -> SportDomainModel? {
         sports.first
     }
 
-    func sport(forEvent eventID: EventDomainModel.ID, locale: Locale) async throws -> SportDomainModel? {
+    func find(forEvent eventID: EventDomainModel.ID, locale: Locale) async throws -> SportDomainModel? {
         sports.first
     }
 

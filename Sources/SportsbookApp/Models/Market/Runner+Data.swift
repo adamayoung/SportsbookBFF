@@ -1,10 +1,9 @@
-import SportsbookCore
 import Vapor
 
 extension Runner {
 
     static func all(forMarket marketID: Market.ID, on request: Request) async throws -> [Runner]? {
-        guard let market = try await request.marketService.market(withID: marketID, locale: request.locale) else {
+        guard let market = try await request.markets.find(withID: marketID, locale: request.locale) else {
             return nil
         }
 
@@ -13,7 +12,7 @@ extension Runner {
 
     static func find(withSelection selectionID: Runner.ID, inMarket marketID: Market.ID,
                      on request: Request) async throws -> Runner? {
-        guard let market = try await request.marketService.market(withID: marketID, locale: request.locale) else {
+        guard let market = try await request.markets.find(withID: marketID, locale: request.locale) else {
             return nil
         }
 

@@ -1,6 +1,6 @@
-import Foundation
+import Vapor
 
-struct Event: Identifiable, Equatable, Codable {
+struct Event: Identifiable, Equatable {
 
     let id: Int
     let name: String?
@@ -29,3 +29,5 @@ struct Event: Identifiable, Equatable, Codable {
     }
 
 }
+
+extension Event: Content { }
