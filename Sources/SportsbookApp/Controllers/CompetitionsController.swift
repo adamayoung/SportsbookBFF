@@ -17,21 +17,20 @@ struct CompetitionsController: RouteCollection {
         }
     }
 
-    func indexFromSport(request: Request) async throws -> RootAPIModel<[Competition]> {
+    func indexFromSport(request: Request) async throws -> RootDTO<[CompetitionDTO]> {
         guard let sportID = request.parameters.get("sportID", as: Int.self) else {
             throw Abort(.notFound)
         }
 
-        guard let results = try await request.competitions.all(forSport: sportID, locale: request.locale) else {
+        guard let competitions = try await Competition.all(forSport: sportID, on: request) else {
             throw Abort(.notFound)
         }
 
-        let competitions = results.map(Competition.init)
-
-        return RootAPIModel(data: competitions)
+        let dtos = competitions.map(CompetitionDTO.init)
+        return RootDTO(data: dtos)
     }
 
-    func show(request: Request) async throws -> RootAPIModel<Competition> {
+    func show(request: Request) async throws -> RootDTO<CompetitionDTO> {
         guard let id = request.parameters.get("competitionID", as: Int.self) else {
             throw Abort(.notFound)
         }
@@ -40,10 +39,11 @@ struct CompetitionsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        return RootAPIModel(data: competition)
+        let dto = CompetitionDTO(competition: competition)
+        return RootDTO(data: dto)
     }
 
-    func showFromEvent(request: Request) async throws -> RootAPIModel<Competition> {
+    func showFromEvent(request: Request) async throws -> RootDTO<CompetitionDTO> {
         guard let eventID = request.parameters.get("eventID", as: Int.self) else {
             throw Abort(.notFound)
         }
@@ -55,7 +55,8 @@ struct CompetitionsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        return RootAPIModel(data: competition)
+        let dto = CompetitionDTO(competition: competition)
+        return RootDTO(data: dto)
     }
 
 }

@@ -1,6 +1,6 @@
+import Foundation
 import Logging
 import SCAN
-import Vapor
 
 struct MarketService: MarketProvider {
 
@@ -12,7 +12,7 @@ struct MarketService: MarketProvider {
         self.logger = logger
     }
 
-    func find(withID id: MarketDomainModel.ID, locale: Locale) async throws -> MarketDomainModel? {
+    func find(withID id: Market.ID, locale: Locale) async throws -> Market? {
         logger.debug("Fetching Market", metadata: ["id": .stringConvertible(id)])
 
         let response = try await scan.search(.markets(withID: id, locale: locale))
@@ -20,11 +20,11 @@ struct MarketService: MarketProvider {
             return nil
         }
 
-        let market = MarketDomainModel(id: attachment.key, attachment: attachment.value)
+        let market = Market(id: attachment.key, attachment: attachment.value)
         return market
     }
 
-    func all(forEvent eventID: Int, locale: Locale) async throws -> [MarketDomainModel] {
+    func all(forEvent eventID: Int, withMarketType marketType: String?, locale: Locale) async throws -> [Market] {
         logger.debug("Fetching Markets", metadata: ["event-id": .stringConvertible(eventID)])
 
         let response = try await scan.search(.markets(forEvent: eventID, locale: locale))
@@ -33,13 +33,20 @@ struct MarketService: MarketProvider {
         }
 
         let markets = attachments
-            .compactMap(MarketDomainModel.init)
+            .compactMap { (id: String, attachment: MarketAttachment) -> Market? in
+                let market = Market(id: id, attachment: attachment)
+                guard let marketType = marketType else {
+                    return market
+                }
+
+                return attachment.marketType == marketType ? market : nil
+            }
             .sorted { $0.name < $1.name }
             .sorted { $0.marketDate < $1.marketDate }
         return markets
     }
 
-    func all(forEvents eventIDs: [Int], locale: Locale) async throws -> [EventDomainModel.ID: [MarketDomainModel]] {
+    func all(forEvents eventIDs: [Int], locale: Locale) async throws -> [Event.ID: [Market]] {
         logger.debug("Fetching Markets", metadata: ["event-ids": .stringConvertible(eventIDs)])
 
         let response = try await scan.search(.markets(forEvents: eventIDs, locale: locale))
@@ -47,10 +54,9 @@ struct MarketService: MarketProvider {
             return [:]
         }
 
-        var marketsDict = [EventDomainModel.ID: [MarketDomainModel]]()
-
+        var marketsDict = [Event.ID: [Market]]()
         attachments.forEach { attachment in
-            guard let market = MarketDomainModel(id: attachment.key, attachment: attachment.value) else {
+            guard let market = Market(id: attachment.key, attachment: attachment.value) else {
                 return
             }
 
@@ -62,14 +68,6 @@ struct MarketService: MarketProvider {
         }
 
         return marketsDict
-    }
-
-}
-
-extension Request {
-
-    var markets: MarketProvider {
-        self.application.marketsFactory.make!(self)
     }
 
 }

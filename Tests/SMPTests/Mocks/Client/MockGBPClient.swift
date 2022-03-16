@@ -1,8 +1,8 @@
-//import Foundation
-//import GBPCore
-//import Vapor
+// import Foundation
+// import GBPCore
+// import Vapor
 //
-//final class MockGBPClient: GBPClient {
+// final class MockGBPClient: GBPClient {
 //
 //    var result: Result<Any, Error>?
 //    var lastPath: String?
@@ -49,10 +49,10 @@
 //        }
 //    }
 //
-//}
+// }
 //
-//struct MockGBPClientError: Error {
+// struct MockGBPClientError: Error {
 //
 //    let message: String
 //
-//}
+// }

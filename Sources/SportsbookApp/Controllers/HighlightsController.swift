@@ -7,10 +7,10 @@ struct HighlightsController: RouteCollection {
         highlights.get(use: index)
     }
 
-    func index(request: Request) async throws -> RootAPIModel<[Highlight]> {
-        let highlights = try await Highlight.all(on: request)
+    func index(request: Request) async throws -> RootDTO<[HighlightDTO]> {
+        let highlights = [HighlightDTO(sport: SportDTO(id: 1, name: "Football"), events: [], markets: [:])]
 
-        return RootAPIModel(data: highlights)
+        return RootDTO(data: highlights)
     }
 
 }

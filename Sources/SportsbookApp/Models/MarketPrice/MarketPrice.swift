@@ -1,6 +1,6 @@
 import Foundation
 
-struct MarketPrice: Identifiable, Equatable, Codable {
+struct MarketPrice: Identifiable, Equatable, Hashable {
 
     var id: String { marketID }
 
@@ -35,35 +35,56 @@ struct MarketPrice: Identifiable, Equatable, Codable {
     /// Is this market eligible for same game multiples?
     let hasSGM: Bool?
     /// Linked market identifier. Presented in the 'product.market' format.
-    let linkedMarketID: String?
+    let linkedMarketId: String?
     /// The bet delay for a market.
     let betDelay: Int
     /// List of Rule4 deductions on the represented market.
     let rule4Deductions: [Rule4Deduction]?
 
+    init(marketID: String, marketStatus: MarketStatus, turnInPlayEnabled: Bool, inPlay: Bool, bspMarket: Bool,
+         livePriceAvailable: Bool, guaranteedPriceAvailable: Bool, bettingType: MarketBettingType,
+         runnerDetails: [RunnerDetails], eachwayAvailable: Bool, numberOfPlaces: Int? = nil,
+         placeFraction: FractionalOdds? = nil, legTypes: [LegType]? = nil, hasBPE: Bool? = nil, hasSGM: Bool? = nil,
+         linkedMarketId: String? = nil, betDelay: Int, rule4Deductions: [Rule4Deduction]? = nil) {
+        self.marketID = marketID
+        self.marketStatus = marketStatus
+        self.turnInPlayEnabled = turnInPlayEnabled
+        self.inPlay = inPlay
+        self.bspMarket = bspMarket
+        self.livePriceAvailable = livePriceAvailable
+        self.guaranteedPriceAvailable = guaranteedPriceAvailable
+        self.bettingType = bettingType
+        self.runnerDetails = runnerDetails
+        self.eachwayAvailable = eachwayAvailable
+        self.numberOfPlaces = numberOfPlaces
+        self.placeFraction = placeFraction
+        self.legTypes = legTypes
+        self.hasBPE = hasBPE
+        self.hasSGM = hasSGM
+        self.linkedMarketId = linkedMarketId
+        self.betDelay = betDelay
+        self.rule4Deductions = rule4Deductions
+    }
+
 }
 
 extension MarketPrice {
 
-    enum MarketStatus: String, CaseIterable, Codable {
+    enum MarketStatus: CaseIterable {
         /// Open Market.
         case open
         /// Suspended Market.
         case suspended
-        /// Unknown.
-        case unknown
     }
 
-    enum MarketBettingType: String, CaseIterable, Codable {
+    enum MarketBettingType: CaseIterable {
         /// Fixed Odds Market.
         case fixedOdds
         /// Moving Handicap Market.
         case movingHandicap
-        /// Unknown.
-        case unknown
     }
 
-    enum LegType: String, CaseIterable, Codable {
+    enum LegType: CaseIterable {
         /// Simple selection. Contain only one selection per leg.
         case simpleSelection
         /// Straight Forecast. Contain 2 selections per leg finishing in 1st and 2nd places. Straight Forecast bets must be properly filled with the finishing order of the runners.
@@ -80,8 +101,6 @@ extension MarketPrice {
         case scorecast
         /// Wincast. Contains 2 selections per leg consisting of a First Goalscorer selection and a Match Result selection.
         case wincast
-        /// Unknown.
-        case unknown
     }
 
 }

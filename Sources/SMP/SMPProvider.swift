@@ -4,7 +4,7 @@ import Foundation
 /// Provides the most updated Sportsbook price information for each betting outcome.
 public protocol SMPProvider {
 
-    var configuration: SMPConfiguration? { get nonmutating set}
+    var configuration: SMPConfiguration? { get nonmutating set }
 
     /// Retrieves market prices for a given set of market identifiers, asychronously.
     ///

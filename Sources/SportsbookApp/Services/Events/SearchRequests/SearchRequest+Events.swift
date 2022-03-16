@@ -34,7 +34,8 @@ extension SearchRequest {
             filter: FilterQuery(
                 eventTypeIDs: eventTypeIDs,
                 turnInPlayEnabled: isInPlay == true ? true : nil,
-                marketStartingBefore: isInPlay == true ? Date().addingTimeInterval(30) : Date().addingTimeInterval(60 * 24),
+                marketStartingBefore:
+                    isInPlay == true ? Date().addingTimeInterval(30) : Date().addingTimeInterval(60 * 24),
                 marketLevels: isInPlay == true ? nil : nil
             ),
             locale: locale

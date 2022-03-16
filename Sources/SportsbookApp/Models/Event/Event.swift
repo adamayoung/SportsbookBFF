@@ -1,21 +1,20 @@
-import Vapor
+import Foundation
 
-struct Event: Identifiable, Equatable {
+struct Event: Identifiable, Equatable, Hashable, Comparable {
 
     let id: Int
-    let name: String?
-    let sportID: Int
-    let competitionID: Int?
+    let name: String
+    let sportID: Sport.ID
+    let competitionID: Competition.ID?
     let countryCode: String?
-    let timeZone: TimeZone?
+    let timeZone: String?
     let openDate: Date?
     let isVideoAvailable: Bool?
     let isInPlay: Bool
     let canTurnInPlay: Bool
 
-    init(id: Int, name: String? = nil, sportID: Int, competitionID: Int? = nil, countryCode: String? = nil,
-         timeZone: TimeZone? = nil, openDate: Date? = nil, isVideoAvailable: Bool? = nil, isInPlay: Bool,
-         canTurnInPlay: Bool) {
+    init(id: Int, name: String, sportID: Sport.ID, competitionID: Competition.ID? = nil, countryCode: String? = nil,
+         timeZone: String? = nil, openDate: Date?, isVideoAvailable: Bool? = nil, isInPlay: Bool, canTurnInPlay: Bool) {
         self.id = id
         self.name = name
         self.sportID = sportID
@@ -28,6 +27,8 @@ struct Event: Identifiable, Equatable {
         self.canTurnInPlay = canTurnInPlay
     }
 
-}
+    static func < (lhs: Event, rhs: Event) -> Bool {
+        lhs.name.localizedLowercase < rhs.name.localizedLowercase
+    }
 
-extension Event: Content { }
+}

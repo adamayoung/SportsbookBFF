@@ -8,19 +8,3 @@ extension JSONDecoder {
     }
 
 }
-
-extension Application {
-
-    var cmsDecoder: JSONDecoder {
-        .cms
-    }
-
-}
-
-extension Request {
-
-    var cmsDecoder: JSONDecoder {
-        application.cmsDecoder
-    }
-
-}

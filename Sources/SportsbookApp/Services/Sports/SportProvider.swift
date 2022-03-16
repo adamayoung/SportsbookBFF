@@ -2,14 +2,14 @@ import Foundation
 
 protocol SportProvider {
 
-    func all(locale: Locale) async throws -> [SportDomainModel]
+    func all(locale: Locale) async throws -> [Sport]
 
-    func popular(locale: Locale) async throws -> [SportDomainModel]
+    func popular(locale: Locale) async throws -> [Sport]
 
-    func find(withID id: SportDomainModel.ID, locale: Locale) async throws -> SportDomainModel?
+    func find(withID id: Sport.ID, locale: Locale) async throws -> Sport?
 
-    func find(forCompetition competitionID: CompetitionDomainModel.ID, locale: Locale) async throws -> SportDomainModel?
+    func find(forCompetition competitionID: Competition.ID, locale: Locale) async throws -> Sport?
 
-    func find(forEvent eventID: EventDomainModel.ID, locale: Locale) async throws -> SportDomainModel?
+    func find(forEvent eventID: Event.ID, locale: Locale) async throws -> Sport?
 
 }

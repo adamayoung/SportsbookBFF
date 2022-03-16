@@ -2,12 +2,12 @@ import Vapor
 
 struct CMSClient: CMSClientProvider {
 
-    private let application: Application
-    private var client: Client { application.client }
-    private var decoder: JSONDecoder { application.cmsDecoder }
+    private let client: Client
+    private let decoder: JSONDecoder
 
-    init(application: Application) {
-        self.application = application
+    init(client: Client, decoder: JSONDecoder) {
+        self.client = client
+        self.decoder = decoder
     }
 
     func get<Response: Decodable>(_ path: String, configuration: CMSConfigurationProviding) async throws -> Response {
@@ -36,18 +36,10 @@ extension CMSClient {
 
 }
 
-extension Application {
-
-    public var cmsClient: CMSClientProvider {
-        CMSClient(application: self)
-    }
-
-}
-
 extension Request {
 
     public var cmsClient: CMSClientProvider {
-        CMSClient(application: application)
+        CMSClient(client: client, decoder: .cms)
     }
 
 }

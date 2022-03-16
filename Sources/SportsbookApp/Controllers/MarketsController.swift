@@ -18,7 +18,7 @@ struct MarketsController: RouteCollection {
         }
     }
 
-    func indexForEvents(request: Request) async throws -> RootAPIModel<[Market]> {
+    func indexForEvents(request: Request) async throws -> RootDTO<[MarketDTO]> {
         guard let eventID = request.parameters.get("eventID", as: Int.self) else {
             throw Abort(.notFound)
         }
@@ -28,10 +28,11 @@ struct MarketsController: RouteCollection {
         }
 
         let markets = try await event.markets(on: request)
-        return RootAPIModel(data: markets)
+        let dtos = markets.map(MarketDTO.init)
+        return RootDTO(data: dtos)
     }
 
-    func show(request: Request) async throws -> RootAPIModel<Market> {
+    func show(request: Request) async throws -> RootDTO<MarketDTO> {
         guard let id = request.parameters.get("marketID") else {
             throw Abort(.notFound)
         }
@@ -40,10 +41,11 @@ struct MarketsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        return RootAPIModel(data: market)
+        let dto = MarketDTO(market: market)
+        return RootDTO(data: dto)
     }
 
-    func indexForRunners(request: Request) async throws -> RootAPIModel<[Runner]> {
+    func indexForRunners(request: Request) async throws -> RootDTO<[RunnerDTO]> {
         guard let marketID = request.parameters.get("marketID") else {
             throw Abort(.notFound)
         }
@@ -52,10 +54,11 @@ struct MarketsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        return RootAPIModel(data: market.runners)
+        let dtos = market.runners.map(RunnerDTO.init)
+        return RootDTO(data: dtos)
     }
 
-    func showRunner(request: Request) async throws -> RootAPIModel<Runner> {
+    func showRunner(request: Request) async throws -> RootDTO<RunnerDTO> {
         guard
             let marketID = request.parameters.get("marketID"),
             let selectionID = request.parameters.get("selectionID", as: Int.self)
@@ -67,7 +70,8 @@ struct MarketsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        return RootAPIModel(data: runner)
+        let dto = RunnerDTO(runner: runner)
+        return RootDTO(data: dto)
     }
 
 }

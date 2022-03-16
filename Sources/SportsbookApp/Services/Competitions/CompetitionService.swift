@@ -1,6 +1,6 @@
+import Foundation
 import Logging
 import SCAN
-import Vapor
 
 struct CompetitionService: CompetitionProvider {
 
@@ -12,7 +12,7 @@ struct CompetitionService: CompetitionProvider {
         self.logger = logger
     }
 
-    func find(withID id: CompetitionDomainModel.ID, locale: Locale) async throws -> CompetitionDomainModel? {
+    func find(withID id: Competition.ID, locale: Locale) async throws -> Competition? {
         logger.debug("Fetching Competition", metadata: ["id": .stringConvertible(id)])
 
         let response = try await scan.search(.competition(withID: id, locale: locale))
@@ -20,11 +20,11 @@ struct CompetitionService: CompetitionProvider {
             return nil
         }
 
-        let competition = CompetitionDomainModel(attachment: attachment)
+        let competition = Competition(attachment: attachment)
         return competition
     }
 
-    func find(forEvent eventID: EventDomainModel.ID, locale: Locale) async throws -> CompetitionDomainModel? {
+    func find(forEvent eventID: Event.ID, locale: Locale) async throws -> Competition? {
         logger.debug("Fetching Competition", metadata: ["event-id": .stringConvertible(eventID)])
 
         let response = try await scan.search(.competitions(forEvent: eventID, locale: locale))
@@ -36,11 +36,11 @@ struct CompetitionService: CompetitionProvider {
             return nil
         }
 
-        let competition = CompetitionDomainModel(attachment: attachment)
+        let competition = Competition(attachment: attachment)
         return competition
     }
 
-    func all(forSport sportID: SportDomainModel.ID, locale: Locale) async throws -> [CompetitionDomainModel]? {
+    func all(forSport sportID: Sport.ID, locale: Locale) async throws -> [Competition]? {
         logger.debug("Fetching Competitions", metadata: ["sport-id": .stringConvertible(sportID)])
 
         let response = try await scan.search(.competitions(forEventType: sportID, locale: locale))
@@ -53,16 +53,8 @@ struct CompetitionService: CompetitionProvider {
         }
 
         let competitions = attachments
-            .compactMap(CompetitionDomainModel.init)
+            .compactMap(Competition.init)
         return competitions
-    }
-
-}
-
-extension Request {
-
-    var competitions: CompetitionProvider {
-        self.application.competitionsFactory.make!(self)
     }
 
 }

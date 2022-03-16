@@ -9,16 +9,16 @@ final class CompetitionsControllerTests: XCTestCase {
         try super.setUpWithError()
         app = Application(.testing)
         try app.register(collection: CompetitionsController())
-        app.sportsFactory.use { _ in
-            MockSportService(sports: SportDomainModel.mocks)
+        app.sportProviders.use { _ in
+            MockSportService(sports: Sport.mocks)
         }
 
-        app.competitionsFactory.use { _ in
-            MockCompetitionService(competitions: CompetitionDomainModel.mocks)
+        app.competitionProviders.use { _ in
+            MockCompetitionService(competitions: Competition.mocks)
         }
 
-        app.eventsFactory.use { _ in
-            MockEventService(events: EventDomainModel.mocks)
+        app.eventProviders.use { _ in
+            MockEventService(events: Event.mocks)
         }
     }
 
@@ -30,16 +30,16 @@ final class CompetitionsControllerTests: XCTestCase {
 
     func testIndexFromSportReturnsCompetitions() throws {
         let sportID = 1
-        let expectedResult = RootAPIModel(
+        let expectedResult = RootDTO(
             data: [
-                Competition(id: 516320, name: "Salvadoran Primera Division", sportID: sportID),
-                Competition(id: 2005, name: "UEFA Europa League", sportID: sportID)
+                CompetitionDTO(id: 516320, name: "Salvadoran Primera Division", sportID: sportID),
+                CompetitionDTO(id: 2005, name: "UEFA Europa League", sportID: sportID)
             ]
         )
 
         try app.test(.GET, "sports/\(sportID)/competitions") { response in
             XCTAssertEqual(response.status, .ok)
-            let result = try response.content.decode(RootAPIModel<[Competition]>.self)
+            let result = try response.content.decode(RootDTO<[CompetitionDTO]>.self)
             XCTAssertEqual(result, expectedResult)
         }
     }
@@ -62,13 +62,13 @@ final class CompetitionsControllerTests: XCTestCase {
 
     func testShowReturnsCompetition() throws {
         let competitionID = 516320
-        let expectedResult = RootAPIModel(
-            data: Competition(id: 516320, name: "Salvadoran Primera Division", sportID: 1)
+        let expectedResult = RootDTO(
+            data: CompetitionDTO(id: 516320, name: "Salvadoran Primera Division", sportID: 1)
         )
 
         try app.test(.GET, "competitions/\(competitionID)") { response in
             XCTAssertEqual(response.status, .ok)
-            let result = try response.content.decode(RootAPIModel<Competition>.self)
+            let result = try response.content.decode(RootDTO<CompetitionDTO>.self)
             XCTAssertEqual(result, expectedResult)
         }
     }
@@ -91,13 +91,13 @@ final class CompetitionsControllerTests: XCTestCase {
 
     func testShowFromEventReturnsCompetition() throws {
         let eventID = 30127940
-        let expectedResult = RootAPIModel(
-            data: Competition(id: 516320, name: "Salvadoran Primera Division", sportID: 1)
+        let expectedResult = RootDTO(
+            data: CompetitionDTO(id: 516320, name: "Salvadoran Primera Division", sportID: 1)
         )
 
         try app.test(.GET, "events/\(eventID)/competition") { response in
             XCTAssertEqual(response.status, .ok)
-            let result = try response.content.decode(RootAPIModel<Competition>.self)
+            let result = try response.content.decode(RootDTO<CompetitionDTO>.self)
             XCTAssertEqual(result, expectedResult)
         }
     }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct RunnerDetails: Identifiable, Equatable, Codable {
+struct RunnerDetails: Identifiable, Equatable, Hashable {
 
     var id: Int { selectionID }
 
@@ -10,12 +10,12 @@ struct RunnerDetails: Identifiable, Equatable, Codable {
     let order: Int
     /// Currently available odds to bet, e.g. 2/1 (fractional), 3.0 (decimal).
     let winOdds: Odds?
-    /// Currently available eachway average odds, this is a combination of the win and place odds(derived from the market place fraction and runner win odds) divided by the number of lines (2).
+    /// Currently available eachway average odds , this is a combination of the win and place odds(derived from the market place fraction and runner win odds) divided by the number of lines (2).
     let eachwayOdds: Odds?
     /// Previous odds of the runner, only to be used for display purposes only.
     let previousWinOdds: [Odds]?
     /// The handicap applied to the selection, if on an asian-style market.
-    let handicap: Double?
+    let handicap: Decimal?
     /// The current state of a runner, e.g. ACTIVE or SUSPENDED
     let status: RunnerDetails.Status
     /// If present, indicates the type of price override applied to the runner
@@ -24,7 +24,7 @@ struct RunnerDetails: Identifiable, Equatable, Codable {
     let scope: RunnerDetails.Scope?
 
     init(selectionID: Int, order: Int, winOdds: Odds? = nil, eachwayOdds: Odds? = nil, previousWinOdds: [Odds]? = nil,
-         handicap: Double? = nil, status: RunnerDetails.Status, priceOverlay: RunnerDetails.PriceOverlay? = nil,
+         handicap: Decimal? = nil, status: RunnerDetails.Status, priceOverlay: RunnerDetails.PriceOverlay? = nil,
          scope: RunnerDetails.Scope? = nil) {
         self.selectionID = selectionID
         self.order = order
@@ -41,33 +41,27 @@ struct RunnerDetails: Identifiable, Equatable, Codable {
 
 extension RunnerDetails {
 
-    enum Status: String, CaseIterable, Codable {
+    enum Status: CaseIterable {
         /// Active.
         case active
         /// Suspended.
         case suspended
         /// Removed.
         case removed
-        /// Unknown.
-        case unknown
     }
 
-    enum PriceOverlay: String, CaseIterable, Codable {
+    enum PriceOverlay: CaseIterable {
         /// Enhanced Price Promotion.
         case enhancedPricePromotion
-        /// Unknown.
-        case unknown
     }
 
-    enum Scope: String, CaseIterable, Codable {
+    enum Scope: CaseIterable {
         /// Runner is available for betting when preplay only.
         case prePlay
         /// Runner is available for betting when inplay only.
         case inPlay
         /// Runner is available for betting when both preplay and inplay
         case all
-        /// Unknown.
-        case unknown
     }
 
 }

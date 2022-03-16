@@ -1,7 +1,7 @@
 import Foundation
 
-public protocol MarketPriceProvider {
+protocol MarketPriceProvider {
 
-    func find(forMarket marketID: MarketDomainModel.ID) async throws -> MarketPriceDomainModel?
+    func find(forMarket marketID: Market.ID) async throws -> MarketPrice?
 
 }

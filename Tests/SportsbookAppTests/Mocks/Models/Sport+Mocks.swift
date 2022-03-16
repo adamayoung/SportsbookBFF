@@ -14,4 +14,8 @@ extension Sport {
         ]
     }
 
+    static func mock(for id: Sport.ID) -> Sport {
+        (mocks.first { $0.id == id })!
+    }
+
 }

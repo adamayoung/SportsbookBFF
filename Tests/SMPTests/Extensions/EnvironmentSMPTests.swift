@@ -1,9 +1,9 @@
-//import Foundation
-//@testable import SMP
-//import Vapor
-//import XCTest
+// import Foundation
+// @testable import SMP
+// import Vapor
+// import XCTest
 //
-//final class SMPEnvironmentKeyTests: XCTestCase {
+// final class SMPEnvironmentKeyTests: XCTestCase {
 //
 //    func testSMPBaseURLReturnsName() {
 //        let expectedResult = "SMP_BASE_URL"
@@ -13,4 +13,4 @@
 //        XCTAssertEqual(result, expectedResult)
 //    }
 //
-//}
+// }

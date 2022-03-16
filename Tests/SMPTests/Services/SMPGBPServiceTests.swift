@@ -1,9 +1,9 @@
-//import Foundation
-//import Logging
-//@testable import SMP
-//import XCTest
+// import Foundation
+// import Logging
+// @testable import SMP
+// import XCTest
 //
-//final class SMPGBPServiceTests: XCTestCase {
+// final class SMPGBPServiceTests: XCTestCase {
 //
 //    var service: SMP!
 //    var configuration: SMPConfiguration!
@@ -72,4 +72,4 @@
 //        XCTAssertEqual(result, expectedResult)
 //    }
 //
-//}
+// }

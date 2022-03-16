@@ -27,12 +27,15 @@ identifier_name:
     - app
     - avb
     - cms
+    - dto
     - env
     - id
     - ids
     - key
     - lhs
     - rhs
+    - run
+    - smp
     - tag
     - tla
     - uri
@@ -47,4 +50,4 @@ line_length:
   ignores_comments: true
 
 nesting:
-  type_level: 2
+  type_level: 3

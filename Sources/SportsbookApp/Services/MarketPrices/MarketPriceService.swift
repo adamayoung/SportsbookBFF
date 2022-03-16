@@ -1,6 +1,6 @@
 import Foundation
+import Logging
 import SMP
-import Vapor
 
 struct MarketPriceService: MarketPriceProvider {
 
@@ -12,23 +12,15 @@ struct MarketPriceService: MarketPriceProvider {
         self.logger = logger
     }
 
-    func find(forMarket marketID: MarketDomainModel.ID) async throws -> MarketPriceDomainModel? {
+    func find(forMarket marketID: Market.ID) async throws -> MarketPrice? {
         logger.debug("Fetching Market Price", metadata: ["marketID": .stringConvertible(marketID)])
 
         guard let marketPrice = try await smp.marketPrices(forMarket: marketID) else {
             return nil
         }
 
-        let model = MarketPriceDomainModel(marketPrice: marketPrice)
+        let model = MarketPrice(marketPrice: marketPrice)
         return model
-    }
-
-}
-
-extension Request {
-
-    var marketPrices: MarketPriceProvider {
-        self.application.marketPricesFactory.make!(self)
     }
 
 }

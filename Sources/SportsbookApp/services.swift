@@ -1,30 +1,39 @@
-import SportsCMS
 import SCAN
 import SMP
+import SportsCMS
 import Vapor
 
 func setupServices(_ app: Application) {
     app.scan.configuration = .environment
     app.smp.configuration = .environment
-    app.sportsCMS.configuration = .environment
 
-    app.competitionsFactory.use {
+    guard let cmsBaseURL = Environment.get("CMS_BASE_URL") else {
+        fatalError("CMS_BASE_URL environment variable not set")
+    }
+
+    guard let cmsAPIKey = Environment.get("CMS_API_KEY") else {
+        fatalError("CMS_API_KEY environment variable not set")
+    }
+
+    app.sportsCMSProviders.use(.isp(baseURL: cmsBaseURL, apiKey: cmsAPIKey))
+
+    app.competitionProviders.use {
         CompetitionService(scan: $0.scan, logger: $0.logger)
     }
 
-    app.eventsFactory.use {
+    app.eventProviders.use {
         EventService(scan: $0.scan, logger: $0.logger)
     }
 
-    app.sportsFactory.use {
+    app.sportProviders.use {
         SportService(scan: $0.scan, cms: $0.sportsCMS, logger: $0.logger)
     }
 
-    app.marketsFactory.use {
+    app.marketProviders.use {
         MarketService(scan: $0.scan, logger: $0.logger)
     }
 
-    app.marketPricesFactory.use {
+    app.marketPriceProviders.use {
         MarketPriceService(smp: $0.smp, logger: $0.logger)
     }
 }

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Odds represented in fractional format.
-struct FractionalOdds: Equatable, Codable {
+struct FractionalOdds: Equatable, Hashable {
 
     /// The numerator of a fractional representation of these odds.
     let numerator: Int

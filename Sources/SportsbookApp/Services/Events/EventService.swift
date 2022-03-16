@@ -1,6 +1,6 @@
+import Foundation
 import Logging
 import SCAN
-import Vapor
 
 struct EventService: EventProvider {
 
@@ -12,7 +12,7 @@ struct EventService: EventProvider {
         self.logger = logger
     }
 
-    func find(withID id: EventDomainModel.ID, locale: Locale) async throws -> EventDomainModel? {
+    func find(withID id: Event.ID, locale: Locale) async throws -> Event? {
         logger.debug("Fetching Event", metadata: ["id": .stringConvertible(id)])
 
         let response = try await scan.search(.event(withID: id, locale: locale))
@@ -20,11 +20,11 @@ struct EventService: EventProvider {
             return nil
         }
 
-        let event = EventDomainModel(attachment: attachment, facets: response.facets)
+        let event = Event(attachment: attachment, facets: response.facets)
         return event
     }
 
-    func find(forMarket marketID: MarketDomainModel.ID, locale: Locale) async throws -> EventDomainModel? {
+    func find(forMarket marketID: Market.ID, locale: Locale) async throws -> Event? {
         logger.debug("Fetching Event", metadata: ["market-id": .stringConvertible(marketID)])
 
         let response = try await scan.search(.events(forMarket: marketID, locale: locale))
@@ -32,12 +32,12 @@ struct EventService: EventProvider {
             return nil
         }
 
-        let event = EventDomainModel(attachment: attachment, facets: response.facets)
+        let event = Event(attachment: attachment, facets: response.facets)
         return event
     }
 
-    func all(forCompetition competitionID: CompetitionDomainModel.ID,
-             locale: Locale) async throws -> [EventDomainModel] {
+    func all(forCompetition competitionID: Competition.ID,
+             locale: Locale) async throws -> [Event] {
         logger.debug("Fetching Events", metadata: ["competition-id": .stringConvertible(competitionID)])
 
         let response = try await scan.search(.events(forCompetition: competitionID, locale: locale))
@@ -46,14 +46,14 @@ struct EventService: EventProvider {
         }
 
         let events = attachments
-            .compactMap { EventDomainModel(attachment: $0, facets: response.facets) }
+            .compactMap { Event(attachment: $0, facets: response.facets) }
             .sorted { $0.name < $1.name }
             .sorted { $0.openDate ?? Date() < $1.openDate ?? Date() }
         return events
     }
 
-    func all(forSport sportID: SportDomainModel.ID, isInPlay: Bool? = nil,
-             locale: Locale) async throws -> [EventDomainModel] {
+    func all(forSport sportID: Sport.ID, isInPlay: Bool? = nil,
+             locale: Locale) async throws -> [Event] {
         var metadata: Logger.Metadata = [
             "sport-id": .stringConvertible(sportID)
         ]
@@ -69,14 +69,14 @@ struct EventService: EventProvider {
         }
 
         let events = attachments
-            .compactMap { EventDomainModel(attachment: $0, facets: response.facets) }
+            .compactMap { Event(attachment: $0, facets: response.facets) }
             .sorted { $0.name < $1.name }
             .sorted { $0.openDate ?? Date() < $1.openDate ?? Date() }
         return events
     }
 
-    func all(forSports sportIDs: [SportDomainModel.ID], isInPlay: Bool? = nil,
-             locale: Locale) async throws -> [SportDomainModel.ID: [EventDomainModel]] {
+    func all(forSports sportIDs: [Sport.ID], isInPlay: Bool? = nil,
+             locale: Locale) async throws -> [Sport.ID: [Event]] {
         var metadata: Logger.Metadata = [
             "sport-ids": .stringConvertible(sportIDs)
         ]
@@ -91,10 +91,10 @@ struct EventService: EventProvider {
             return [:]
         }
 
-        var eventsDict = [SportDomainModel.ID: [EventDomainModel]]()
+        var eventsDict = [Sport.ID: [Event]]()
 
         attachments.forEach { attachment in
-            guard let event = EventDomainModel(attachment: attachment, facets: response.facets) else {
+            guard let event = Event(attachment: attachment, facets: response.facets) else {
                 return
             }
 
@@ -110,14 +110,6 @@ struct EventService: EventProvider {
         }
 
         return eventsDict
-    }
-
-}
-
-extension Request {
-
-    var events: EventProvider {
-        self.application.eventsFactory.make!(self)
     }
 
 }

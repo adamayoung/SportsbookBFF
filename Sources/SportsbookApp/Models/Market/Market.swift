@@ -1,6 +1,6 @@
 import Foundation
 
-struct Market: Identifiable, Equatable, Codable {
+struct Market: Identifiable, Equatable, Hashable, Comparable {
 
     let id: String
     let name: String
@@ -8,13 +8,13 @@ struct Market: Identifiable, Equatable, Codable {
     let inPlay: Bool
     let canTurnInPlay: Bool
     let marketType: String
-    let runners: [Runner]
+    let runners: [MarketRunner]
     let sportID: Int
     let eventID: Int
     let competitionID: Int
 
     init(id: String, name: String, marketDate: Date, inPlay: Bool, canTurnInPlay: Bool, marketType: String,
-         runners: [Runner], sportID: Int, eventID: Int, competitionID: Int) {
+         runners: [MarketRunner], sportID: Int, eventID: Int, competitionID: Int) {
         self.id = id
         self.name = name
         self.marketDate = marketDate
@@ -25,6 +25,10 @@ struct Market: Identifiable, Equatable, Codable {
         self.sportID = sportID
         self.eventID = eventID
         self.competitionID = competitionID
+    }
+
+    static func < (lhs: Market, rhs: Market) -> Bool {
+        lhs.name.localizedLowercase < rhs.name.localizedLowercase
     }
 
 }

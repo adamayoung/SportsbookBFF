@@ -3,20 +3,18 @@ import Vapor
 
 struct SportsCMS: SportsCMSProvider {
 
-    private let application: Application
-    private var client: CMSClientProvider { application.cmsClient }
-    private var logger: Logger { application.logger }
+    private let configuration: CMSConfiguration
+    private let client: CMSClientProvider
+    private let logger: Logger
 
-    init(application: Application) {
-        self.application = application
+    init(configuration: CMSConfiguration, client: CMSClientProvider, logger: Logger) {
+        self.configuration = configuration
+        self.client = client
+        self.logger = logger
     }
 
     func nodes(withTag tag: Tag, liveAtDate: Date = Date(),
                ofType type: CMSNode.CMSNodeType?) async throws -> [CMSNode] {
-        guard let configuration = self.configuration else {
-            fatalError("SportsCMS not configured. Use app.sportsCMS.configuration = ...")
-        }
-
         logger.debug("Fetching nodes from CMS service",
                      metadata: [
                         "tag": .stringConvertible(tag),
@@ -34,40 +32,6 @@ struct SportsCMS: SportsCMSProvider {
         return nodes
             .sorted { $0.name > $1.name }
             .sorted { $0.weight ?? 0 > $1.weight ?? 0 }
-    }
-
-}
-
-extension SportsCMS {
-
-    struct ConfigurationKey: StorageKey {
-        typealias Value = CMSConfiguration
-    }
-
-    public var configuration: CMSConfiguration? {
-        get {
-            application.storage[ConfigurationKey.self]
-        }
-
-        nonmutating set {
-            application.storage[ConfigurationKey.self] = newValue
-        }
-    }
-
-}
-
-extension Application {
-
-    public var sportsCMS: SportsCMSProvider {
-        SportsCMS(application: self)
-    }
-
-}
-
-extension Request {
-
-    public var sportsCMS: SportsCMSProvider {
-        SportsCMS(application: application)
     }
 
 }
