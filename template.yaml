@@ -40,8 +40,6 @@ Resources:
       FunctionName: SportsbookBFFHandler
       Handler: SportsbookBFFHandler
       Runtime: provided
-      TracingConfig:
-        Mode: Active
       Events:
         Api:
           Type: HttpApi
