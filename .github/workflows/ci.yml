@@ -87,6 +87,34 @@ jobs:
       - name: Package
         run: scripts/package.sh SportsbookBFFLambda
       
+      - name: Upload lambda artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: lambda-artifact
+          path: .build/lambda
+          if-no-files-found: error
+          retention-days: 1
+
+  build-SAM-template:
+    name: Build SAM Template
+    runs-on: ubuntu-latest
+    concurrency: 
+      group: pr-buildSamTemplate-${{ github.head_ref }}
+      cancel-in-progress: true
+    needs: [test-build, build-lambda]
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Download lambda artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: lambda-artifact
+          path: .build
+
       - name: Setup python 
         uses: actions/setup-python@v2
 
@@ -105,50 +133,3 @@ jobs:
 
       - name: Build template
         run: sam build
-      
-      # - name: Upload lambda artifact
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: lambda-artifact
-      #     path: .build/lambda
-      #     if-no-files-found: error
-      #     retention-days: 1
-
-  # build-SAM-template:
-  #   name: Build SAM Template
-  #   runs-on: ubuntu-latest
-  #   concurrency: 
-  #     group: pr-buildSamTemplate-${{ github.head_ref }}
-  #     cancel-in-progress: true
-  #   needs: [test-build, build-lambda]
-      
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #       with:
-  #         fetch-depth: 0
-      
-  #     - name: Download lambda artifact
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         name: lambda-artifact
-  #         path: .build
-
-  #     - name: Setup python 
-  #       uses: actions/setup-python@v2
-
-  #     - name: Setup SAM
-  #       uses: aws-actions/setup-sam@v1
-
-  #     - name: Configure AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: eu-west-2
-
-  #     - name: Validate template
-  #       run: sam validate
-
-  #     - name: Build template
-  #       run: sam build
