@@ -1,7 +1,7 @@
 import GBPCore
 import Vapor
 
-public struct SMPConfiguration: TLAConfigurationProviding {
+public struct SMPConfiguration: Equatable, TLAConfigurationProviding {
 
     public let baseURL: String
     public let apiKey: String
@@ -11,13 +11,20 @@ public struct SMPConfiguration: TLAConfigurationProviding {
         self.apiKey = apiKey
     }
 
+}
+
+extension SMPConfiguration {
+
+    private static let baseURLKey = "SMP_BASE_URL"
+    private static let apiKeyKey = "TLA_API_KEY"
+
     public static var environment: SMPConfiguration {
-        guard let baseURL = Environment.get("SMP_BASE_URL") else {
-            fatalError("SMP_BASE_URL environment variable not set")
+        guard let baseURL = Environment.get(baseURLKey) else {
+            fatalError("\(baseURLKey) environment variable not set")
         }
 
         guard let apiKey = Environment.get("TLA_API_KEY") else {
-            fatalError("TLA_API_KEY environment variable not set")
+            fatalError("\(apiKeyKey) environment variable not set")
         }
 
         return .init(baseURL: baseURL, apiKey: apiKey)

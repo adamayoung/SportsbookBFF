@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol EventProvider {
+public protocol EventService {
 
     func find(withID id: Event.ID, locale: Locale) async throws -> Event?
 
@@ -14,7 +14,7 @@ public protocol EventProvider {
 
 }
 
-extension EventProvider {
+extension EventService {
 
     public func all(forSport sportID: Sport.ID, locale: Locale) async throws -> [Event] {
         try await all(forSport: sportID, isInPlay: nil, locale: locale)

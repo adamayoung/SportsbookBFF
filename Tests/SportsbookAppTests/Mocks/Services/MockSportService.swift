@@ -1,7 +1,7 @@
 import Foundation
 import Sportsbook
 
-struct MockSportService: SportProvider {
+struct MockSportService: SportService {
 
     let sports: [Sport]
 

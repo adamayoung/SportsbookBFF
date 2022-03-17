@@ -10,19 +10,19 @@ final class EventsControllerTests: XCTestCase {
         try super.setUpWithError()
         app = Application(.testing)
         try app.register(collection: EventsController())
-        app.sportProviders.use { _ in
+        app.sportServices.use { _ in
             MockSportService(sports: Sport.mocks)
         }
 
-        app.competitionProviders.use { _ in
+        app.competitionServices.use { _ in
             MockCompetitionService(competitions: Competition.mocks)
         }
 
-        app.eventProviders.use { _ in
+        app.eventServices.use { _ in
             MockEventService(events: Event.mocks)
         }
 
-        app.marketProviders.use { _ in
+        app.marketServices.use { _ in
             MockMarketService(markets: Market.mocks)
         }
     }

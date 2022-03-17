@@ -2,8 +2,8 @@ import Vapor
 
 extension Request {
 
-    public var sportsCMS: SportsCMSProvider {
-        application.sportsCMSProviders.make(self)
+    public var sportsCMS: SportsCMSService {
+        application.sportsCMSServices.make(self)
     }
 
 }

@@ -4,13 +4,13 @@ import SCAN
 import Sportsbook
 import SportsCMS
 
-struct SportService: SportProvider {
+struct ISPSportService: SportService {
 
-    private let scan: SCANProvider
-    private let cms: SportsCMSProvider
+    private let scan: SCANService
+    private let cms: SportsCMSService
     private let logger: Logger
 
-    init(scan: SCANProvider, cms: SportsCMSProvider, logger: Logger) {
+    init(scan: SCANService, cms: SportsCMSService, logger: Logger) {
         self.scan = scan
         self.cms = cms
         self.logger = logger

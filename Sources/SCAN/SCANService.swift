@@ -1,60 +1,17 @@
-import GBPCore
-import Logging
-import Vapor
+import Foundation
 
-struct SCANService: SCANProvider {
+/// SCAN - Sports Catalogue Navigator Service.
+/// Reads up and exposes the Sports Catalogue to channels (including the website), APIs, and internal apps.
+///
+/// - Note: [Sports Catalogue Navigator Service](https://tools.skybet.net/confluence/display/GSTP/SCAN+-+Sports+Catalogue+Navigator+Service)
+public protocol SCANService {
 
-    private static let searchPath = "/www/sports/navigation/facet/v1.0/search"
-
-    private let application: Application
-    private var logger: Logger { application.logger }
-    private var gbpClient: GBPClientProvider { application.gbpClient }
-
-    init(application: Application) {
-        self.application = application
-    }
-
-    func search(_ searchRequest: SearchRequest) async throws -> FacetedSearchResult {
-        guard let configuration = self.configuration else {
-            fatalError("SCAN not configured. Use app.scan.configuration = ...")
-        }
-
-        logger.debug("Searching SCAN service", metadata: ["facets": .stringConvertible(searchRequest.facets)])
-        return try await gbpClient.post(Self.searchPath, body: searchRequest, configuration: configuration)
-    }
-
-}
-
-extension SCANService {
-
-    struct ConfigurationKey: StorageKey {
-        typealias Value = SCANConfiguration
-    }
-
-    public var configuration: SCANConfiguration? {
-        get {
-            application.storage[ConfigurationKey.self]
-        }
-
-        nonmutating set {
-            application.storage[ConfigurationKey.self] = newValue
-        }
-    }
-
-}
-
-extension Application {
-
-    public var scan: SCANProvider {
-        SCANService(application: self)
-    }
-
-}
-
-extension Request {
-
-    public var scan: SCANProvider {
-        SCANService(application: application)
-    }
+    /// Performs a search request on SCAN.
+    ///
+    /// - Parameters:
+    ///   - searchRequest: The SCAN search request.
+    ///
+    /// - Returns: A future that will receive the eventual search response.
+    func search(_ searchRequest: SearchRequest) async throws -> FacetedSearchResult
 
 }

@@ -2,13 +2,13 @@ import Vapor
 
 extension Application {
 
-    public var eventProviders: EventProviders {
+    public var eventServices: EventServices {
         .init(application: self)
     }
 
-    public struct EventProviders {
+    public struct EventServices {
         final class Storage {
-            var make: ((Request) -> EventProvider)?
+            var make: ((Request) -> EventService)?
             init() { }
         }
 
@@ -18,7 +18,7 @@ extension Application {
 
         let application: Application
 
-        public func use(_ make: @escaping (Request) -> (EventProvider)) {
+        public func use(_ make: @escaping (Request) -> (EventService)) {
             if self.application.storage[Key.self] == nil {
                 self.application.storage[Key.self] = .init()
             }
@@ -26,9 +26,9 @@ extension Application {
             self.application.storage[Key.self]?.make = make
         }
 
-        func make(_ request: Request) -> EventProvider {
+        func make(_ request: Request) -> EventService {
             guard let make = request.application.storage[Key.self]?.make else {
-                fatalError("EventProviders not configured. Configure with app.eventProviders.use(...)")
+                fatalError("EventServices not configured. Configure with app.eventServices.use(...)")
             }
 
             return make(request)
@@ -39,8 +39,8 @@ extension Application {
 
 extension Request {
 
-    public var events: EventProvider {
-        application.eventProviders.make(self)
+    public var events: EventService {
+        application.eventServices.make(self)
     }
 
 }

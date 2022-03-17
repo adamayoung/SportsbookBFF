@@ -1,7 +1,7 @@
 import SportsCMSCore
 import Vapor
 
-struct SportsCMS: SportsCMSProvider {
+struct ISPSportsCMSService: SportsCMSService {
 
     private let configuration: CMSConfiguration
     private let client: CMSClientProvider

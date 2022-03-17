@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol SportProvider {
+public protocol SportService {
 
     func all(locale: Locale) async throws -> [Sport]
 

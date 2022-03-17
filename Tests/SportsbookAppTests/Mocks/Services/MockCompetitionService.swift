@@ -1,7 +1,7 @@
 import Foundation
 import Sportsbook
 
-struct MockCompetitionService: CompetitionProvider {
+struct MockCompetitionService: CompetitionService {
 
     let competitions: [Competition]
 

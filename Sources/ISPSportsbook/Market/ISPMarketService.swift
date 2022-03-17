@@ -3,12 +3,12 @@ import Logging
 import SCAN
 import Sportsbook
 
-struct MarketService: MarketProvider {
+struct ISPMarketService: MarketService {
 
-    private let scan: SCANProvider
+    private let scan: SCANService
     private let logger: Logger
 
-    init(scan: SCANProvider, logger: Logger) {
+    init(scan: SCANService, logger: Logger) {
         self.scan = scan
         self.logger = logger
     }

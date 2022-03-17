@@ -40,8 +40,8 @@ let package = Package(
             name: "SportsbookApp",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                "ISPSportsbook",
-                "Sportsbook"
+                "Sportsbook",
+                "ISPSportsbook"
             ],
             swiftSettings: [
                 .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
@@ -66,11 +66,29 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor")
             ]
         ),
+        .testTarget(
+            name: "ISPSportsbookTests",
+            dependencies: [
+                "ISPSportsbook",
+                "Sportsbook",
+                "SCAN",
+                "SMP",
+                "SportsCMS",
+                .product(name: "XCTVapor", package: "vapor")
+            ]
+        ),
 
         .target(
             name: "Sportsbook",
             dependencies: [
                 .product(name: "Vapor", package: "vapor")
+            ]
+        ),
+        .testTarget(
+            name: "SportsbookTests",
+            dependencies: [
+                "Sportsbook",
+                .product(name: "XCTVapor", package: "vapor")
             ]
         ),
 

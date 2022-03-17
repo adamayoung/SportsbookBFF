@@ -1,7 +1,7 @@
 import Foundation
 import Sportsbook
 
-struct MockMarketService: MarketProvider {
+struct MockMarketService: MarketService {
 
     let markets: [Market]
 

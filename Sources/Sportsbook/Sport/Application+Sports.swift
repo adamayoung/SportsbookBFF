@@ -2,13 +2,13 @@ import Vapor
 
 extension Application {
 
-    public var sportProviders: SportProviders {
+    public var sportServices: SportServices {
         .init(application: self)
     }
 
-    public struct SportProviders {
+    public struct SportServices {
         final class Storage {
-            var make: ((Request) -> SportProvider)?
+            var make: ((Request) -> SportService)?
             init() { }
         }
 
@@ -18,7 +18,7 @@ extension Application {
 
         let application: Application
 
-        public func use(_ make: @escaping (Request) -> (SportProvider)) {
+        public func use(_ make: @escaping (Request) -> (SportService)) {
             if self.application.storage[Key.self] == nil {
                 self.application.storage[Key.self] = .init()
             }
@@ -26,9 +26,9 @@ extension Application {
             self.application.storage[Key.self]?.make = make
         }
 
-        func make(_ request: Request) -> SportProvider {
+        func make(_ request: Request) -> SportService {
             guard let make = request.application.storage[Key.self]?.make else {
-                fatalError("SportProviders not configured. Configure with app.sportProviders.use(...)")
+                fatalError("SportServices not configured. Configure with app.sportServices.use(...)")
             }
 
             return make(request)
@@ -39,8 +39,8 @@ extension Application {
 
 extension Request {
 
-    public var sports: SportProvider {
-        application.sportProviders.make(self)
+    public var sports: SportService {
+        application.sportServices.make(self)
     }
 
 }

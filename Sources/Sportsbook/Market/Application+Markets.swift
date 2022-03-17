@@ -2,13 +2,13 @@ import Vapor
 
 extension Application {
 
-    public var marketProviders: MarketProviders {
+    public var marketServices: MarketServices {
         .init(application: self)
     }
 
-    public struct MarketProviders {
+    public struct MarketServices {
         final class Storage {
-            var make: ((Request) -> MarketProvider)?
+            var make: ((Request) -> MarketService)?
             init() { }
         }
 
@@ -18,7 +18,7 @@ extension Application {
 
         let application: Application
 
-        public func use(_ make: @escaping (Request) -> (MarketProvider)) {
+        public func use(_ make: @escaping (Request) -> (MarketService)) {
             if self.application.storage[Key.self] == nil {
                 self.application.storage[Key.self] = .init()
             }
@@ -26,9 +26,9 @@ extension Application {
             self.application.storage[Key.self]?.make = make
         }
 
-        func make(_ request: Request) -> MarketProvider {
+        func make(_ request: Request) -> MarketService {
             guard let make = request.application.storage[Key.self]?.make else {
-                fatalError("MarketProviders not configured. Configure with app.marketProviders.use(...)")
+                fatalError("MarketServices not configured. Configure with app.marketServices.use(...)")
             }
 
             return make(request)
@@ -39,8 +39,8 @@ extension Application {
 
 extension Request {
 
-    public var markets: MarketProvider {
-        application.marketProviders.make(self)
+    public var markets: MarketService {
+        application.marketServices.make(self)
     }
 
 }

@@ -2,13 +2,13 @@ import Vapor
 
 extension Application {
 
-    public var competitionProviders: CompetitionProviders {
+    public var competitionServices: CompetitionServices {
         .init(application: self)
     }
 
-    public struct CompetitionProviders {
+    public struct CompetitionServices {
         final class Storage {
-            var make: ((Request) -> CompetitionProvider)?
+            var make: ((Request) -> CompetitionService)?
             init() { }
         }
 
@@ -18,7 +18,7 @@ extension Application {
 
         let application: Application
 
-        public func use(_ make: @escaping (Request) -> (CompetitionProvider)) {
+        public func use(_ make: @escaping (Request) -> (CompetitionService)) {
             if self.application.storage[Key.self] == nil {
                 self.application.storage[Key.self] = .init()
             }
@@ -26,9 +26,9 @@ extension Application {
             self.application.storage[Key.self]?.make = make
         }
 
-        func make(_ request: Request) -> CompetitionProvider {
+        func make(_ request: Request) -> CompetitionService {
             guard let make = request.application.storage[Key.self]?.make else {
-                fatalError("CompetitionProviders not configured. Configure with app.competitionProviders.use(...)")
+                fatalError("CompetitionServices not configured. Configure with app.competitionServices.use(...)")
             }
 
             return make(request)
@@ -39,8 +39,8 @@ extension Application {
 
 extension Request {
 
-    public var competitions: CompetitionProvider {
-        application.competitionProviders.make(self)
+    public var competitions: CompetitionService {
+        application.competitionServices.make(self)
     }
 
 }

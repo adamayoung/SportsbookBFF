@@ -1,7 +1,7 @@
 import Foundation
 import Sportsbook
 
-struct MockEventService: EventProvider {
+struct MockEventService: EventService {
 
     let events: [Event]
 

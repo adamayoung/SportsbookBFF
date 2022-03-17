@@ -3,12 +3,12 @@ import Logging
 import SCAN
 import Sportsbook
 
-struct EventService: EventProvider {
+struct ISPEventService: EventService {
 
-    private let scan: SCANProvider
+    private let scan: SCANService
     private let logger: Logger
 
-    init(scan: SCANProvider, logger: Logger) {
+    init(scan: SCANService, logger: Logger) {
         self.scan = scan
         self.logger = logger
     }
@@ -37,8 +37,7 @@ struct EventService: EventProvider {
         return event
     }
 
-    func all(forCompetition competitionID: Competition.ID,
-             locale: Locale) async throws -> [Event] {
+    func all(forCompetition competitionID: Competition.ID, locale: Locale) async throws -> [Event] {
         logger.debug("Fetching Events", metadata: ["competition-id": .stringConvertible(competitionID)])
 
         let response = try await scan.search(.events(forCompetition: competitionID, locale: locale))
@@ -53,8 +52,7 @@ struct EventService: EventProvider {
         return events
     }
 
-    func all(forSport sportID: Sport.ID, isInPlay: Bool? = nil,
-             locale: Locale) async throws -> [Event] {
+    func all(forSport sportID: Sport.ID, isInPlay: Bool?, locale: Locale) async throws -> [Event] {
         var metadata: Logger.Metadata = [
             "sport-id": .stringConvertible(sportID)
         ]

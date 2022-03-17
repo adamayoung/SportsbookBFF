@@ -3,12 +3,12 @@ import Logging
 import SMP
 import Sportsbook
 
-struct MarketPriceService: MarketPriceProvider {
+struct ISPMarketPriceService: MarketPriceService {
 
-    private let smp: SMPProvider
+    private let smp: SMPService
     private let logger: Logger
 
-    init(smp: SMPProvider, logger: Logger) {
+    init(smp: SMPService, logger: Logger) {
         self.smp = smp
         self.logger = logger
     }

@@ -1,63 +1,33 @@
-import GBPCore
-import Logging
-import Vapor
+import Foundation
 
-struct SMPService: SMPProvider {
+/// SMP - Sportsbook Market Prices service.
+/// Provides the most updated Sportsbook price information for each betting outcome.
+public protocol SMPService {
 
-    private static let marketPricesPath = "/www/sports/fixedodds/readonly/v1/getMarketPrices?priceHistory=1"
-
-    private let application: Application
-    private var logger: Logger { application.logger }
-    private var gbpClient: GBPClientProvider { application.gbpClient }
-
-    init(application: Application) {
-        self.application = application
-    }
-
-    func marketPrices(forMarkets marketIDs: [String], maxResults: Int?) async throws -> [MarketDetails] {
-        guard let configuration = self.configuration else {
-            fatalError("SMP not configured. Use app.smp.configuration = ...")
-        }
-
-        logger.debug("Fetching market prices from SMP service",
-                     metadata: ["marketIDs": .stringConvertible(marketIDs.joined(separator: ", "))])
-
-        let body = MarketPricesRequest(marketIds: marketIDs, priceHistory: maxResults)
-        return try await gbpClient.post(Self.marketPricesPath, body: body, configuration: configuration)
-    }
+    /// Retrieves market prices for a given set of market identifiers, asychronously.
+    ///
+    /// - Parameter marketIDs:The market identifiers to request prices for.
+    /// - Parameter maxResults: The maximum number of results to return (Default: no maximum).
+    ///
+    /// - Returns: Market prices for the markets requested for.
+    func marketPrices(forMarkets marketIDs: [String], maxResults: Int?) async throws -> [MarketDetails]
 
 }
 
 extension SMPService {
 
-    struct ConfigurationKey: StorageKey {
-        typealias Value = SMPConfiguration
+    public func marketPrices(forMarkets marketIDs: [String], maxResults: Int? = nil) async throws -> [MarketDetails] {
+        try await marketPrices(forMarkets: marketIDs, maxResults: maxResults)
     }
 
-    public var configuration: SMPConfiguration? {
-        get {
-            application.storage[ConfigurationKey.self]
-        }
-
-        nonmutating set {
-            application.storage[ConfigurationKey.self] = newValue
-        }
-    }
-
-}
-
-extension Application {
-
-    public var smp: SMPProvider {
-        SMPService(application: self)
-    }
-
-}
-
-extension Request {
-
-    public var smp: SMPProvider {
-        SMPService(application: application)
+    /// Retrieves market prices for a given market identifier, asychronously.
+    ///
+    /// - Parameter marketID:The market identifier to request prices for.
+    /// - Parameter maxResults: The maximum number of results to return (Default: no maximum).
+    ///
+    /// - Returns: Market prices for the market requested for.
+    public func marketPrices(forMarket marketID: String, maxResults: Int? = nil) async throws -> MarketDetails? {
+        try await marketPrices(forMarkets: [marketID]).first
     }
 
 }

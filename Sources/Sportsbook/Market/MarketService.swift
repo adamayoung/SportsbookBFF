@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol MarketProvider {
+public protocol MarketService {
 
     func find(withID id: Market.ID, locale: Locale) async throws -> Market?
 
@@ -10,7 +10,7 @@ public protocol MarketProvider {
 
 }
 
-extension MarketProvider {
+extension MarketService {
 
     public func all(forEvent eventID: Event.ID, withMarketType marketType: String? = nil,
                     locale: Locale) async throws -> [Market] {

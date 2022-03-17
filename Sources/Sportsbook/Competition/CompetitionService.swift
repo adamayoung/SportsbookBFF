@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol CompetitionProvider {
+public protocol CompetitionService {
 
     func find(withID id: Competition.ID, locale: Locale) async throws -> Competition?
 
