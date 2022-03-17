@@ -1,5 +1,5 @@
 import Foundation
-@testable import SportsbookApp
+@testable import Sportsbook
 
 extension Event {
 

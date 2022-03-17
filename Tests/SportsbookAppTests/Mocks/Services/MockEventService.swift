@@ -1,5 +1,5 @@
 import Foundation
-@testable import SportsbookApp
+import Sportsbook
 
 struct MockEventService: EventProvider {
 

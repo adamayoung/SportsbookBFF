@@ -1,3 +1,4 @@
+import Sportsbook
 import Vapor
 
 struct CompetitionsController: RouteCollection {

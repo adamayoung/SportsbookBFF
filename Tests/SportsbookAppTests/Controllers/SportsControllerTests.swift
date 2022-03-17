@@ -1,3 +1,4 @@
+import Sportsbook
 @testable import SportsbookApp
 import XCTVapor
 
