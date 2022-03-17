@@ -12,6 +12,5 @@ func routes(_ app: Application) throws {
         try v1.register(collection: EventsController())
         try v1.register(collection: MarketsController())
         try v1.register(collection: MarketPricesController())
-        try v1.register(collection: HighlightsController())
     }
 }
