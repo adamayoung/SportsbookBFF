@@ -96,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-SAM-template
     environment:
-      name: Development
+      name: development
       url: ${{ steps.deploy.outputs.apigateway_url }}
       
     steps:
