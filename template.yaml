@@ -21,9 +21,11 @@ Parameters:
   ScanBaseUrl:
     Description: 'SCAN Base URL'
     Type: 'String'
+    NoEcho: true
   SmpBaseUrl:
     Description: 'SMP Base URL'
     Type: 'String'
+    NoEcho: true
   CmsApiKey:
     Description: 'CMS API Key'
     Type: 'String'
@@ -31,6 +33,7 @@ Parameters:
   CmsBaseUrl:
     Description: 'CMS Base URL'
     Type: 'String'
+    NoEcho: true
   RETENTIONINDAYS: 
     Type: Number
     Default: 1

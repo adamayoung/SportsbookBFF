@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  AWS_REGION: eu-west-2
+
 jobs:
   build-lambda:
     name: Build Lambda
@@ -72,7 +75,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Validate SAM template
         run: sam validate
@@ -97,6 +100,7 @@ jobs:
       url: ${{ steps.deploy.outputs.apigateway_url }}
     env:
       AWS_DOMAIN_NAME: sportsbook.adam-young.co.uk
+      AWS_STACK: sportsbook
       
     steps:
       - name: Checkout
@@ -127,7 +131,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy
         id: deploy
@@ -135,8 +139,6 @@ jobs:
           sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --resolve-s3 --stack-name "$AWS_STACK" --capabilities CAPABILITY_IAM --region "$AWS_REGION" --parameter-overrides DomainName="$AWS_DOMAIN_NAME" CertificateArn="$AWS_CERTIFICATE_ARN"  AuthKey="$AUTH_KEY" TlaApiKey="$TLA_API_KEY" ScanBaseUrl="$SCAN_BASE_URL" SmpBaseUrl="$SMP_BASE_URL" CmsApiKey="$CMS_API_KEY" CmsBaseUrl="$CMS_BASE_URL"
           echo "::set-output name=apigateway_url::https://$AWS_DOMAIN_NAME"
         env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_STACK: ${{ secrets.AWS_STACK }}
           AWS_CERTIFICATE_ARN: ${{ secrets.AWS_CERTIFICATE_ARN }}
           AUTH_KEY: ${{ secrets.API_AUTH_KEY }}
           TLA_API_KEY: ${{ secrets.TLA_API_KEY }}
