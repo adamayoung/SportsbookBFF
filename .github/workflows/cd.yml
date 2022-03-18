@@ -142,15 +142,15 @@ jobs:
           CMS_API_KEY: ${{ secrets.CMS_API_KEY }}
           CMS_BASE_URL: ${{ secrets.CMS_BASE_URL }}
 
-      - name: Update DNS Records
+      - name: Update DNS Record
         run: |
-          API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
-          API_GATEWAY_DOMAIN=$(sed "s/https:\/\///g" <<<"$API_GATEWAY_URL")
-          if [ "$API_GATEWAY_DOMAIN" == "" ]; then
+          HOST_NAME=$AWS_STACK.$DOMAIN_NAME
+          API_GATEWAY_DOMAIN_NAME=$(aws apigatewayv2 get-domain-name --domain-name $HOST_NAME --query "DomainNameConfigurations[0].ApiGatewayDomainName" --output text)
+          if [ "$API_GATEWAY_DOMAIN_NAME" == "" ]; then
+            echo "ERROR: Could not find domain name $HOST_NAME in API Gateway"
             exit -1
           fi
 
-          HOST_NAME=$AWS_STACK.$DOMAIN_NAME
           ZONE_ID=$(curl -s -X GET "$IONOS_BASE_URL/dns/v1/zones" -H "accept: application/json" -H "X-API-Key: $IONOS_API_KEY" | jq -r --arg DOMAIN_NAME "$DOMAIN_NAME" '.[] | select(.name==$DOMAIN_NAME) | .id')
           if [ "$ZONE_ID" == "" ]; then
             echo "ERROR: Domain name $DOMAIN_NAME not found"
@@ -162,9 +162,9 @@ jobs:
             echo "ERROR: Record $HOST_NAME for $DOMAIN_NAME not found"
             exit -3
           else
-            UPDATE_RESULT=$(curl -s -X PUT "$IONOS_BASE_URL/dns/v1/zones/$ZONE_ID/records/$RECORD_ID" -H "accept: */*" -H "X-API-Key: $IONOS_API_KEY" -H "Content-Type: application/json" -d "{\"disabled\":false,\"content\":\"$API_GATEWAY_DOMAIN\",\"ttl\":3600,\"prio\":0}")
+            UPDATE_RESULT=$(curl -s -X PUT "$IONOS_BASE_URL/dns/v1/zones/$ZONE_ID/records/$RECORD_ID" -H "accept: */*" -H "X-API-Key: $IONOS_API_KEY" -H "Content-Type: application/json" -d "{\"disabled\":false,\"content\":\"$API_GATEWAY_DOMAIN_NAME\",\"ttl\":3600,\"prio\":0}")
             if [ "$UPDATE_RESULT" != "" ]; then
-              echo "ERROR: Failed to update CNAME for $HOST_NAME to $API_GATEWAY_DOMAIN"
+              echo "ERROR: Failed to update CNAME for $HOST_NAME to $API_GATEWAY_DOMAIN_NAME"
               exit -4
             fi
 
