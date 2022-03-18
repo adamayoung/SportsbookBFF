@@ -44,12 +44,12 @@ Resources:
         CertificateArn: !Ref CertificateArn
         DomainName: !Ref DomainName
 
-  SportsbookBFFLambda:
+  SportsbookLambda:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .build/lambda/SportsbookBFFLambda/lambda.zip
-      FunctionName: SportsbookBFFHandler
-      Handler: SportsbookBFFHandler
+      FunctionName: SportsbookHandler
+      Handler: SportsbookHandler
       Runtime: provided
       Events:
         Api:

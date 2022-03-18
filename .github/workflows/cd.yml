@@ -93,7 +93,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-SAM-template
     environment:
-      name: development
+      name: production
       url: ${{ steps.deploy.outputs.apigateway_url }}
       
     steps:
@@ -131,6 +131,7 @@ jobs:
         id: deploy
         run: |
           sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --resolve-s3 --stack-name "$AWS_STACK" --capabilities CAPABILITY_IAM --region "$AWS_REGION" --parameter-overrides DomainName="$AWS_DOMAIN_NAME" CertificateArn="$AWS_CERTIFICATE_ARN"  AuthKey="$AUTH_KEY" TlaApiKey="$TLA_API_KEY" ScanBaseUrl="$SCAN_BASE_URL" SmpBaseUrl="$SMP_BASE_URL" CmsApiKey="$CMS_API_KEY" CmsBaseUrl="$CMS_BASE_URL"
+          API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
           echo "::set-output name=apigateway_url::http://$AWS_DOMAIN_NAME"
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -143,3 +144,8 @@ jobs:
           SMP_BASE_URL: ${{ secrets.SMP_BASE_URL }}
           CMS_API_KEY: ${{ secrets.CMS_API_KEY }}
           CMS_BASE_URL: ${{ secrets.CMS_BASE_URL }}
+      
+      - name: Update DNS
+        run: |
+          API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
+          echo Updating DNS to $API_GATEWAY_URL

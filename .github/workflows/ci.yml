@@ -86,34 +86,19 @@ jobs:
       
       - name: Package
         run: scripts/package.sh SportsbookBFFLambda
-      
-      - name: Upload lambda artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: lambda-artifact
-          path: .build/lambda
-          if-no-files-found: error
-          retention-days: 1
 
-  build-SAM-template:
-    name: Build SAM Template
+  validate-SAM-template:
+    name: Validate SAM Template
     runs-on: ubuntu-latest
     concurrency: 
-      group: pr-buildSamTemplate-${{ github.head_ref }}
+      group: pr-validateSamTemplate-${{ github.head_ref }}
       cancel-in-progress: true
-    needs: [test-build, build-lambda]
       
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      
-      - name: Download lambda artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: lambda-artifact
-          path: .build
 
       - name: Setup python 
         uses: actions/setup-python@v2
