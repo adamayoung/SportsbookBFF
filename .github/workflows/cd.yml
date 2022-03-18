@@ -56,12 +56,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      
-      - name: Download lambda artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: lambda-artifact
-          path: .build
 
       - name: Setup python 
         uses: actions/setup-python@v2
