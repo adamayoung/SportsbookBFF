@@ -96,7 +96,7 @@ jobs:
       name: production
       url: ${{ steps.deploy.outputs.apigateway_url }}
     env:
-      DOMAIN_NAME: sportsbook.adam-young.co.uk
+      AWS_DOMAIN_NAME: sportsbook.adam-young.co.uk
       
     steps:
       - name: Checkout
@@ -137,7 +137,6 @@ jobs:
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_STACK: ${{ secrets.AWS_STACK }}
-          AWS_DOMAIN_NAME: ${{ env.DOMAIN_NAME }}
           AWS_CERTIFICATE_ARN: ${{ secrets.AWS_CERTIFICATE_ARN }}
           AUTH_KEY: ${{ secrets.API_AUTH_KEY }}
           TLA_API_KEY: ${{ secrets.TLA_API_KEY }}
@@ -151,5 +150,3 @@ jobs:
           API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
           API_GATEWAY_DOMAIN=$(sed "s/https:\/\///g" <<<"$API_GATEWAY_URL")
           echo Updating DNS for $AWS_DOMAIN_NAME to $API_GATEWAY_DOMAIN ...
-         env:
-          AWS_DOMAIN_NAME: ${{ env.DOMAIN_NAME }}
