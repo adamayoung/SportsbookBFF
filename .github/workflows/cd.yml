@@ -146,4 +146,6 @@ jobs:
         run: |
           API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
           API_GATEWAY_DOMAIN=$(sed "s/https:\/\///g" <<<"$API_GATEWAY_URL")
-          echo Updating DNS for $AWS_DOMAIN_NAME to $API_GATEWAY_DOMAIN ...
+          curl -X PUT "https://api.hosting.ionos.com/dns/v1/zones/76504f74-e859-11eb-92f3-0a5864444f7f/records/960dcf37-b05f-6f79-4441-4c47b16c47ee" -H "accept: */*" -H "X-API-Key: $IONOS_API_KEY" -H "Content-Type: application/json" -d "{\"disabled\":false,\"content\":\"$API_GATEWAY_DOMAIN\",\"ttl\":3600,\"prio\":0}"
+        env:
+          IONOS_API_KEY: ${{ secrets.IONOS_API_KEY }}
