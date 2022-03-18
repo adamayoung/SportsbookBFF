@@ -133,7 +133,6 @@ jobs:
         id: deploy
         run: |
           sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --resolve-s3 --stack-name "$AWS_STACK" --capabilities CAPABILITY_IAM --region "$AWS_REGION" --parameter-overrides DomainName="$AWS_DOMAIN_NAME" CertificateArn="$AWS_CERTIFICATE_ARN"  AuthKey="$AUTH_KEY" TlaApiKey="$TLA_API_KEY" ScanBaseUrl="$SCAN_BASE_URL" SmpBaseUrl="$SMP_BASE_URL" CmsApiKey="$CMS_API_KEY" CmsBaseUrl="$CMS_BASE_URL"
-          API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
           echo "::set-output name=apigateway_url::https://$AWS_DOMAIN_NAME"
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
