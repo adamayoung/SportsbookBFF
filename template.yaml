@@ -3,6 +3,13 @@ Transform: AWS::Serverless-2016-10-31
 Description: SportsbookBFF
 
 Parameters:
+  DomainName:
+    Description: 'API Gateway Custom Domain'
+    Type: 'String'
+  CertificateArn:
+    Description: 'Certificate ARM for domain name'
+    Type: 'String'
+    NoEcho: true
   AuthKey:
     Description: 'API Key'
     Type: 'String'
@@ -32,6 +39,10 @@ Parameters:
 Resources:
   SportsbookApiGateway:
     Type: AWS::Serverless::HttpApi
+    Properties:
+      Domain:
+        CertificateArn: !Ref CertificateArn
+        DomainName: !Ref DomainName
 
   SportsbookBFFLambda:
     Type: AWS::Serverless::Function
