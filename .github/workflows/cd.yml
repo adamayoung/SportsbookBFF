@@ -95,6 +95,8 @@ jobs:
     environment:
       name: production
       url: ${{ steps.deploy.outputs.apigateway_url }}
+    env:
+      DOMAIN_NAME: sportsbook.adam-young.co.uk
       
     steps:
       - name: Checkout
@@ -132,11 +134,11 @@ jobs:
         run: |
           sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --resolve-s3 --stack-name "$AWS_STACK" --capabilities CAPABILITY_IAM --region "$AWS_REGION" --parameter-overrides DomainName="$AWS_DOMAIN_NAME" CertificateArn="$AWS_CERTIFICATE_ARN"  AuthKey="$AUTH_KEY" TlaApiKey="$TLA_API_KEY" ScanBaseUrl="$SCAN_BASE_URL" SmpBaseUrl="$SMP_BASE_URL" CmsApiKey="$CMS_API_KEY" CmsBaseUrl="$CMS_BASE_URL"
           API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
-          echo "::set-output name=apigateway_url::http://$AWS_DOMAIN_NAME"
+          echo "::set-output name=apigateway_url::https://$AWS_DOMAIN_NAME"
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_STACK: ${{ secrets.AWS_STACK }}
-          AWS_DOMAIN_NAME: ${{ secrets.AWS_DOMAIN_NAME }}
+          AWS_DOMAIN_NAME: ${{ env.DOMAIN_NAME }}
           AWS_CERTIFICATE_ARN: ${{ secrets.AWS_CERTIFICATE_ARN }}
           AUTH_KEY: ${{ secrets.API_AUTH_KEY }}
           TLA_API_KEY: ${{ secrets.TLA_API_KEY }}
@@ -148,4 +150,7 @@ jobs:
       - name: Update DNS
         run: |
           API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
-          echo Updating DNS to $API_GATEWAY_URL
+          API_GATEWAY_DOMAIN=$(sed "s/https:\/\///g" <<<"$API_GATEWAY_URL")
+          echo Updating DNS for $AWS_DOMAIN_NAME to $API_GATEWAY_DOMAIN ...
+         env:
+          AWS_DOMAIN_NAME: ${{ env.DOMAIN_NAME }}
