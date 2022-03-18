@@ -146,7 +146,7 @@ jobs:
           CMS_API_KEY: ${{ secrets.CMS_API_KEY }}
           CMS_BASE_URL: ${{ secrets.CMS_BASE_URL }}
 
-      - name: Update DNS
+      - name: Update DNS Records
         run: |
           API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
           API_GATEWAY_DOMAIN=$(sed "s/https:\/\///g" <<<"$API_GATEWAY_URL")
