@@ -172,3 +172,4 @@ jobs:
           fi
         env:
           IONOS_API_KEY: ${{ secrets.IONOS_API_KEY }}
+          IONOS_BASE_URL: https://api.hosting.ionos.com
