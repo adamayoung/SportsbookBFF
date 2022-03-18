@@ -1,8 +1,7 @@
+import Sportsbook
 import Vapor
 
 struct SportsController: RouteCollection {
-
-    init() { }
 
     func boot(routes: RoutesBuilder) throws {
         let sports = routes.grouped("sports")
@@ -21,17 +20,19 @@ struct SportsController: RouteCollection {
         }
     }
 
-    func index(request: Request) async throws -> RootAPIModel<[Sport]> {
+    func index(request: Request) async throws -> RootDTO<[SportDTO]> {
         let sports = try await Sport.all(on: request)
-        return RootAPIModel(data: sports)
+        let dtos = sports.map(SportDTO.init)
+        return RootDTO(data: dtos)
     }
 
-    func indexForPopular(request: Request) async throws -> RootAPIModel<[Sport]> {
+    func indexForPopular(request: Request) async throws -> RootDTO<[SportDTO]> {
         let sports = try await Sport.popular(on: request)
-        return RootAPIModel(data: sports)
+        let dtos = sports.map(SportDTO.init)
+        return RootDTO(data: dtos)
     }
 
-    func show(request: Request) async throws -> RootAPIModel<Sport> {
+    func show(request: Request) async throws -> RootDTO<SportDTO> {
         guard let id = request.parameters.get("sportID", as: Int.self) else {
             throw Abort(.notFound)
         }
@@ -40,10 +41,11 @@ struct SportsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        return RootAPIModel(data: sport)
+        let dto = SportDTO(sport: sport)
+        return RootDTO(data: dto)
     }
 
-    func showFromCompetition(request: Request) async throws -> RootAPIModel<Sport> {
+    func showFromCompetition(request: Request) async throws -> RootDTO<SportDTO> {
         guard let competitionID = request.parameters.get("competitionID", as: Int.self) else {
             throw Abort(.notFound)
         }
@@ -55,10 +57,11 @@ struct SportsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        return RootAPIModel(data: sport)
+        let dto = SportDTO(sport: sport)
+        return RootDTO(data: dto)
     }
 
-    func showFromEvent(request: Request) async throws -> RootAPIModel<Sport> {
+    func showFromEvent(request: Request) async throws -> RootDTO<SportDTO> {
         guard let eventID = request.parameters.get("eventID", as: Int.self) else {
             throw Abort(.notFound)
         }
@@ -70,7 +73,8 @@ struct SportsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        return RootAPIModel(data: sport)
+        let dto = SportDTO(sport: sport)
+        return RootDTO(data: dto)
     }
 
 }

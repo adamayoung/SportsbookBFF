@@ -1,5 +1,5 @@
+import Sportsbook
 @testable import SportsbookApp
-import SportsbookCore
 import XCTVapor
 
 final class EventsControllerTests: XCTestCase {
@@ -10,20 +10,20 @@ final class EventsControllerTests: XCTestCase {
         try super.setUpWithError()
         app = Application(.testing)
         try app.register(collection: EventsController())
-        app.sportService.use { _ in
-            MockSportService(sports: SportDomainModel.mocks)
+        app.sportServices.use { _ in
+            MockSportService(sports: Sport.mocks)
         }
 
-        app.competitionService.use { _ in
-            MockCompetitionService(competitions: CompetitionDomainModel.mocks)
+        app.competitionServices.use { _ in
+            MockCompetitionService(competitions: Competition.mocks)
         }
 
-        app.eventService.use { _ in
-            MockEventService(events: EventDomainModel.mocks)
+        app.eventServices.use { _ in
+            MockEventService(events: Event.mocks)
         }
 
-        app.marketService.use { _ in
-            MockMarketService(markets: MarketDomainModel.mocks)
+        app.marketServices.use { _ in
+            MockMarketService(markets: Market.mocks)
         }
     }
 
@@ -35,9 +35,9 @@ final class EventsControllerTests: XCTestCase {
 
     func testIndexFromSportReturnsEvents() throws {
         let sportID = 2
-        let expectedResult = RootAPIModel(
+        let expectedResult = RootDTO(
             data: [
-                Event(
+                EventDTO(
                     id: 30236195,
                     name: "C Burel v A Bondar",
                     sportID: 2,
@@ -49,7 +49,7 @@ final class EventsControllerTests: XCTestCase {
                     isInPlay: true,
                     canTurnInPlay: true
                 ),
-                Event(
+                EventDTO(
                     id: 30255779,
                     name: "I Lavino v L Alhussein Abdel Aziz",
                     sportID: 2,
@@ -61,7 +61,7 @@ final class EventsControllerTests: XCTestCase {
                     isInPlay: false,
                     canTurnInPlay: true
                 ),
-                Event(
+                EventDTO(
                     id: 30255780,
                     name: "V Yushchenko v M Capurro Taborda",
                     sportID: 2,
@@ -78,7 +78,7 @@ final class EventsControllerTests: XCTestCase {
 
         try app.test(.GET, "sports/\(sportID)/events") { response in
             XCTAssertEqual(response.status, .ok)
-            let result = try response.content.decode(RootAPIModel<[Event]>.self)
+            let result = try response.content.decode(RootDTO<[EventDTO]>.self)
             XCTAssertEqual(result, expectedResult)
         }
     }

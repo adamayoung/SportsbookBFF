@@ -1,15 +1,15 @@
 import Foundation
-import GBPCore
-import Vapor
+ import GBPCore
+ import Vapor
 
-final class MockGBPClient: GBPClient {
+ final class MockGBPClient: GBPClient {
 
     var result: Result<Any, Error>?
     var lastPath: String?
-    var lastConfiguration: TLAConfiguration?
+    var lastConfiguration: TLAConfigurationProviding?
     var lastBody: Any?
 
-    func get<Response: Decodable>(_ path: String, configuration: TLAConfiguration) async throws -> Response {
+    func get<Response: Decodable>(_ path: String, configuration: TLAConfigurationProviding) async throws -> Response {
         lastPath = path
         lastConfiguration = configuration
 
@@ -29,7 +29,7 @@ final class MockGBPClient: GBPClient {
     }
 
     func post<Body: Content, Response: Decodable>(_ path: String, body: Body,
-                                                  configuration: TLAConfiguration) async throws -> Response {
+                                                  configuration: TLAConfigurationProviding) async throws -> Response {
         lastPath = path
         lastBody = body
         lastConfiguration = configuration
@@ -49,10 +49,10 @@ final class MockGBPClient: GBPClient {
         }
     }
 
-}
+ }
 
-struct MockGBPClientError: Error {
+ struct MockGBPClientError: Error {
 
     let message: String
 
-}
+ }

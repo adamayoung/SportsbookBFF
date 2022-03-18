@@ -1,8 +1,7 @@
+import Sportsbook
 import Vapor
 
 struct MarketPricesController: RouteCollection {
-
-    init() { }
 
     func boot(routes: RoutesBuilder) throws {
         let markets = routes.grouped("markets")
@@ -11,7 +10,7 @@ struct MarketPricesController: RouteCollection {
         }
     }
 
-    func showForMarket(request: Request) async throws -> RootAPIModel<MarketPrice> {
+    func showForMarket(request: Request) async throws -> RootDTO<MarketPriceDTO> {
         guard let marketID = request.parameters.get("marketID") else {
             throw Abort(.notFound)
         }
@@ -23,7 +22,8 @@ struct MarketPricesController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        return RootAPIModel(data: marketPrice)
+        let dto = MarketPriceDTO(marketPrice: marketPrice)
+        return RootDTO(data: dto)
     }
 
 }

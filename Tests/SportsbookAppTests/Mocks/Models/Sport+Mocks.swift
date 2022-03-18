@@ -1,5 +1,5 @@
 import Foundation
-@testable import SportsbookApp
+import Sportsbook
 
 extension Sport {
 
@@ -12,6 +12,10 @@ extension Sport {
             Sport(id: 5, name: "Rugby Union"),
             Sport(id: 6, name: "Boxing")
         ]
+    }
+
+    static func mock(for id: Sport.ID) -> Sport {
+        (mocks.first { $0.id == id })!
     }
 
 }

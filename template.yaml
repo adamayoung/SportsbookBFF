@@ -3,6 +3,13 @@ Transform: AWS::Serverless-2016-10-31
 Description: SportsbookBFF
 
 Parameters:
+  DomainName:
+    Description: 'API Gateway Custom Domain'
+    Type: 'String'
+  CertificateArn:
+    Description: 'Certificate ARM for domain name'
+    Type: 'String'
+    NoEcho: true
   AuthKey:
     Description: 'API Key'
     Type: 'String'
@@ -14,9 +21,11 @@ Parameters:
   ScanBaseUrl:
     Description: 'SCAN Base URL'
     Type: 'String'
+    NoEcho: true
   SmpBaseUrl:
     Description: 'SMP Base URL'
     Type: 'String'
+    NoEcho: true
   CmsApiKey:
     Description: 'CMS API Key'
     Type: 'String'
@@ -24,6 +33,7 @@ Parameters:
   CmsBaseUrl:
     Description: 'CMS Base URL'
     Type: 'String'
+    NoEcho: true
   RETENTIONINDAYS: 
     Type: Number
     Default: 1
@@ -32,13 +42,17 @@ Parameters:
 Resources:
   SportsbookApiGateway:
     Type: AWS::Serverless::HttpApi
+    Properties:
+      Domain:
+        CertificateArn: !Ref CertificateArn
+        DomainName: !Ref DomainName
 
-  SportsbookBFFLambda:
+  SportsbookLambda:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .build/lambda/SportsbookBFFLambda/lambda.zip
-      FunctionName: SportsbookBFFHandler
-      Handler: SportsbookBFFHandler
+      FunctionName: SportsbookHandler
+      Handler: SportsbookHandler
       Runtime: provided
       Events:
         Api:

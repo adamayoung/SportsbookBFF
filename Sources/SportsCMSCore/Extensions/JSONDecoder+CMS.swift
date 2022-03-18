@@ -1,4 +1,4 @@
-import Foundation
+import Vapor
 
 extension JSONDecoder {
 

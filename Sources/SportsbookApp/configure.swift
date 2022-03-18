@@ -1,14 +1,11 @@
-import SportsbookCore
+import ISPSportsbook
+import Sportsbook
 import Vapor
 
 public func configure(_ app: Application) throws {
+    app.http.server.configuration.responseCompression = .enabled
     app.caches.use(.memory)
     app.middleware.use(ErrorMiddleware.default(environment: app.environment))
-
-    try modules(app)
+    app.sportbooks.use(.isp(.environment))
     try routes(app)
-}
-
-private func modules(_ app: Application) throws {
-    try SportsbookCore.configure(app)
 }

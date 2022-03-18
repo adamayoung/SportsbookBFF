@@ -4,6 +4,6 @@ import GBPCore
 
 extension SMPConfiguration {
 
-    static let mock = SMPConfiguration(baseURL: "http://localhost/test")
+    static let mock = SMPConfiguration(baseURL: "http://localhost/test", apiKey: "123")
 
 }

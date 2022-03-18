@@ -1,5 +1,5 @@
+import Sportsbook
 @testable import SportsbookApp
-import SportsbookCore
 import XCTVapor
 
 final class SportsControllerTests: XCTestCase {
@@ -10,14 +10,14 @@ final class SportsControllerTests: XCTestCase {
         try super.setUpWithError()
         app = Application(.testing)
         try app.register(collection: SportsController())
-        app.sportService.use { _ in
-            MockSportService(sports: SportDomainModel.mocks)
+        app.sportServices.use { _ in
+            MockSportService(sports: Sport.mocks)
         }
-        app.competitionService.use { _ in
-            MockCompetitionService(competitions: CompetitionDomainModel.mocks)
+        app.competitionServices.use { _ in
+            MockCompetitionService(competitions: Competition.mocks)
         }
-        app.eventService.use { _ in
-            MockEventService(events: EventDomainModel.mocks)
+        app.eventServices.use { _ in
+            MockEventService(events: Event.mocks)
         }
     }
 
@@ -28,24 +28,24 @@ final class SportsControllerTests: XCTestCase {
     }
 
     func testIndexReturnsSports() throws {
-        let expectedResult = RootAPIModel(
-            data: SportDomainModel.mocks.map(Sport.init)
+        let expectedResult = RootDTO(
+            data: Sport.mocks.map(SportDTO.init)
         )
 
         try app.test(.GET, "sports") { response in
             XCTAssertEqual(response.status, .ok)
-            let result = try response.content.decode(RootAPIModel<[Sport]>.self)
+            let result = try response.content.decode(RootDTO<[SportDTO]>.self)
             XCTAssertEqual(result, expectedResult)
         }
     }
 
     func testShowReturnsSport() throws {
-        let sport = Sport(sport: SportDomainModel.mock(for: 1))
-        let expectedResult = RootAPIModel(data: sport)
+        let sport = SportDTO(sport: Sport.mock(for: 1))
+        let expectedResult = RootDTO(data: sport)
 
         try app.test(.GET, "sports/\(sport.id)") { response in
             XCTAssertEqual(response.status, .ok)
-            let result = try response.content.decode(RootAPIModel<Sport>.self)
+            let result = try response.content.decode(RootDTO<SportDTO>.self)
             XCTAssertEqual(result, expectedResult)
         }
     }
@@ -65,13 +65,13 @@ final class SportsControllerTests: XCTestCase {
     }
 
     func testShowFromCompetitionReturnsSport() throws {
-        let competition = CompetitionDomainModel.mock(for: 2005)
-        let sport = Sport(sport: SportDomainModel.mock(for: competition.sportID))
-        let expectedResult = RootAPIModel(data: sport)
+        let competition = Competition.mock(for: 2005)
+        let sport = SportDTO(sport: Sport.mock(for: competition.sportID))
+        let expectedResult = RootDTO(data: sport)
 
         try app.test(.GET, "competitions/\(competition.id)/sport") { response in
             XCTAssertEqual(response.status, .ok)
-            let result = try response.content.decode(RootAPIModel<Sport>.self)
+            let result = try response.content.decode(RootDTO<SportDTO>.self)
             XCTAssertEqual(result, expectedResult)
         }
     }
@@ -85,7 +85,7 @@ final class SportsControllerTests: XCTestCase {
     }
 
     func testShowFromCompetitionWhenSportForCompetitionDoesntExistReturnsNotFound() throws {
-        let competition = CompetitionDomainModel.mock(for: 111)
+        let competition = Competition.mock(for: 111)
 
         try app.test(.GET, "competitions/\(competition.sportID)/sport") { response in
             XCTAssertEqual(response.status, .notFound)
@@ -101,13 +101,13 @@ final class SportsControllerTests: XCTestCase {
     }
 
     func testShowFromEventReturnsSport() throws {
-        let event = EventDomainModel.mock(for: 30127940)
-        let sport = Sport(sport: SportDomainModel.mock(for: event.sportID))
-        let expectedResult = RootAPIModel(data: sport)
+        let event = Event.mock(for: 30127940)
+        let sport = SportDTO(sport: Sport.mock(for: event.sportID))
+        let expectedResult = RootDTO(data: sport)
 
         try app.test(.GET, "events/\(event.id)/sport") { response in
             XCTAssertEqual(response.status, .ok)
-            let result = try response.content.decode(RootAPIModel<Sport>.self)
+            let result = try response.content.decode(RootDTO<SportDTO>.self)
             XCTAssertEqual(result, expectedResult)
         }
     }
@@ -121,7 +121,7 @@ final class SportsControllerTests: XCTestCase {
     }
 
     func testShowFromEventWhenSportForEventDoesntExistReturnsNotFound() throws {
-        let event = EventDomainModel.mock(for: 9999999)
+        let event = Event.mock(for: 9999999)
 
         try app.test(.GET, "events/\(event.sportID)/sport") { response in
             XCTAssertEqual(response.status, .notFound)

@@ -50,19 +50,12 @@ jobs:
   build-SAM-template:
     name: Build SAM Template
     runs-on: ubuntu-latest
-    needs: build-lambda
       
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      
-      - name: Download lambda artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: lambda-artifact
-          path: .build
 
       - name: Setup python 
         uses: actions/setup-python@v2
@@ -75,7 +68,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-2
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Validate SAM template
         run: sam validate
@@ -94,10 +87,15 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: build-SAM-template
+    needs: [build-lambda, build-SAM-template]
+    concurrency:
+      group: prodDeployment
     environment:
-      name: Development
+      name: production
       url: ${{ steps.deploy.outputs.apigateway_url }}
+    env:
+      AWS_STACK: sportsbook
+      DOMAIN_NAME: adam-young.co.uk
       
     steps:
       - name: Checkout
@@ -133,14 +131,45 @@ jobs:
       - name: Deploy
         id: deploy
         run: |
-          sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --resolve-s3 --stack-name "$AWS_STACK" --capabilities CAPABILITY_IAM --region "$AWS_REGION" --parameter-overrides AuthKey="$AUTH_KEY" TlaApiKey="$TLA_API_KEY" ScanBaseUrl="$SCAN_BASE_URL" SmpBaseUrl="$SMP_BASE_URL" CmsApiKey="$CMS_API_KEY" CmsBaseUrl="$CMS_BASE_URL"
-          API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
-          echo "::set-output name=apigateway_url::$API_GATEWAY_URL"
+          sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --resolve-s3 --stack-name "$AWS_STACK" --capabilities CAPABILITY_IAM --region "$AWS_REGION" --parameter-overrides DomainName="$AWS_STACK.$DOMAIN_NAME" CertificateArn="$AWS_CERTIFICATE_ARN"  AuthKey="$AUTH_KEY" TlaApiKey="$TLA_API_KEY" ScanBaseUrl="$SCAN_BASE_URL" SmpBaseUrl="$SMP_BASE_URL" CmsApiKey="$CMS_API_KEY" CmsBaseUrl="$CMS_BASE_URL"
+          echo "::set-output name=apigateway_url::https://$AWS_STACK.$DOMAIN_NAME"
         env:
-          AWS_STACK: sportsbook-dev
+          AWS_CERTIFICATE_ARN: ${{ secrets.AWS_CERTIFICATE_ARN }}
           AUTH_KEY: ${{ secrets.API_AUTH_KEY }}
           TLA_API_KEY: ${{ secrets.TLA_API_KEY }}
           SCAN_BASE_URL: ${{ secrets.SCAN_BASE_URL }}
           SMP_BASE_URL: ${{ secrets.SMP_BASE_URL }}
           CMS_API_KEY: ${{ secrets.CMS_API_KEY }}
           CMS_BASE_URL: ${{ secrets.CMS_BASE_URL }}
+
+      - name: Update DNS Records
+        run: |
+          API_GATEWAY_URL=$(aws apigatewayv2 get-apis --query "Items[?Name=='$AWS_STACK'].ApiEndpoint" --output text)
+          API_GATEWAY_DOMAIN=$(sed "s/https:\/\///g" <<<"$API_GATEWAY_URL")
+          if [ "$API_GATEWAY_DOMAIN" == "" ]; then
+            exit -1
+          fi
+
+          HOST_NAME=$AWS_STACK.$DOMAIN_NAME
+          ZONE_ID=$(curl -s -X GET "$IONOS_BASE_URL/dns/v1/zones" -H "accept: application/json" -H "X-API-Key: $IONOS_API_KEY" | jq -r --arg DOMAIN_NAME "$DOMAIN_NAME" '.[] | select(.name==$DOMAIN_NAME) | .id')
+          if [ "$ZONE_ID" == "" ]; then
+            echo "ERROR: Domain name $DOMAIN_NAME not found"
+            exit -2
+          fi
+
+          RECORD_ID=$(curl -s -X GET "$IONOS_BASE_URL/dns/v1/zones/$ZONE_ID?suffix=$DOMAIN_NAME&recordName=$HOST_NAME&recordType=CNAME" -H "accept: application/json" -H "X-API-Key: $IONOS_API_KEY" | jq -r --arg DOMAIN_NAME "$DOMAIN_NAME" '.records[] | .id')
+          if [ "$RECORD_ID" == "" ]; then
+            echo "ERROR: Record $HOST_NAME for $DOMAIN_NAME not found"
+            exit -3
+          else
+            UPDATE_RESULT=$(curl -s -X PUT "$IONOS_BASE_URL/dns/v1/zones/$ZONE_ID/records/$RECORD_ID" -H "accept: */*" -H "X-API-Key: $IONOS_API_KEY" -H "Content-Type: application/json" -d "{\"disabled\":false,\"content\":\"$API_GATEWAY_DOMAIN\",\"ttl\":3600,\"prio\":0}")
+            if [ "$UPDATE_RESULT" != "" ]; then
+              echo "ERROR: Failed to update CNAME for $HOST_NAME to $API_GATEWAY_DOMAIN"
+              exit -4
+            fi
+
+            echo "SUCCESS"
+          fi
+        env:
+          IONOS_API_KEY: ${{ secrets.IONOS_API_KEY }}
+          IONOS_BASE_URL: https://api.hosting.ionos.com

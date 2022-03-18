@@ -1,8 +1,7 @@
+import Sportsbook
 import Vapor
 
 struct EventsController: RouteCollection {
-
-    init() { }
 
     func boot(routes: RoutesBuilder) throws {
         let sports = routes.grouped("sports")
@@ -24,7 +23,7 @@ struct EventsController: RouteCollection {
         }
     }
 
-    func indexFromSport(request: Request) async throws -> RootAPIModel<[Event]> {
+    func indexFromSport(request: Request) async throws -> RootDTO<[EventDTO]> {
         guard let sportID = request.parameters.get("sportID", as: Int.self) else {
             throw Abort(.notFound)
         }
@@ -35,10 +34,11 @@ struct EventsController: RouteCollection {
 
         let query = try request.query.decode(EventsFromSportQuery.self)
         let events = try await sport.events(isInPlay: query.isInPlay, on: request)
-        return RootAPIModel(data: events)
+        let dtos = events.map(EventDTO.init)
+        return RootDTO(data: dtos)
     }
 
-    func indexFromCompetition(request: Request) async throws -> RootAPIModel<[Event]> {
+    func indexFromCompetition(request: Request) async throws -> RootDTO<[EventDTO]> {
         guard let competitionID = request.parameters.get("competitionID", as: Int.self) else {
             throw Abort(.notFound)
         }
@@ -48,10 +48,11 @@ struct EventsController: RouteCollection {
         }
 
         let events = try await competition.events(on: request)
-        return RootAPIModel(data: events)
+        let dtos = events.map(EventDTO.init)
+        return RootDTO(data: dtos)
     }
 
-    func show(request: Request) async throws -> RootAPIModel<Event> {
+    func show(request: Request) async throws -> RootDTO<EventDTO> {
         guard let id = request.parameters.get("eventID", as: Int.self) else {
             throw Abort(.notFound)
         }
@@ -60,10 +61,11 @@ struct EventsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        return RootAPIModel(data: event)
+        let dto = EventDTO(event: event)
+        return RootDTO(data: dto)
     }
 
-    func showFromMarket(request: Request) async throws -> RootAPIModel<Event> {
+    func showFromMarket(request: Request) async throws -> RootDTO<EventDTO> {
         guard let marketID = request.parameters.get("marketID") else {
             throw Abort(.notFound)
         }
@@ -75,8 +77,8 @@ struct EventsController: RouteCollection {
             throw Abort(.notFound)
         }
 
-        let model = RootAPIModel(data: event)
-        return model
+        let dto = EventDTO(event: event)
+        return RootDTO(data: dto)
     }
 
 }

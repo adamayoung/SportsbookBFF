@@ -1,4 +1,4 @@
-import Foundation
+import Vapor
 
 extension JSONDecoder {
 
@@ -6,6 +6,22 @@ extension JSONDecoder {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(.tla)
         return decoder
+    }
+
+}
+
+extension Application {
+
+    var tlaDecoder: JSONDecoder {
+        .tla
+    }
+
+}
+
+extension Request {
+
+    var tlaDecoder: JSONDecoder {
+        application.tlaDecoder
     }
 
 }
