@@ -55,6 +55,9 @@ struct ISPCompetitionService: CompetitionService {
 
         let competitions = attachments
             .compactMap(Competition.init)
+            .sorted { lhs, rhs in
+                lhs.name < rhs.name
+            }
         return competitions
     }
 

@@ -13,15 +13,16 @@ extension SearchRequest {
         )
     }
 
-    static func markets(forEvent eventID: Int, locale: Locale) -> SearchRequest {
-        markets(forEvents: [eventID], locale: locale)
+    static func markets(forEvent eventID: Int, marketTypes: [String]? = nil, locale: Locale) -> SearchRequest {
+        markets(forEvents: [eventID], marketTypes: marketTypes, locale: locale)
     }
 
-    static func markets(forEvents eventIDs: [Int], locale: Locale) -> SearchRequest {
+    static func markets(forEvents eventIDs: [Int], marketTypes: [String]? = nil, locale: Locale) -> SearchRequest {
         SearchRequest(
             facet: Facet(type: .market),
             filter: FilterQuery(
-                eventIDs: eventIDs
+                eventIDs: eventIDs,
+                marketTypeCodes: marketTypes
             ),
             locale: locale
         )

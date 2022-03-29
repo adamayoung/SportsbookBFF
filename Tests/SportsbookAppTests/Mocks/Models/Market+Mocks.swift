@@ -11,7 +11,7 @@ extension Market {
                 marketDate: Date(iso8601String: "2021-10-03T18:05:00Z"),
                 inPlay: false,
                 canTurnInPlay: false,
-                marketType: "1ST_HALF_OVER/UNDER_5.5_GOALS",
+                marketType: .init("1ST_HALF_OVER/UNDER_5.5_GOALS"),
                 runners: [
                     .init(
                         selectionID: 4702493,
@@ -40,7 +40,7 @@ extension Market {
                 marketDate: Date(iso8601String: "2021-10-03T18:05:00Z"),
                 inPlay: false,
                 canTurnInPlay: false,
-                marketType: "DOUBLE_CHANCE",
+                marketType: .init("DOUBLE_CHANCE"),
                 runners: [
                     .init(
                         selectionID: 5352164,
@@ -77,7 +77,7 @@ extension Market {
                 marketDate: Date(iso8601String: "2021-10-03T18:05:00Z"),
                 inPlay: false,
                 canTurnInPlay: false,
-                marketType: "WIN_&_OVER_2.5_GOALS",
+                marketType: .init("WIN_&_OVER_2.5_GOALS"),
                 runners: [
                     .init(
                         selectionID: 4073256,

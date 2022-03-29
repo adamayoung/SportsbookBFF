@@ -2,9 +2,8 @@ import Vapor
 
 extension Market {
 
-    public static func all(forEvent eventID: Event.ID, marketType: String? = nil,
-                           on request: Request) async throws -> [Market] {
-        try await request.markets.all(forEvent: eventID, withMarketType: marketType, locale: request.locale)
+    public static func all(forEvent eventID: Event.ID, on request: Request) async throws -> [Market] {
+        try await request.markets.all(forEvent: eventID, locale: request.locale)
     }
 
     public static func find(_ id: Market.ID, on request: Request) async throws -> Market? {
