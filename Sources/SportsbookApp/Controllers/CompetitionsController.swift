@@ -19,12 +19,11 @@ struct CompetitionsController: RouteCollection {
     }
 
     func indexFromSport(request: Request) async throws -> RootDTO<[CompetitionDTO]> {
-        guard let sportID = request.parameters.get("sportID", as: Int.self) else {
-            throw Abort(.notFound)
-        }
-
-        guard let competitions = try await Competition.all(forSport: sportID, on: request) else {
-            throw Abort(.notFound)
+        guard
+            let sportID = request.parameters.get("sportID", as: Int.self),
+            let competitions = try await Competition.all(forSport: sportID, on: request)
+        else {
+            throw Abort(.notFound, reason: "Sport not found.")
         }
 
         let dtos = competitions.map(CompetitionDTO.init)
@@ -32,28 +31,28 @@ struct CompetitionsController: RouteCollection {
     }
 
     func show(request: Request) async throws -> RootDTO<CompetitionDTO> {
-        guard let id = request.parameters.get("competitionID", as: Int.self) else {
-            throw Abort(.notFound)
+        guard
+            let id = request.parameters.get("competitionID", as: Int.self),
+            let competition = try await Competition.find(id, on: request)
+        else {
+            throw Abort(.notFound, reason: "Competition not found.")
         }
 
-        guard let competition = try await Competition.find(id, on: request) else {
-            throw Abort(.notFound)
-        }
 
         let dto = CompetitionDTO(competition: competition)
         return RootDTO(data: dto)
     }
 
     func showFromEvent(request: Request) async throws -> RootDTO<CompetitionDTO> {
-        guard let eventID = request.parameters.get("eventID", as: Int.self) else {
-            throw Abort(.notFound)
+        guard
+            let eventID = request.parameters.get("eventID", as: Int.self),
+            let event = try await Event.find(eventID, on: request)
+        else {
+            throw Abort(.notFound, reason: "Event not found.")
         }
 
-        guard
-            let event = try await Event.find(eventID, on: request),
-            let competition = try await event.competition(on: request)
-        else {
-            throw Abort(.notFound)
+        guard let competition = try await event.competition(on: request) else {
+            throw Abort(.notFound, reason: "Competition not found.")
         }
 
         let dto = CompetitionDTO(competition: competition)

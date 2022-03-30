@@ -3,7 +3,7 @@ import Vapor
 extension Request {
 
     public var cmsClient: CMSClientProvider {
-        CMSClient(client: client, decoder: .cms)
+        CMSClient(client: client, decoder: .cms, logger: logger)
     }
 
 }

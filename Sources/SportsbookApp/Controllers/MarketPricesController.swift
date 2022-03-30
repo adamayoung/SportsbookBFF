@@ -11,15 +11,15 @@ struct MarketPricesController: RouteCollection {
     }
 
     func showForMarket(request: Request) async throws -> RootDTO<MarketPriceDTO> {
-        guard let marketID = request.parameters.get("marketID") else {
-            throw Abort(.notFound)
+        guard
+            let marketID = request.parameters.get("marketID"),
+            let market = try await Market.find(marketID, on: request)
+        else {
+            throw Abort(.notFound, reason: "Market not found.")
         }
 
-        guard
-            let market = try await Market.find(marketID, on: request),
-            let marketPrice = try await market.price(on: request)
-        else {
-            throw Abort(.notFound)
+        guard let marketPrice = try await market.price(on: request) else {
+            throw Abort(.notFound, reason: "Market price not found.")
         }
 
         let dto = MarketPriceDTO(marketPrice: marketPrice)
