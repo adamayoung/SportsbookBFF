@@ -17,7 +17,7 @@ extension MarketPriceDTO {
                   guaranteedPriceAvailable: marketPrice.guaranteedPriceAvailable, bettingType: bettingType,
                   runnerDetails: runnerDetails, eachwayAvailable: marketPrice.eachwayAvailable,
                   numberOfPlaces: marketPrice.numberOfPlaces, placeFraction: placeFraction, legTypes: legTypes,
-                  hasBPE: marketPrice.hasBPE, hasSGM: marketPrice.hasSGM, linkedMarketID: marketPrice.linkedMarketId,
+                  hasBPE: marketPrice.hasBPE, hasSGM: marketPrice.hasSGM, linkedMarketID: marketPrice.linkedMarketID,
                   betDelay: marketPrice.betDelay, rule4Deductions: rule4Deductions)
     }
 

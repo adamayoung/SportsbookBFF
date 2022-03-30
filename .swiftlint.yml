@@ -26,6 +26,7 @@ identifier_name:
     - api
     - app
     - avb
+    - bff
     - cms
     - dto
     - env
@@ -40,6 +41,7 @@ identifier_name:
     - tla
     - uri
     - v1
+    - win
 
 file_length:
   warning: 600

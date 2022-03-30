@@ -12,5 +12,10 @@ func routes(_ app: Application) throws {
         try v1.register(collection: EventsController())
         try v1.register(collection: MarketsController())
         try v1.register(collection: MarketPricesController())
+
+        try v1.group("bff") { bff in
+            try bff.register(collection: BFFHomeController())
+            try bff.register(collection: BFFSportHomeController())
+        }
     }
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct CompetitionDTO: Identifiable, Equatable, Codable {
+struct CompetitionDTO: Identifiable, Equatable, Hashable, Codable {
 
     let id: Int
     let name: String

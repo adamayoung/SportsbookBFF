@@ -7,14 +7,14 @@ public struct Market: Identifiable, Equatable, Hashable, Comparable {
     public let marketDate: Date
     public let inPlay: Bool
     public let canTurnInPlay: Bool
-    public let marketType: String
+    public let marketType: MarketType
     public let runners: [MarketRunner]
-    public let sportID: Int
-    public let eventID: Int
-    public let competitionID: Int
+    public let sportID: Sport.ID
+    public let eventID: Event.ID
+    public let competitionID: Competition.ID
 
-    public init(id: String, name: String, marketDate: Date, inPlay: Bool, canTurnInPlay: Bool, marketType: String,
-                runners: [MarketRunner], sportID: Int, eventID: Int, competitionID: Int) {
+    public init(id: String, name: String, marketDate: Date, inPlay: Bool, canTurnInPlay: Bool, marketType: MarketType,
+                runners: [MarketRunner], sportID: Sport.ID, eventID: Event.ID, competitionID: Competition.ID) {
         self.id = id
         self.name = name
         self.marketDate = marketDate

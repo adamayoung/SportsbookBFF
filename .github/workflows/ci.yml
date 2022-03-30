@@ -28,6 +28,7 @@ jobs:
   test-build:
     name: Build and Test
     runs-on: ubuntu-latest
+    needs: lint
     concurrency: 
       group: pr-buildAndTest-${{ github.head_ref }}
       cancel-in-progress: true
@@ -58,6 +59,7 @@ jobs:
   build-lambda:
     name: Build Lambda
     runs-on: ubuntu-latest
+    needs: lint
     concurrency: 
       group: pr-buildLambda-${{ github.head_ref }}
       cancel-in-progress: true
@@ -90,6 +92,7 @@ jobs:
   validate-SAM-template:
     name: Validate SAM Template
     runs-on: ubuntu-latest
+    needs: lint
     concurrency: 
       group: pr-validateSamTemplate-${{ github.head_ref }}
       cancel-in-progress: true

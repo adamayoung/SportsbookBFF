@@ -7,6 +7,7 @@ extension Sportsbook.MarketRunner {
     init?(runner: SCAN.RunnerAttachment) {
         guard
             let status = Sportsbook.MarketRunner.Status(status: runner.runnerStatus),
+            status != .removed,
             let runnerResult = runner.result
         else {
             return nil

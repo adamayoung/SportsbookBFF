@@ -55,7 +55,6 @@ extension RunnerDTO.RunnerResult {
         case line
         case score
         case noGoal
-        case unknown
     }
 
 }

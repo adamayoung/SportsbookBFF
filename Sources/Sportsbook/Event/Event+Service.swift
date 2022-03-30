@@ -22,8 +22,8 @@ extension Event {
 
 extension Event {
 
-    public func markets(marketType: String? = nil, on request: Request) async throws -> [Market] {
-        try await Market.all(forEvent: id, marketType: marketType, on: request)
+    public func markets(on request: Request) async throws -> [Market] {
+        try await Market.all(forEvent: id, on: request)
     }
 
     public func competition(on request: Request) async throws -> Competition? {

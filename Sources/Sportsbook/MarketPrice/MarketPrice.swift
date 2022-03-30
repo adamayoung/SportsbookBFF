@@ -2,10 +2,10 @@ import Foundation
 
 public struct MarketPrice: Identifiable, Equatable, Hashable {
 
-    public var id: String { marketID }
+    public var id: Market.ID { marketID }
 
     /// Unique market identifier in the format 'product.market'.
-    public let marketID: String
+    public let marketID: Market.ID
     /// The current state of a market.
     public let marketStatus: MarketPrice.MarketStatus
     /// True if a market turns 'in play' at a kick off time, otherwise it is false.
@@ -35,17 +35,17 @@ public struct MarketPrice: Identifiable, Equatable, Hashable {
     /// Is this market eligible for same game multiples?
     public let hasSGM: Bool?
     /// Linked market identifier. Presented in the 'product.market' format.
-    public let linkedMarketId: String?
+    public let linkedMarketID: Market.ID?
     /// The bet delay for a market.
     public let betDelay: Int
     /// List of Rule4 deductions on the represented market.
     public let rule4Deductions: [Rule4Deduction]?
 
-    public init(marketID: String, marketStatus: MarketStatus, turnInPlayEnabled: Bool, inPlay: Bool, bspMarket: Bool,
+    public init(marketID: Market.ID, marketStatus: MarketStatus, turnInPlayEnabled: Bool, inPlay: Bool, bspMarket: Bool,
                 livePriceAvailable: Bool, guaranteedPriceAvailable: Bool, bettingType: MarketBettingType,
                 runnerDetails: [RunnerDetails], eachwayAvailable: Bool, numberOfPlaces: Int? = nil,
                 placeFraction: FractionalOdds? = nil, legTypes: [LegType]? = nil, hasBPE: Bool? = nil,
-                hasSGM: Bool? = nil, linkedMarketId: String? = nil, betDelay: Int,
+                hasSGM: Bool? = nil, linkedMarketID: Market.ID? = nil, betDelay: Int,
                 rule4Deductions: [Rule4Deduction]? = nil) {
         self.marketID = marketID
         self.marketStatus = marketStatus
@@ -62,7 +62,7 @@ public struct MarketPrice: Identifiable, Equatable, Hashable {
         self.legTypes = legTypes
         self.hasBPE = hasBPE
         self.hasSGM = hasSGM
-        self.linkedMarketId = linkedMarketId
+        self.linkedMarketID = linkedMarketID
         self.betDelay = betDelay
         self.rule4Deductions = rule4Deductions
     }

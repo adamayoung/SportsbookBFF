@@ -13,6 +13,10 @@ struct MockMarketService: MarketService {
         markets.first { $0.id == id }
     }
 
+    func primary(forEvent eventID: Event.ID, locale: Locale) async throws -> Market? {
+        return nil
+    }
+
     func all(forEvent eventID: Int, locale: Locale) async throws -> [Market] {
         markets.filter { $0.eventID == eventID }
     }

@@ -25,7 +25,18 @@ struct ISPMarketService: MarketService {
         return market
     }
 
-    func all(forEvent eventID: Int, withMarketType marketType: String?, locale: Locale) async throws -> [Market] {
+    func primary(forEvent eventID: Event.ID, locale: Locale) async throws -> Market? {
+        logger.debug("Fetching Sport for Event", metadata: ["event-id": .stringConvertible(eventID)])
+
+        let sportResponse = try await scan.search(.eventTypes(forEvent: eventID, locale: locale))
+        guard let sportID = sportResponse.attachments.eventTypes?.first?.value.eventTypeID else {
+            return nil
+        }
+
+        return nil
+    }
+
+    func all(forEvent eventID: Int, locale: Locale) async throws -> [Market] {
         logger.debug("Fetching Markets", metadata: ["event-id": .stringConvertible(eventID)])
 
         let response = try await scan.search(.markets(forEvent: eventID, locale: locale))
@@ -34,15 +45,8 @@ struct ISPMarketService: MarketService {
         }
 
         let markets = attachments
-            .compactMap { (id: String, attachment: MarketAttachment) -> Market? in
-                let market = Market(id: id, attachment: attachment)
-                guard let marketType = marketType else {
-                    return market
-                }
-
-                return attachment.marketType == marketType ? market : nil
-            }
-            .sorted { $0.name < $1.name }
+            .compactMap(Market.init)
+            .sorted { $0.name.localizedLowercase < $1.name.localizedLowercase }
             .sorted { $0.marketDate < $1.marketDate }
         return markets
     }
@@ -61,10 +65,14 @@ struct ISPMarketService: MarketService {
                 return
             }
 
-            var markets = marketsDict[market.eventID] ?? []
+            var markets = marketsDict[market.eventID, default: []]
             markets.append(market)
             marketsDict[market.eventID] = markets
-                .sorted { $0.name < $1.name }
+        }
+
+        marketsDict.keys.forEach { eventID in
+            marketsDict[eventID] = marketsDict[eventID, default: []]
+                .sorted { $0.name.localizedLowercase < $1.name.localizedLowercase }
                 .sorted { $0.marketDate < $1.marketDate }
         }
 
