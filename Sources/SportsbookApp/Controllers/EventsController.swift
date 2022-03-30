@@ -24,12 +24,11 @@ struct EventsController: RouteCollection {
     }
 
     func indexFromSport(request: Request) async throws -> RootDTO<[EventDTO]> {
-        guard let sportID = request.parameters.get("sportID", as: Int.self) else {
-            throw Abort(.notFound)
-        }
-
-        guard let sport = try await Sport.find(sportID, on: request) else {
-            throw Abort(.notFound)
+        guard
+            let sportID = request.parameters.get("sportID", as: Int.self),
+            let sport = try await Sport.find(sportID, on: request)
+        else {
+            throw Abort(.notFound, reason: "Sport not found.")
         }
 
         let query = try request.query.decode(EventsFromSportQuery.self)
@@ -39,12 +38,11 @@ struct EventsController: RouteCollection {
     }
 
     func indexFromCompetition(request: Request) async throws -> RootDTO<[EventDTO]> {
-        guard let competitionID = request.parameters.get("competitionID", as: Int.self) else {
-            throw Abort(.notFound)
-        }
-
-        guard let competition = try await Competition.find(competitionID, on: request) else {
-            throw Abort(.notFound)
+        guard
+            let competitionID = request.parameters.get("competitionID", as: Int.self),
+            let competition = try await Competition.find(competitionID, on: request)
+        else {
+            throw Abort(.notFound, reason: "Competition not found.")
         }
 
         let events = try await competition.events(on: request)
@@ -53,12 +51,11 @@ struct EventsController: RouteCollection {
     }
 
     func show(request: Request) async throws -> RootDTO<EventDTO> {
-        guard let id = request.parameters.get("eventID", as: Int.self) else {
-            throw Abort(.notFound)
-        }
-
-        guard let event = try await Event.find(id, on: request) else {
-            throw Abort(.notFound)
+        guard
+            let id = request.parameters.get("eventID", as: Int.self),
+            let event = try await Event.find(id, on: request)
+        else {
+            throw Abort(.notFound, reason: "Event not found.")
         }
 
         let dto = EventDTO(event: event)
@@ -66,15 +63,15 @@ struct EventsController: RouteCollection {
     }
 
     func showFromMarket(request: Request) async throws -> RootDTO<EventDTO> {
-        guard let marketID = request.parameters.get("marketID") else {
-            throw Abort(.notFound)
+        guard
+            let marketID = request.parameters.get("marketID"),
+            let market = try await Market.find(marketID, on: request)
+        else {
+            throw Abort(.notFound, reason: "Market not found.")
         }
 
-        guard
-            let market = try await Market.find(marketID, on: request),
-            let event = try await market.event(on: request)
-        else {
-            throw Abort(.notFound)
+        guard let event = try await market.event(on: request) else {
+            throw Abort(.notFound, reason: "Event not found.")
         }
 
         let dto = EventDTO(event: event)

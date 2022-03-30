@@ -3,6 +3,7 @@ import Vapor
 
 public struct SMPConfiguration: Equatable, TLAConfigurationProviding {
 
+    public let tlaName = "SMP"
     public let baseURL: String
     public let apiKey: String
 

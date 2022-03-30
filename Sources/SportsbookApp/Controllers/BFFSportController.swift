@@ -9,12 +9,11 @@ struct BFFSportHomeController: RouteCollection {
     }
 
     func index(request: Request) async throws -> RootDTO<SportHomeDTO> {
-        guard let sportID = request.parameters.get("sportID", as: Int.self) else {
-            throw Abort(.notFound)
-        }
-
-        guard let sport = try await Sport.find(sportID, on: request) else {
-            throw Abort(.notFound)
+        guard
+            let sportID = request.parameters.get("sportID", as: Int.self),
+            let sport = try await Sport.find(sportID, on: request)
+        else {
+            throw Abort(.notFound, reason: "Sport not found.")
         }
 
         async let competitions = Competition.all(forSport: sportID, on: request) ?? []

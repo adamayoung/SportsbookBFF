@@ -3,6 +3,7 @@ import Vapor
 
 public struct SCANConfiguration: TLAConfigurationProviding {
 
+    public let tlaName = "SCAN"
     public let baseURL: String
     public let apiKey: String
 

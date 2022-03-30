@@ -20,12 +20,11 @@ struct MarketsController: RouteCollection {
     }
 
     func indexForEvents(request: Request) async throws -> RootDTO<[MarketDTO]> {
-        guard let eventID = request.parameters.get("eventID", as: Int.self) else {
-            throw Abort(.notFound)
-        }
-
-        guard let event = try await Event.find(eventID, on: request) else {
-            throw Abort(.notFound)
+        guard
+            let eventID = request.parameters.get("eventID", as: Int.self),
+            let event = try await Event.find(eventID, on: request)
+        else {
+            throw Abort(.notFound, reason: "Event not found.")
         }
 
         let markets = try await event.markets(on: request)
@@ -34,12 +33,11 @@ struct MarketsController: RouteCollection {
     }
 
     func show(request: Request) async throws -> RootDTO<MarketDTO> {
-        guard let id = request.parameters.get("marketID") else {
-            throw Abort(.notFound)
-        }
-
-        guard let market = try await Market.find(id, on: request) else {
-            throw Abort(.notFound)
+        guard
+            let id = request.parameters.get("marketID"),
+            let market = try await Market.find(id, on: request)
+        else {
+            throw Abort(.notFound, reason: "Market not found.")
         }
 
         let dto = MarketDTO(market: market)
@@ -47,12 +45,11 @@ struct MarketsController: RouteCollection {
     }
 
     func indexForRunners(request: Request) async throws -> RootDTO<[RunnerDTO]> {
-        guard let marketID = request.parameters.get("marketID") else {
-            throw Abort(.notFound)
-        }
-
-        guard let market = try await Market.find(marketID, on: request) else {
-            throw Abort(.notFound)
+        guard
+            let marketID = request.parameters.get("marketID"),
+            let market = try await Market.find(marketID, on: request)
+        else {
+            throw Abort(.notFound, reason: "Market not found.")
         }
 
         let dtos = market.runners.map(RunnerDTO.init)
@@ -60,15 +57,15 @@ struct MarketsController: RouteCollection {
     }
 
     func showRunner(request: Request) async throws -> RootDTO<RunnerDTO> {
-        guard
-            let marketID = request.parameters.get("marketID"),
-            let selectionID = request.parameters.get("selectionID", as: Int.self)
-        else {
-            throw Abort(.notFound)
+        guard let marketID = request.parameters.get("marketID") else {
+            throw Abort(.notFound, reason: "Market not found.")
         }
 
-        guard let runner = try await Market.find(marketID, on: request)?.runner(selectionID) else {
-            throw Abort(.notFound)
+        guard
+            let selectionID = request.parameters.get("selectionID", as: Int.self),
+            let runner = try await Market.find(marketID, on: request)?.runner(selectionID)
+        else {
+            throw Abort(.notFound, reason: "Runner not found.")
         }
 
         let dto = RunnerDTO(runner: runner)

@@ -33,12 +33,11 @@ struct SportsController: RouteCollection {
     }
 
     func show(request: Request) async throws -> RootDTO<SportDTO> {
-        guard let id = request.parameters.get("sportID", as: Int.self) else {
-            throw Abort(.notFound)
-        }
-
-        guard let sport = try await Sport.find(id, on: request) else {
-            throw Abort(.notFound)
+        guard
+            let id = request.parameters.get("sportID", as: Int.self),
+            let sport = try await Sport.find(id, on: request)
+        else {
+            throw Abort(.notFound, reason: "Sport not found.")
         }
 
         let dto = SportDTO(sport: sport)
@@ -46,15 +45,15 @@ struct SportsController: RouteCollection {
     }
 
     func showFromCompetition(request: Request) async throws -> RootDTO<SportDTO> {
-        guard let competitionID = request.parameters.get("competitionID", as: Int.self) else {
-            throw Abort(.notFound)
+        guard
+            let competitionID = request.parameters.get("competitionID", as: Int.self),
+            let competition = try await Competition.find(competitionID, on: request)
+        else {
+            throw Abort(.notFound, reason: "Competition not found.")
         }
 
-        guard
-            let competition = try await Competition.find(competitionID, on: request),
-            let sport = try await competition.sport(on: request)
-        else {
-            throw Abort(.notFound)
+        guard let sport = try await competition.sport(on: request) else {
+            throw Abort(.notFound, reason: "Sport not found.")
         }
 
         let dto = SportDTO(sport: sport)
@@ -62,15 +61,15 @@ struct SportsController: RouteCollection {
     }
 
     func showFromEvent(request: Request) async throws -> RootDTO<SportDTO> {
-        guard let eventID = request.parameters.get("eventID", as: Int.self) else {
-            throw Abort(.notFound)
+        guard
+            let eventID = request.parameters.get("eventID", as: Int.self),
+            let event = try await Event.find(eventID, on: request)
+        else {
+            throw Abort(.notFound, reason: "Event not found.")
         }
 
-        guard
-            let event = try await Event.find(eventID, on: request),
-            let sport = try await event.sport(on: request)
-        else {
-            throw Abort(.notFound)
+        guard let sport = try await event.sport(on: request) else {
+            throw Abort(.notFound, reason: "Sport not found.")
         }
 
         let dto = SportDTO(sport: sport)
