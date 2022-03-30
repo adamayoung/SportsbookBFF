@@ -38,7 +38,6 @@ struct CompetitionsController: RouteCollection {
             throw Abort(.notFound, reason: "Competition not found.")
         }
 
-
         let dto = CompetitionDTO(competition: competition)
         return RootDTO(data: dto)
     }
