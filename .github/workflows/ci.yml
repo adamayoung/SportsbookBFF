@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  AWS_REGION: eu-west-2
+
 jobs:
   lint:
     name: Lint
@@ -106,15 +109,15 @@ jobs:
       - name: Setup python 
         uses: actions/setup-python@v2
 
-      - name: Setup SAM
-        uses: aws-actions/setup-sam@v1
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-2
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup SAM
+        uses: aws-actions/setup-sam@v1
 
       - name: Validate template
         run: sam validate
