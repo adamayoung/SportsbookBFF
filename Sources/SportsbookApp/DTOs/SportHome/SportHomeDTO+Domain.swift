@@ -18,7 +18,7 @@ extension SportHomeDTO {
             events.append(event)
             competitionEvents[competition] = events
         }
-        
+
         let competitionEventsDTOs = competitionEvents.keys.map { competition in
             CompetitionEventsDTO(competition: competition, events: competitionEvents[competition, default: []])
         }
