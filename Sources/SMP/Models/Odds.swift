@@ -9,12 +9,15 @@ public struct Odds: Equatable, Hashable, Codable {
     public let decimalDisplayOdds: DecimalOdds?
     /// The fractional representation of these odds. Considered to be for display purposes only, it may not be a precise depiction of the odds currently in force.
     public let fractionalDisplayOdds: FractionalOdds?
+    /// The american representation of these odds. Considered to be for display purposes only, it may not be a precise depiction of the odds currently in force.
+    public let americanDisplayOdds: AmericanOdds?
 
     public init(trueOdds: TrueOdds, decimalDisplayOdds: DecimalOdds? = nil,
-                fractionalDisplayOdds: FractionalOdds? = nil) {
+                fractionalDisplayOdds: FractionalOdds? = nil, americanDisplayOdds: AmericanOdds? = nil) {
         self.trueOdds = trueOdds
         self.decimalDisplayOdds = decimalDisplayOdds
         self.fractionalDisplayOdds = fractionalDisplayOdds
+        self.americanDisplayOdds = americanDisplayOdds
     }
 
 }

@@ -9,3 +9,4 @@ DerivedData/
 default.profraw
 
 /.aws-sam
+/.vscode

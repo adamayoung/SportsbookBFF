@@ -7,10 +7,13 @@ struct OddsDTO: Equatable, Content {
     let decimalOdds: Double?
     /// The fractional representation of these odds. This should be used for all needed calculations.
     let fractionalOdds: FractionalOddsDTO?
+    /// The american representation of these odds. Considered to be for display purposes only, it may not be a precise depiction of the odds currently in force.
+    let americanOdds: Int?
 
-    init(decimalOdds: Double?, fractionalOdds: FractionalOddsDTO?) {
+    init(decimalOdds: Double?, fractionalOdds: FractionalOddsDTO?, americanOdds: Int?) {
         self.decimalOdds = decimalOdds
         self.fractionalOdds = fractionalOdds
+        self.americanOdds = americanOdds
     }
 
 }
