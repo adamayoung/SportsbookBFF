@@ -11,7 +11,8 @@ extension Sportsbook.Odds {
 
         let fractionalOdds = Sportsbook.FractionalOdds(fractionOdds: odds.fractionalDisplayOdds)
 
-        self.init(decimalOdds: odds.decimalDisplayOdds?.decimalOdds, fractionalOdds: fractionalOdds)
+        self.init(decimalOdds: odds.decimalDisplayOdds?.decimalOdds, fractionalOdds: fractionalOdds,
+                  americanOdds: odds.americanDisplayOdds?.americanOddsInt)
     }
 
 }

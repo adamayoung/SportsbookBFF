@@ -17,7 +17,7 @@ extension OddsDTO {
         }()
         let fractionalOdds = FractionalOddsDTO(fractionalOdds: odds.fractionalOdds)
 
-        self.init(decimalOdds: decimalOdds, fractionalOdds: fractionalOdds)
+        self.init(decimalOdds: decimalOdds, fractionalOdds: fractionalOdds, americanOdds: odds.americanOdds)
     }
 
 }
